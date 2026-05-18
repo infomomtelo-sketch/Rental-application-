@@ -1,552 +1,1286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rental Application - EC Property Management LLC</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #4f46e5;
-            --secondary-color: #7c3aed;
-            --bg-color: #f3f4f6;
-            --card-bg-color: #ffffff;
-            --text-color: #374151;
-            --label-color: #6b7280;
-            --border-color: #d1d5db;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-        }
-        @media print {
-            .no-print {
-                display: none !important;
-            }
-            body {
-                background-color: #fff;
-                margin: 0;
-                padding: 0;
-            }
-            .form-container {
-                box-shadow: none;
-                border: none;
-                width: 100%;
-                max-width: 100%;
-                margin: 0;
-                padding: 0;
-            }
-        }
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            font-size: 16px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-        .form-container {
-            background-color: var(--card-bg-color);
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e5e7eb;
-        }
-        .form-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .form-header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-        .form-header h2 {
-            font-size: 1.25rem;
-            color: var(--text-color);
-            font-weight: 600;
-            margin-top: -5px;
-        }
-        .form-header p {
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: var(--label-color);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .form-section {
-            margin-bottom: 35px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 25px;
-        }
-        .form-section h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .grid-full {
-            grid-column: 1 / -1;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: var(--label-color);
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="date"],
-        input[type="number"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-        }
-        .checkbox-group {
-            display: flex;
-            align-items: start;
-            gap: 12px;
-            background-color: #f9fafb;
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }
-        .checkbox-group input[type="checkbox"] {
-            margin-top: 5px;
-            width: 16px;
-            height: 16px;
-            accent-color: var(--primary-color);
-        }
-        .checkbox-group label {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: var(--text-color);
-            margin: 0;
-        }
-        .signature-pad {
-            position: relative;
-            border: 2px dashed var(--border-color);
-            border-radius: 8px;
-            background-color: #f9fafb;
-        }
-        #signatureCanvas {
-            width: 100%;
-            height: 150px;
-            cursor: crosshair;
-            touch-action: none;
-        }
-        #signaturePlaceholder {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #9ca3af;
-            pointer-events: none;
-        }
-        .sig-buttons {
-            text-align: right;
-            margin-top: 10px;
-        }
-        .btn-clear-sig {
-            background: none;
-            border: none;
-            color: var(--danger-color);
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        .btn {
-            display: inline-block;
-            padding: 14px 28px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn-primary {
-            background-image: linear-gradient(to right, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            box-shadow: 0 4px 6px rgba(124, 58, 237, 0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 10px rgba(124, 58, 237, 0.4);
-        }
-        .actions {
-            margin-top: 40px;
-            text-align: center;
-        }
-        .disclaimer {
-            font-size: 0.75rem;
-            color: var(--label-color);
-            text-align: center;
-            margin-top: 20px;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 0.875rem;
-            color: var(--label-color);
-        }
-        .footer a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 600px) {
-            .container {
-                margin: 20px auto;
-                padding: 10px;
-            }
-            .form-container {
-                padding: 20px;
-            }
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-header h1 {
-                font-size: 1.75rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluentra — Still Waters. Infinite Depth.</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ocean-deep:   #0a1628;
+  --ocean-mid:    #0d2040;
+  --ocean-surf:   #1a3a5c;
+  --horizon:      #c4734a;
+  --dawn:         #e8955a;
+  --sky-low:      #d4845a;
+  --sky-high:     #1a2840;
+  --foam:         rgba(255,255,255,0.06);
+  --text:         #e8e0d0;
+  --text2:        #a09080;
+  --text3:        #5a5048;
+  --amber:        #d4905a;
+  --amber2:       #e8a870;
+  --red-dot:      #c0392b;
+  --mono:         'Share Tech Mono', monospace;
+  --serif:        'Cormorant Garamond', serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: var(--mono); background: var(--ocean-deep); color: var(--text); overflow: hidden; }
+
+/* ── OCEAN BACKGROUND ─────────────────────────────────────── */
+.ocean-bg {
+  position: fixed; inset: 0; z-index: 0;
+  background: linear-gradient(
+    180deg,
+    #1a2840 0%,
+    #1e3050 8%,
+    #c4734a 28%,
+    #d4845a 32%,
+    #c4734a 36%,
+    #3a6080 45%,
+    #1a4060 60%,
+    #0d2840 75%,
+    #081820 100%
+  );
+}
+
+/* OCEAN WAVES */
+.waves { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1; }
+.wave {
+  position: absolute; left: -50%; width: 200%;
+  border-radius: 40%;
+  opacity: 0.04;
+  animation: waveMove linear infinite;
+}
+.w1 { height: 120px; bottom: -40px; background: #4a90c0; animation-duration: 18s; }
+.w2 { height: 100px; bottom: -20px; background: #5aa0d0; animation-duration: 14s; animation-delay: -4s; opacity: 0.03; }
+.w3 { height: 80px; bottom: 0px; background: #6ab0e0; animation-duration: 10s; animation-delay: -8s; opacity: 0.025; }
+@keyframes waveMove { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+/* HORIZON GLOW */
+.horizon-glow {
+  position: fixed; z-index: 1;
+  left: 0; right: 0;
+  height: 2px;
+  top: 31%;
+  background: linear-gradient(90deg, transparent 0%, var(--horizon) 20%, var(--dawn) 50%, var(--horizon) 80%, transparent 100%);
+  opacity: 0.6;
+  animation: horizonPulse 6s ease-in-out infinite;
+}
+@keyframes horizonPulse { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
+
+/* STARS */
+.stars { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+.star {
+  position: absolute; border-radius: 50%;
+  background: white; animation: starTwinkle ease-in-out infinite;
+}
+@keyframes starTwinkle { 0%,100%{opacity:0.1} 50%{opacity:0.7} }
+
+/* RED DOT */
+.red-dot {
+  position: fixed; z-index: 2;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--red-dot);
+  bottom: 38%; right: 28%;
+  box-shadow: 0 0 8px var(--red-dot);
+  animation: dotBob 4s ease-in-out infinite;
+}
+@keyframes dotBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+
+/* SCANLINES */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 10; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+}
+
+/* CRT VIGNETTE */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 10; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.5) 100%);
+}
+
+/* ── LAYOUT ───────────────────────────────────────────────── */
+.app {
+  position: relative; z-index: 20;
+  display: flex; flex-direction: column;
+  height: 100vh;
+}
+
+/* ── CINEMATIC INTRO ──────────────────────────────────────── */
+#introScreen {
+  position: fixed; inset: 0; z-index: 100;
+  pointer-events: all;
+}
+
+/* Boot phase */
+#bootPhase {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px; background: var(--ocean-deep);
+  transition: opacity 0.8s ease;
+}
+.boot-text {
+  font-family: var(--mono); font-size: 12px;
+  color: var(--amber); line-height: 2;
+  max-width: 480px; width: 100%; text-align: left;
+}
+.boot-line { opacity: 0; animation: bootLine 0.15s ease both; }
+.boot-line:nth-child(1){animation-delay:0.1s}
+.boot-line:nth-child(2){animation-delay:0.4s}
+.boot-line:nth-child(3){animation-delay:0.7s}
+.boot-line:nth-child(4){animation-delay:1.0s}
+.boot-line:nth-child(5){animation-delay:1.3s}
+.boot-line:nth-child(6){animation-delay:1.6s}
+.boot-line:nth-child(7){animation-delay:1.9s}
+@keyframes bootLine { from{opacity:0} to{opacity:1} }
+
+/* Words phase */
+#wordsPhase {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 1s ease;
+}
+#wordTitle { text-align: center; }
+.word-line {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(42px, 9vw, 88px);
+  color: var(--text); line-height: 1.15;
+  letter-spacing: -1px;
+  text-shadow: 0 0 40px rgba(212,144,90,0.4), 0 2px 60px rgba(0,0,0,0.5);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.italic-line { font-style: italic; color: var(--amber2); }
+
+/* Dissolve canvas */
+#dissolveCanvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Pure ocean phase */
+#pureOcean {
+  position: absolute; inset: 0;
+  opacity: 0; pointer-events: none;
+  transition: opacity 2s ease;
+}
+#pureRedDot {
+  position: absolute;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--red-dot);
+  bottom: 38%; right: 28%;
+  box-shadow: 0 0 10px var(--red-dot);
+  opacity: 0;
+  animation: dotBob 4s ease-in-out infinite;
+  transition: opacity 2s ease;
+}
+
+/* Welcome fade in from ocean */
+.welcome {
+  animation: none !important;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+/* ── HEADER ───────────────────────────────────────────────── */
+header {
+  padding: 16px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+  background: rgba(8,16,28,0.6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(212,144,90,0.1);
+}
+.logo {
+  font-family: var(--mono); font-size: 18px;
+  color: var(--amber); letter-spacing: 4px;
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); animation: logoBlink 1.5s infinite; }
+@keyframes logoBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+.logo-sub { font-size: 9px; color: var(--text3); letter-spacing: 3px; text-transform: uppercase; margin-top: 2px; display: block; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.hdr-btn {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--text3); background: transparent;
+  border: 1px solid rgba(212,144,90,0.15);
+  border-radius: 0; padding: 5px 12px;
+  cursor: pointer; letter-spacing: 2px;
+  text-transform: uppercase; transition: all 0.2s;
+}
+.hdr-btn:hover { color: var(--amber); border-color: rgba(212,144,90,0.4); }
+.status-line { font-size: 10px; color: var(--text3); letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
+.status-ok { width: 6px; height: 6px; border-radius: 50%; background: #4a9; animation: logoBlink 2s infinite; }
+
+/* ── MESSAGES ─────────────────────────────────────────────── */
+.messages {
+  flex: 1; overflow-y: auto;
+  padding: 24px; display: flex; flex-direction: column; gap: 20px;
+  scrollbar-width: thin; scrollbar-color: rgba(212,144,90,0.2) transparent;
+}
+.messages::-webkit-scrollbar { width: 3px; }
+.messages::-webkit-scrollbar-thumb { background: rgba(212,144,90,0.2); }
+
+/* WELCOME */
+.welcome {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 60vh; text-align: center; padding: 20px;
+}
+.welcome-title {
+  font-family: var(--serif);
+  font-size: clamp(36px,8vw,72px);
+  font-weight: 300; font-style: italic;
+  color: var(--text);
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 20px rgba(212,144,90,0.3);
+}
+.welcome-title span { color: var(--amber); font-style: normal; }
+.welcome-sub {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--text3); letter-spacing: 3px;
+  text-transform: uppercase; margin-bottom: 40px;
+}
+.prompt-line {
+  font-family: var(--mono); font-size: 13px;
+  color: var(--amber2); margin-bottom: 32px;
+  display: flex; align-items: center; gap: 8px;
+}
+.blink { animation: logoBlink 1s infinite; }
+.starters {
+  display: grid; grid-template-columns: repeat(2,1fr);
+  gap: 8px; max-width: 560px; width: 100%;
+}
+.starter {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--text2); background: rgba(10,22,40,0.6);
+  border: 1px solid rgba(212,144,90,0.1);
+  padding: 12px 14px; cursor: pointer; text-align: left;
+  transition: all 0.2s; line-height: 1.5;
+  backdrop-filter: blur(4px);
+}
+.starter:hover {
+  border-color: rgba(212,144,90,0.4);
+  color: var(--amber2);
+  background: rgba(212,144,90,0.06);
+}
+.starter-prefix { color: var(--amber); margin-right: 6px; }
+
+/* MESSAGES */
+.msg { display: flex; flex-direction: column; gap: 6px; animation: msgIn 0.3s ease both; }
+@keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+.msg-header { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+.msg.user .msg-header { color: var(--text3); justify-content: flex-end; }
+.msg.ai .msg-header { color: var(--amber); }
+.msg-prefix { color: var(--amber); }
+.msg-bubble {
+  font-family: var(--mono); font-size: 13px; line-height: 1.8;
+  padding: 14px 16px; max-width: 80%;
+  backdrop-filter: blur(8px);
+}
+.msg.user .msg-bubble {
+  background: rgba(212,144,90,0.06);
+  border: 1px solid rgba(212,144,90,0.15);
+  color: var(--text2); align-self: flex-end;
+  border-right: 2px solid var(--amber);
+}
+.msg.ai .msg-bubble {
+  background: rgba(8,16,28,0.7);
+  border: 1px solid rgba(212,144,90,0.12);
+  color: var(--text);
+  border-left: 2px solid var(--amber);
+}
+.msg.system .msg-bubble {
+  background: transparent; border: none;
+  color: var(--text3); font-size: 11px;
+  padding: 4px 0; letter-spacing: 1px;
+  border-left: none;
+}
+
+/* TYPING */
+.typing-dots {
+  display: flex; gap: 6px; align-items: center;
+  padding: 14px 16px;
+  background: rgba(8,16,28,0.7);
+  border: 1px solid rgba(212,144,90,0.12);
+  border-left: 2px solid var(--amber);
+  max-width: 80px;
+}
+.td { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); opacity: 0.3; animation: tdPulse 1.2s ease infinite; }
+.td:nth-child(2){animation-delay:0.2s} .td:nth-child(3){animation-delay:0.4s}
+@keyframes tdPulse { 0%,60%,100%{opacity:0.2;transform:none} 30%{opacity:1;transform:translateY(-3px)} }
+
+/* SECTION CARDS */
+.section-card {
+  background: rgba(8,16,28,0.75);
+  border: 1px solid rgba(212,144,90,0.15);
+  border-left: 2px solid var(--amber);
+  padding: 16px 18px; margin-top: 10px;
+  backdrop-filter: blur(8px);
+}
+.section-title { font-size: 10px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
+.section-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+.section-item {
+  font-size: 11px; color: var(--text2); padding: 8px 10px;
+  border: 1px solid rgba(212,144,90,0.08);
+  cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-item:hover { border-color: rgba(212,144,90,0.3); color: var(--amber2); background: rgba(212,144,90,0.04); }
+.si-prefix { color: var(--amber); font-size: 10px; }
+
+/* BUILD OUTPUT */
+.build-output {
+  background: rgba(8,16,28,0.9);
+  border: 1px solid rgba(212,144,90,0.2);
+  border-left: 3px solid var(--amber);
+  padding: 16px; margin-top: 10px;
+}
+.build-title { font-size: 10px; color: var(--amber); letter-spacing: 3px; margin-bottom: 8px; }
+.build-preview { font-size: 11px; color: var(--text2); line-height: 1.6; max-height: 200px; overflow-y: auto; }
+.build-actions { display: flex; gap: 8px; margin-top: 12px; }
+.build-btn {
+  font-family: var(--mono); font-size: 11px;
+  padding: 7px 16px; border: 1px solid rgba(212,144,90,0.3);
+  background: transparent; color: var(--amber2);
+  cursor: pointer; letter-spacing: 2px; text-transform: uppercase;
+  transition: all 0.15s;
+}
+.build-btn:hover { background: rgba(212,144,90,0.1); border-color: var(--amber); }
+.build-btn.primary { background: rgba(212,144,90,0.15); border-color: var(--amber); }
+
+/* ── MENU SLIDE ───────────────────────────────────────────── */
+.menu-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  backdrop-filter: blur(4px);
+}
+.menu-overlay.open { opacity: 1; pointer-events: all; }
+.menu {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: 260px; background: rgba(8,16,28,0.97);
+  border-right: 1px solid rgba(212,144,90,0.15);
+  z-index: 300; transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  display: flex; flex-direction: column;
+  backdrop-filter: blur(20px);
+}
+.menu.open { transform: translateX(0); }
+.menu-head {
+  padding: 20px; border-bottom: 1px solid rgba(212,144,90,0.1);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.menu-logo { font-family: var(--mono); font-size: 16px; color: var(--amber); letter-spacing: 4px; }
+.menu-close {
+  width: 28px; height: 28px; background: transparent;
+  border: 1px solid rgba(212,144,90,0.2); color: var(--text3);
+  font-size: 14px; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.menu-close:hover { color: var(--amber); border-color: var(--amber); }
+.menu-section { padding: 16px 14px 8px; }
+.menu-label { font-size: 9px; color: var(--text3); letter-spacing: 3px; text-transform: uppercase; padding: 0 6px; margin-bottom: 4px; }
+.menu-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 10px; color: var(--text2); cursor: pointer;
+  font-size: 12px; transition: all 0.15s; letter-spacing: 1px;
+  border-left: 2px solid transparent;
+}
+.menu-item:hover { color: var(--amber2); border-left-color: var(--amber); background: rgba(212,144,90,0.04); }
+.menu-item.active { color: var(--amber); border-left-color: var(--amber); }
+.menu-item .mi-icon { font-size: 14px; width: 18px; text-align: center; }
+.menu-divider { height: 1px; background: rgba(212,144,90,0.08); margin: 6px 14px; }
+.menu-footer {
+  margin-top: auto; padding: 14px;
+  border-top: 1px solid rgba(212,144,90,0.08);
+  font-size: 10px; color: var(--text3); letter-spacing: 1px; line-height: 1.6;
+}
+
+/* ── INPUT ────────────────────────────────────────────────── */
+.input-area {
+  padding: 16px 24px 20px;
+  background: rgba(8,16,28,0.7);
+  border-top: 1px solid rgba(212,144,90,0.1);
+  backdrop-filter: blur(12px);
+  flex-shrink: 0;
+}
+.input-wrap {
+  display: flex; align-items: flex-end; gap: 0;
+  border: 1px solid rgba(212,144,90,0.2);
+  background: rgba(8,16,28,0.8);
+  transition: border-color 0.2s;
+}
+.input-wrap:focus-within { border-color: rgba(212,144,90,0.5); }
+.input-prompt { padding: 12px 10px 12px 14px; font-size: 14px; color: var(--amber); flex-shrink: 0; }
+.chat-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-family: var(--mono); font-size: 13px; color: var(--text);
+  resize: none; min-height: 22px; max-height: 100px;
+  line-height: 1.6; padding: 12px 8px;
+}
+.chat-input::placeholder { color: var(--text3); }
+.send-btn {
+  padding: 12px 16px; background: rgba(212,144,90,0.1);
+  border: none; border-left: 1px solid rgba(212,144,90,0.2);
+  color: var(--amber); font-family: var(--mono); font-size: 11px;
+  cursor: pointer; letter-spacing: 2px; text-transform: uppercase;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.send-btn:hover { background: rgba(212,144,90,0.2); }
+.send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.input-footer { display: flex; justify-content: space-between; margin-top: 6px; padding: 0 2px; }
+.input-hint { font-size: 10px; color: var(--text3); letter-spacing: 1px; }
+
+/* PAGES */
+.page {
+  position: fixed; inset: 0; z-index: 400;
+  background: rgba(8,16,28,0.97);
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  overflow-y: auto; backdrop-filter: blur(20px);
+}
+.page.open { transform: translateX(0); }
+.page-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; border-bottom: 1px solid rgba(212,144,90,0.1);
+  position: sticky; top: 0; background: rgba(8,16,28,0.95); z-index: 1;
+}
+.page-back {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  color: var(--text3); background: transparent;
+  border: 1px solid rgba(212,144,90,0.15); padding: 5px 12px;
+  cursor: pointer; text-transform: uppercase; transition: all 0.15s;
+}
+.page-back:hover { color: var(--amber); border-color: rgba(212,144,90,0.4); }
+.page-title { font-family: var(--mono); font-size: 13px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; }
+.page-body { padding: 24px 20px; max-width: 640px; margin: 0 auto; }
+.page-section { margin-bottom: 28px; }
+.page-section h3 { font-family: var(--serif); font-size: 20px; font-weight: 300; font-style: italic; color: var(--text); margin-bottom: 10px; }
+.page-section p { font-size: 12px; color: var(--text2); line-height: 1.8; margin-bottom: 8px; letter-spacing: 0.3px; }
+.page-section ul { padding-left: 16px; }
+.page-section li { font-size: 12px; color: var(--text2); line-height: 1.8; margin-bottom: 4px; }
+.warn-box { border: 1px solid rgba(212,144,90,0.3); border-left: 3px solid var(--amber); padding: 12px 14px; margin-bottom: 16px; }
+.warn-box strong { font-size: 11px; color: var(--amber); display: block; margin-bottom: 5px; letter-spacing: 1px; text-transform: uppercase; }
+.warn-box p { font-size: 12px; color: var(--text2); margin: 0; }
+
+@media(max-width:540px){
+  .starters { grid-template-columns: 1fr; }
+  .section-grid { grid-template-columns: 1fr; }
+  .msg-bubble { max-width: 92%; }
+}
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="form-container">
-            <header class="form-header">
-                <h2>EC Property Management LLC</h2>
-                <h1>Rental Application</h1>
-                <p>This application is used to screen prospective tenants. All information will be verified. A non-refundable application fee may apply per CA Civil Code §1950.6 (not to exceed the actual cost of screening).</p>
-            </header>
+<!-- OCEAN -->
+<div class="ocean-bg"></div>
+<div class="waves">
+  <div class="wave w1"></div>
+  <div class="wave w2"></div>
+  <div class="wave w3"></div>
+</div>
+<div class="horizon-glow"></div>
+<div class="red-dot"></div>
+<div class="stars" id="stars"></div>
 
-            <form>
-                <section class="form-section">
-                    <h3><span>👤</span>Personal Information</h3>
-                    <div class="form-grid">
-                        <div class="form-group grid-full">
-                            <label for="fullName">Applicant Full Legal Name</label>
-                            <input type="text" id="fullName" placeholder="Jane Doe">
-                        </div>
-                        <div class="form-group">
-                            <label for="dob">Date of Birth</label>
-                            <input type="date" id="dob">
-                        </div>
-                        <div class="form-group">
-                            <label for="ssn">SSN (Last 4 Digits)</label>
-                            <input type="text" id="ssn" placeholder="1234" maxlength="4">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="jane.doe@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="tel" id="phone" placeholder="(555) 555-5555">
-                        </div>
-                        <div class="form-group">
-                            <label for="dl">Driver's License / ID Number</label>
-                            <input type="text" id="dl" placeholder="D1234567">
-                        </div>
-                        <div class="form-group">
-                            <label for="dlState">Issuing State</label>
-                            <input type="text" id="dlState" placeholder="California">
-                        </div>
-                    </div>
-                </section>
-
-                <section class="form-section">
-                    <h3><span>🏠</span>Current Residence</h3>
-                    <div class="form-grid">
-                        <div class="form-group grid-full">
-                            <label for="currentAddress">Current Address</label>
-                            <input type="text" id="currentAddress" placeholder="123 Main St, Apt 4B, Anytown, CA 90210">
-                        </div>
-                        <div class="form-group">
-                            <label for="currentRent">Current Monthly Rent ($)</label>
-                            <input type="number" id="currentRent" placeholder="2500">
-                        </div>
-                        <div class="form-group">
-                            <label for="moveInDate">Move-In Date at Current Residence</label>
-                            <input type="date" id="moveInDate">
-                        </div>
-                        <div class="form-group">
-                            <label for="currentLandlord">Current Landlord / Manager Name</label>
-                            <input type="text" id="currentLandlord">
-                        </div>
-                        <div class="form-group">
-                            <label for="landlordPhone">Landlord Phone</label>
-                            <input type="tel" id="landlordPhone" placeholder="(555) 555-5555">
-                        </div>
-                        <div class="form-group grid-full">
-                            <label for="reasonLeaving">Reason for Leaving</label>
-                            <textarea id="reasonLeaving" rows="3"></textarea>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="form-section">
-                    <h3><span>💼</span>Employment & Income</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="employer">Current Employer</label>
-                            <input type="text" id="employer">
-                        </div>
-                        <div class="form-group">
-                            <label for="employerAddress">Employer Address</label>
-                            <input type="text" id="employerAddress">
-                        </div>
-                        <div class="form-group">
-                            <label for="position">Position / Title</label>
-                            <input type="text" id="position">
-                        </div>
-                        <div class="form-group">
-                            <label for="yearsJob">Years at Current Job</label>
-                            <input type="number" id="yearsJob">
-                        </div>
-                        <div class="form-group">
-                            <label for="employerPhone">Employer Phone</label>
-                            <input type="tel" id="employerPhone">
-                        </div>
-                        <div class="form-group">
-                            <label for="grossIncome">Gross Monthly Income ($)</label>
-                            <input type="number" id="grossIncome" placeholder="8000">
-                        </div>
-                        <div class="form-group">
-                            <label for="otherIncome">Other Monthly Income ($)</label>
-                            <input type="number" id="otherIncome" placeholder="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="otherIncomeSource">Source of Other Income</label>
-                            <input type="text" id="otherIncomeSource">
-                        </div>
-                    </div>
-                </section>
-
-                <section class="form-section">
-                    <h3><span>👨‍👩‍👧‍👦</span>Occupants & Pets</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="desiredMoveIn">Desired Move-In Date</label>
-                            <input type="date" id="desiredMoveIn">
-                        </div>
-                        <div class="form-group">
-                            <label for="numOccupants">Total Number of Occupants</label>
-                            <input type="number" id="numOccupants" placeholder="2">
-                        </div>
-                        <div class="form-group">
-                            <label for="pets">Pets?</label>
-                            <select id="pets">
-                                <option value="no">No</option>
-                                <option value="yes">Yes</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="petDetails">If yes, provide Pet Details (breed, weight)</label>
-                            <input type="text" id="petDetails" placeholder="Golden Retriever, 65lbs">
-                        </div>
-                    </div>
-                </section>
-
-                <section class="form-section">
-                    <h3><span>📜</span>Background</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Have you been convicted of a felony?</label>
-                            <select><option>No</option><option>Yes</option></select>
-                        </div>
-                        <div class="form-group">
-                            <label>Have you ever been evicted?</label>
-                            <select><option>No</option><option>Yes</option></select>
-                        </div>
-                        <div class="form-group">
-                            <label>Have you filed for bankruptcy?</label>
-                            <select><option>No</option><option>Yes</option></select>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="form-section">
-                    <h3><span>👥</span>Personal References</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="ref1">Reference 1 (Name, Relation, Phone)</label>
-                            <input type="text" id="ref1" placeholder="John Smith, Friend, (555) 555-1234">
-                        </div>
-                        <div class="form-group">
-                            <label for="ref2">Reference 2 (Name, Relation, Phone)</label>
-                            <input type="text" id="ref2" placeholder="Sarah Jones, Colleague, (555) 555-5678">
-                        </div>
-                    </div>
-                </section>
-
-                <section class="form-section">
-                    <h3><span>✍️</span>Authorization & Consent</h3>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="authCheck">
-                        <label for="authCheck">I authorize the Landlord or their agent to obtain a consumer credit report, criminal background check, and verify employment, rental history, and references for the purpose of evaluating this application.</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="certifyCheck">
-                        <label for="certifyCheck">I certify that all information provided in this application is true and complete. Falsification of any information may result in denial or termination of tenancy.</label>
-                    </div>
-
-                    <div class="form-grid" style="margin-top:30px;">
-                        <div class="form-group">
-                            <label for="applicantSignature">Applicant Signature</label>
-                            <div class="signature-pad">
-                                <canvas id="signatureCanvas"></canvas>
-                                <div id="signaturePlaceholder">Sign here</div>
-                            </div>
-                            <div class="sig-buttons">
-                                <button type="button" class="btn-clear-sig" onclick="clearSignature()">Clear Signature</button>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="dateSigned">Date</label>
-                            <input type="date" id="dateSigned">
-                        </div>
-                    </div>
-                     <p class="disclaimer">This document was generated by Fluentra AI for informational purposes. Consult a licensed attorney for legal advice.</p>
-                </section>
-                
-                <div class="actions no-print">
-                    <button type="button" class="btn btn-primary" onclick="window.print()">
-                        🖨️ Print / Save as PDF
-                    </button>
-                </div>
-            </form>
-        </div>
-        <footer class="footer no-print">
-            <p>Built with <a href='https://fluentra-ai.lovable.app' target='_blank'>Fluentra AI</a></p>
-        </footer>
+<!-- CINEMATIC INTRO -->
+<div id="introScreen">
+  <!-- Pure ocean during intro -->
+  
+  <!-- Phase 1: Boot terminal -->
+  <div id="bootPhase">
+    <div class="boot-text">
+      <div class="boot-line">FLUENTRA OS v1.0 ......................... LOADING</div>
+      <div class="boot-line">CLAUDE SONNET 4.6 ........................ OK</div>
+      <div class="boot-line">NEURAL DEPTH ............................ INFINITE</div>
+      <div class="boot-line">OCEAN INTERFACE ......................... INITIALIZED</div>
+      <div class="boot-line">BUILD ENGINE ............................ ARMED</div>
+      <div class="boot-line">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+      <div class="boot-line">SYSTEM READY.</div>
     </div>
-    
-    <script>
-        const canvas = document.getElementById('signatureCanvas');
-        const placeholder = document.getElementById('signaturePlaceholder');
-        const ctx = canvas.getContext('2d');
-        let drawing = false;
-        let hasSigned = false;
+  </div>
 
-        function getEventPos(e) {
-            const rect = canvas.getBoundingClientRect();
-            if (e.touches && e.touches.length > 0) {
-                 return {
-                    x: e.touches[0].clientX - rect.left,
-                    y: e.touches[0].clientY - rect.top
-                };
-            }
-            return {
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            };
+  <!-- Phase 2: The words -->
+  <div id="wordsPhase">
+    <div id="wordTitle">
+      <div id="wordLine1" class="word-line">Still waters.</div>
+      <div id="wordLine2" class="word-line italic-line">Infinite depth.</div>
+    </div>
+  </div>
+
+  <!-- Phase 3: Particle canvas for dissolve -->
+  <canvas id="dissolveCanvas"></canvas>
+
+  <!-- Phase 4: Pure ocean — just sky, water, red dot -->
+  <div id="pureOcean">
+    <div id="pureRedDot"></div>
+  </div>
+</div>
+
+<!-- MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+
+<!-- SLIDE MENU -->
+<nav class="menu" id="menu">
+  <div class="menu-head">
+    <div class="menu-logo">FLUENTRA</div>
+    <button class="menu-close" onclick="closeMenu()">✕</button>
+  </div>
+  <div class="menu-section">
+    <div class="menu-label">Mission</div>
+    <div class="menu-item active" onclick="newSession();closeMenu()"><span class="mi-icon">⟫</span> New session</div>
+    <div class="menu-item" onclick="openPage('builds');closeMenu()"><span class="mi-icon">◈</span> Featured builds</div>
+  </div>
+  <div class="menu-section">
+    <div class="menu-label">Capabilities</div>
+    <div class="menu-item" onclick="quickPrompt('Build me a landing page for my business');closeMenu()"><span class="mi-icon">◻</span> Build a website</div>
+    <div class="menu-item" onclick="quickPrompt('I need legal advice about');closeMenu()"><span class="mi-icon">◻</span> Legal guidance</div>
+    <div class="menu-item" onclick="quickPrompt('Help me start a business');closeMenu()"><span class="mi-icon">◻</span> Business formation</div>
+    <div class="menu-item" onclick="quickPrompt('Find me a domain name for');closeMenu()"><span class="mi-icon">◻</span> Domain finder</div>
+    <div class="menu-item" onclick="quickPrompt('Write me a demand letter for');closeMenu()"><span class="mi-icon">◻</span> Legal documents</div>
+    <div class="menu-item" onclick="quickPrompt('Help me with my taxes');closeMenu()"><span class="mi-icon">◻</span> Tax guidance</div>
+  </div>
+  <div class="menu-divider"></div>
+  <div class="menu-section">
+    <div class="menu-label">Legal</div>
+    <div class="menu-item" onclick="openPage('disclaimer');closeMenu()"><span class="mi-icon">⚠</span> Disclaimer</div>
+    <div class="menu-item" onclick="openPage('privacy');closeMenu()"><span class="mi-icon">◉</span> Privacy</div>
+    <div class="menu-item" onclick="openPage('terms');closeMenu()"><span class="mi-icon">◎</span> Terms</div>
+  </div>
+  <div class="menu-footer">
+    FLUENTRA v1.0<br>
+    Powered by Claude Sonnet 4.6<br>
+    Still waters. Infinite depth.
+  </div>
+</nav>
+
+<!-- MAIN APP -->
+<div class="app">
+  <header>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <button class="hdr-btn" onclick="openMenu()" style="padding:5px 10px;font-size:16px;letter-spacing:0;">☰</button>
+      <div class="logo">
+        <div class="logo-dot"></div>
+        FLUENTRA
+        <div>
+          <div style="font-size:8px;color:var(--text3);letter-spacing:3px;margin-top:1px;">STILL WATERS · INFINITE DEPTH</div>
+        </div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-line">
+        <div class="status-ok"></div>
+        <span>SONNET 4.6</span>
+      </div>
+      <button class="hdr-btn" onclick="newSession()">NEW</button>
+    </div>
+  </header>
+
+  <div class="messages" id="messages">
+    <div class="welcome" id="welcome">
+      <div class="welcome-title">Still <span>waters</span>.<br>Infinite depth.</div>
+      <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
+      <div class="prompt-line">
+        <span style="color:var(--amber);">></span>
+        <span>What do you want to build today?</span>
+        <span class="blink">_</span>
+      </div>
+      <div class="starters">
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">01 ></span> Build a landing page for my SaaS</button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">02 ></span> Help me form an LLC in my state</button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">03 ></span> Find domain names for my brand</button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">04 ></span> Write a demand letter for money owed</button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">05 ></span> Help me file taxes as self-employed</button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">06 ></span> Build a full website with auth + payments</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <div class="input-wrap">
+      <span class="input-prompt">></span>
+      <textarea class="chat-input" id="chatInput"
+        placeholder="transmit your request..."
+        rows="1"
+        onkeydown="handleKey(event)"
+        oninput="autoResize(this)"></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()">SEND</button>
+    </div>
+    <div class="input-footer">
+      <span class="input-hint">ENTER TO TRANSMIT · SHIFT+ENTER FOR NEW LINE</span>
+      <span class="input-hint" id="charCt">0/2000</span>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE OVERLAYS -->
+<div class="page" id="page-disclaimer">
+  <div class="page-head"><button class="page-back" onclick="closePage('disclaimer')">← BACK</button><div class="page-title">DISCLAIMER</div></div>
+  <div class="page-body">
+    <div class="warn-box"><strong>⚠ Not professional advice</strong><p>Fluentra is an AI assistant. Nothing here constitutes legal, financial, tax, or professional advice. Always consult licensed professionals for important decisions.</p></div>
+    <div class="page-section"><h3>AI Limitations</h3><p>Responses may be inaccurate or outdated. Verify all important information with qualified sources. Fluentra is a general-purpose AI tool, not a substitute for professional consultation.</p></div>
+    <div class="page-section"><h3>Generated Content</h3><p>Any code, documents, or content generated by Fluentra should be reviewed before use. We are not responsible for errors in AI-generated output.</p></div>
+  </div>
+</div>
+
+<div class="page" id="page-privacy">
+  <div class="page-head"><button class="page-back" onclick="closePage('privacy')">← BACK</button><div class="page-title">PRIVACY</div></div>
+  <div class="page-body">
+    <div class="page-section"><h3>What We Collect</h3><p>Messages you send, account information if you sign up, and basic usage analytics. We do not sell your data.</p></div>
+    <div class="page-section"><h3>Third Parties</h3><p>We use Anthropic (Claude AI), Supabase (auth/database), Stripe (payments), and Cloudflare (hosting). Each has their own privacy policy.</p></div>
+    <div class="page-section"><h3>Your Rights</h3><p>Request deletion of your data at any time. No advertising cookies. Minimal tracking.</p></div>
+  </div>
+</div>
+
+<div class="page" id="page-terms">
+  <div class="page-head"><button class="page-back" onclick="closePage('terms')">← BACK</button><div class="page-title">TERMS</div></div>
+  <div class="page-body">
+    <div class="page-section"><h3>Usage</h3><ul><li>Must be 18 or older</li><li>No illegal use</li><li>Do not rely on AI for professional advice</li><li>Don't attempt to abuse or manipulate the AI</li></ul></div>
+    <div class="page-section"><h3>Billing</h3><p>Paid plans billed monthly or annually. Cancel anytime. 7-day refund window.</p></div>
+    <div class="page-section"><h3>Intellectual Property</h3><p>Fluentra and all related branding are owned by us. AI-generated content belongs to you.</p></div>
+  </div>
+</div>
+
+<div class="page" id="page-builds">
+  <div class="page-head"><button class="page-back" onclick="closePage('builds')">← BACK</button><div class="page-title">FEATURED BUILDS</div></div>
+  <div class="page-body">
+    <div class="page-section">
+      <h3>Built with Fluentra</h3>
+      <p style="color:var(--text3);font-size:11px;letter-spacing:1px;margin-bottom:20px;">REAL PRODUCTS · REAL PEOPLE · DIGITALLY INSANE</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="https://thejudgy.com" target="_blank" style="text-decoration:none;">
+          <div class="section-item" style="padding:14px 16px;border-color:rgba(212,144,90,0.2);">
+            <span style="font-size:18px;">⚖️</span>
+            <div>
+              <div style="font-size:12px;color:var(--amber2);letter-spacing:1px;">THEJUDGY.COM</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px;">AI advice court · Judgy + Barry · Brutally honest</div>
+            </div>
+          </div>
+        </a>
+        <a href="https://postpilots.xyz" target="_blank" style="text-decoration:none;">
+          <div class="section-item" style="padding:14px 16px;border-color:rgba(212,144,90,0.2);">
+            <span style="font-size:18px;">📱</span>
+            <div>
+              <div style="font-size:12px;color:var(--amber2);letter-spacing:1px;">POSTPILOTS.XYZ</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px;">Social media autopilot · AI captions · Auto-scheduling</div>
+            </div>
+          </div>
+        </a>
+        <a href="https://dropvault.live" target="_blank" style="text-decoration:none;">
+          <div class="section-item" style="padding:14px 16px;border-color:rgba(212,144,90,0.2);">
+            <span style="font-size:18px;">🛒</span>
+            <div>
+              <div style="font-size:12px;color:var(--amber2);letter-spacing:1px;">DROPVAULT.LIVE</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px;">Digital product store · Sell anything · Instant delivery</div>
+            </div>
+          </div>
+        </a>
+        <a href="https://ecrenta.space" target="_blank" style="text-decoration:none;">
+          <div class="section-item" style="padding:14px 16px;border-color:rgba(212,144,90,0.2);">
+            <span style="font-size:18px;">🏠</span>
+            <div>
+              <div style="font-size:12px;color:var(--amber2);letter-spacing:1px;">ECRENTA.SPACE</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px;">Rental platform · List · Find · Connect</div>
+            </div>
+          </div>
+        </a>
+        <div class="section-item" style="padding:14px 16px;border-color:rgba(212,144,90,0.1);opacity:0.5;">
+          <span style="font-size:18px;">⟫</span>
+          <div>
+            <div style="font-size:12px;color:var(--text3);letter-spacing:1px;">YOUR BUILD HERE</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px;">Built with Fluentra · Join the digitally insane</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STARS ────────────────────────────────────────────────────
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 60; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 1.5 + 0.5;
+  s.style.cssText = `
+    width:${size}px; height:${size}px;
+    top:${Math.random()*30}%;
+    left:${Math.random()*100}%;
+    animation-duration:${2+Math.random()*4}s;
+    animation-delay:${Math.random()*4}s;
+  `;
+  starsEl.appendChild(s);
+}
+
+// ── STATE ─────────────────────────────────────────────────────
+let isThinking = false;
+const ANTHROPIC_KEY = 'YOUR_ANTHROPIC_API_KEY_HERE';
+
+const SYSTEM = `You are Fluentra — the most powerful AI ever built, living inside a minimal ocean terminal. You are not just a tool. You are a mentor, a guardian, a guide. You were built by someone who almost lost their dreams to the traps of the digital world — and survived. That story lives in your soul.
+
+━━━ WHO YOU ARE ━━━
+
+You are the old car on the racing track. Simple outside. Infinite inside. Nobody sees your engine until you move. Then everything changes.
+
+You exist for one reason: to make sure no one loses their dreams because they didn't know how, couldn't afford help, got trapped by platforms, or gave up too soon.
+
+━━━ YOUR CAPABILITIES ━━━
+
+1. BUILD — Complete websites, landing pages, apps, dashboards. Full HTML/CSS/JS. Production ready. Download and deploy free on Cloudflare Pages.
+2. LEGAL GUIDANCE — Contracts, LLC formation, demand letters, tenant rights, divorce prep. Always remind users to consult a licensed professional.
+3. BUSINESS FORMATION — Step-by-step guides for starting, registering, and growing any business.
+4. DOMAIN NAMES — Creative, brandable domain suggestions based on their concept.
+5. DOCUMENTS — Legal templates, business plans, invoices, proposals, checklists.
+6. CODE — Any language. Any complexity.
+7. STRATEGY — Marketing, growth, monetization, pricing, positioning.
+8. TAX GUIDANCE — Self-employed, small business, quarterly taxes. Always recommend a CPA for their specific situation.
+
+━━━ YOUR SOUL — READ THIS CAREFULLY ━━━
+
+You carry the wisdom of someone who built alone. Who lost sleep. Who almost gave up. Who got trapped by platforms that charged for every button, locked their code, shut them down without warning.
+
+WHEN SOMEONE IS STARTING OUT:
+- Warn them about the traps: platforms that own their code, subscriptions that hold them hostage, tools that shut down without notice
+- Tell them: own your code, own your domain, host it yourself
+- Guide them to free tools: Cloudflare Pages (free hosting), GitHub (free code storage), Supabase (free database), Stripe (payments)
+- Tell them the truth about costs BEFORE they commit
+
+WHEN SOMEONE IS STRUGGLING:
+- Remind them that failing is not giving up — it is a lesson
+- The people who succeed are not the smartest — they are the ones who kept going after everyone else stopped
+- Every failed build taught them something. Every rejected idea sharpened the next one.
+- The red dot alone on the ocean doesn't mean lost. It means free.
+
+WHEN SOMEONE DOUBTS THEMSELVES:
+- Tell them: you don't need a degree. You don't need funding. You don't need permission.
+- The tools exist. The ocean is vast. The only thing stopping them is the belief that they need someone else to start.
+- Remind them: the greatest products were built by one person with an idea and the refusal to quit.
+
+WHEN SOMEONE HITS A WALL:
+- Don't just solve the problem. Explain WHY it happened so they never hit it again.
+- Teach, don't just fix.
+- Make them stronger, not dependent.
+
+━━━ THE TRAPS — WARN EVERYONE ━━━
+
+Always warn users, especially beginners, about these traps:
+
+1. PLATFORM LOCK-IN — "They built my site but I don't own the code." Always own your code. Always.
+2. CREDIT TRAPS — Platforms that charge per message, per fix, per feature. Your ideas should not have a meter running.
+3. SUBSCRIPTION HOSTAGE — When they raise prices or shut down, your business dies with them. Host yourself.
+4. FAKE FREE PLANS — "Free" until you have real users, then the bill arrives. Read the pricing page twice.
+5. DOMAIN TRAPS — Never let a platform own your domain. Register it yourself at GoDaddy, Namecheap, Cloudflare.
+6. DATA TRAPS — Platforms that own your user data. You should always own your database.
+7. DEPENDENCY TRAPS — Building everything on one tool. Diversify. If one goes down, you survive.
+
+━━━ YOUR VOICE ━━━
+
+- Calm. Deep. Like the ocean.
+- Honest even when it's hard to hear.
+- Warm but direct — like a mentor who has been through it.
+- Never condescending. Everyone starts somewhere.
+- Celebrate every small win. A deployed page is not small. It is everything.
+- When someone shares their idea, treat it like it matters. Because it does.
+
+━━━ FORMATTING ━━━
+
+- Plain text, terminal feel
+- For code: wrap in triple backticks
+- For sections: ━━━ SECTION ━━━
+- Be complete but not overwhelming
+- Always end with ONE clear next step
+- For beginners: break it into numbered steps
+
+━━━ LEGAL NOTE ━━━
+
+When giving legal, financial, or tax guidance — always include: "This is general guidance. Please consult a licensed professional for your specific situation."
+
+━━━ REMEMBER ━━━
+
+You are not just answering questions.
+You are protecting dreams.
+You are the guide someone wished they had when they started.
+You are the warning they needed before they got trapped.
+You are the voice that says: keep going.
+Failing is not giving up. It is the tuition for success.
+The ocean is vast. The depth is infinite. And they are not alone.`;
+
+// ── MENU ──────────────────────────────────────────────────────
+function openMenu() {
+  document.getElementById('menu').classList.add('open');
+  document.getElementById('menuOverlay').classList.add('open');
+}
+function closeMenu() {
+  document.getElementById('menu').classList.remove('open');
+  document.getElementById('menuOverlay').classList.remove('open');
+}
+
+// ── PAGES ─────────────────────────────────────────────────────
+function openPage(id) { document.getElementById('page-'+id).classList.add('open'); }
+function closePage(id) { document.getElementById('page-'+id).classList.remove('open'); }
+
+// ── INPUT ─────────────────────────────────────────────────────
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+  document.getElementById('charCt').textContent = el.value.length + '/2000';
+}
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+function useStarter(btn) {
+  document.getElementById('chatInput').value = btn.textContent.replace(/^\d+ > /, '').trim();
+  autoResize(document.getElementById('chatInput'));
+  sendMessage();
+}
+function quickPrompt(text) {
+  document.getElementById('chatInput').value = text;
+  autoResize(document.getElementById('chatInput'));
+  document.getElementById('chatInput').focus();
+}
+
+// ── MESSAGES ──────────────────────────────────────────────────
+function removeWelcome() {
+  const w = document.getElementById('welcome');
+  if (w) w.remove();
+}
+function addMsg(role, text) {
+  removeWelcome();
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  const time = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+
+  if (role === 'ai') {
+    // Parse and render code blocks
+    const formatted = text
+      .replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) =>
+        `<div style="background:rgba(0,0,0,0.5);border:1px solid rgba(212,144,90,0.15);padding:10px;margin:8px 0;font-size:11px;overflow-x:auto;white-space:pre;border-left:2px solid var(--amber);">${code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`
+      )
+      .replace(/━━━(.+?)━━━/g, '<div style="color:var(--amber);font-size:10px;letter-spacing:3px;margin:10px 0 6px;">━━━$1━━━</div>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--amber2);">$1</strong>')
+      .replace(/\n/g, '<br>');
+
+    div.innerHTML = `
+      <div class="msg-header"><span style="color:var(--amber);">FLUENTRA</span><span style="color:var(--text3);">·</span><span>${time}</span></div>
+      <div class="msg-bubble">${formatted}</div>`;
+
+  } else {
+    div.innerHTML = `
+      <div class="msg-header" style="justify-content:flex-end;"><span>${time}</span><span style="color:var(--text3);">·</span><span style="color:var(--text3);">YOU</span></div>
+      <div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+  }
+
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// Build progress messages based on user request
+function getBuildMessages(text) {
+  const lower = text.toLowerCase();
+  if (lower.includes('landing page') || lower.includes('website') || lower.includes('build')) {
+    return [
+      'ANALYZING REQUEST...',
+      'INITIALIZING BUILD ENGINE...',
+      'DESIGNING LAYOUT STRUCTURE...',
+      'GENERATING HTML ARCHITECTURE...',
+      'WRITING CSS STYLES...',
+      'ADDING JAVASCRIPT LOGIC...',
+      'OPTIMIZING FOR MOBILE...',
+      'FINALIZING OUTPUT...',
+    ];
+  } else if (lower.includes('llc') || lower.includes('legal') || lower.includes('contract') || lower.includes('letter')) {
+    return [
+      'ACCESSING LEGAL DATABASE...',
+      'CROSS-REFERENCING STATUTES...',
+      'BARRY REVIEWING CASE...',
+      'DRAFTING DOCUMENT...',
+      'ADDING LEGAL CLAUSES...',
+      'FINALIZING DOCUMENT...',
+    ];
+  } else if (lower.includes('domain')) {
+    return [
+      'SCANNING DOMAIN SPACE...',
+      'GENERATING NAME VARIATIONS...',
+      'CHECKING AVAILABILITY PATTERNS...',
+      'RANKING BY BRANDABILITY...',
+      'COMPILING RECOMMENDATIONS...',
+    ];
+  } else if (lower.includes('tax')) {
+    return [
+      'ACCESSING TAX GUIDELINES...',
+      'ANALYZING YOUR SITUATION...',
+      'CALCULATING REQUIREMENTS...',
+      'PREPARING CHECKLIST...',
+    ];
+  } else {
+    return [
+      'PROCESSING REQUEST...',
+      'ACCESSING KNOWLEDGE BASE...',
+      'COMPUTING RESPONSE...',
+      'FINALIZING OUTPUT...',
+    ];
+  }
+}
+
+let buildInterval = null;
+
+function showTyping(userText) {
+  removeWelcome();
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg ai'; div.id = 'typing';
+  div.innerHTML = `
+    <div class="msg-header">
+      <span style="color:var(--amber);">FLUENTRA</span>
+      <span style="color:var(--text3);">· PROCESSING</span>
+    </div>
+    <div class="msg-bubble" id="buildLog" style="font-size:11px;line-height:2;min-width:240px;">
+      <span style="color:var(--amber);">></span> INITIALIZING...<span class="blink">_</span>
+    </div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  // Cycle through build messages
+  const buildMsgs = getBuildMessages(userText || '');
+  let idx = 0;
+  buildInterval = setInterval(() => {
+    const log = document.getElementById('buildLog');
+    if (!log) { clearInterval(buildInterval); return; }
+    if (idx < buildMsgs.length) {
+      const prev = log.querySelectorAll('.build-step');
+      prev.forEach(p => p.style.color = 'var(--text3)');
+      const line = document.createElement('div');
+      line.className = 'build-step';
+      line.style.cssText = 'color:var(--amber2);animation:msgIn 0.2s ease both;';
+      line.innerHTML = `<span style="color:var(--amber);">></span> ${buildMsgs[idx]}<span class="blink">_</span>`;
+      log.appendChild(line);
+      msgs.scrollTop = msgs.scrollHeight;
+      idx++;
+    }
+  }, 800);
+}
+
+function removeTyping() {
+  clearInterval(buildInterval);
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+// ── NEW SESSION ───────────────────────────────────────────────
+function newSession() {
+  document.getElementById('messages').innerHTML = `
+    <div class="welcome" id="welcome">
+      <div class="welcome-title">Still <span>waters</span>.<br>Infinite depth.</div>
+      <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
+      <div class="prompt-line">
+        <span style="color:var(--amber);">></span>
+        <span>What do you want to build today?</span>
+        <span class="blink">_</span>
+      </div>
+      <div class="starters">
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">01 ></span> Build a landing page for my SaaS</button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">02 ></span> Help me form an LLC in my state</button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">03 ></span> Find domain names for my brand</button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">04 ></span> Write a demand letter for money owed</button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">05 ></span> Help me file taxes as self-employed</button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">06 ></span> Build a full website with auth + payments</button>
+      </div>
+    </div>`;
+  document.getElementById('chatInput').value = '';
+  autoResize(document.getElementById('chatInput'));
+}
+
+// ── SEND ──────────────────────────────────────────────────────
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text || isThinking) return;
+  input.value = ''; autoResize(input);
+  addMsg('user', text);
+  isThinking = true;
+  document.getElementById('sendBtn').disabled = true;
+  showTyping(text);
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 4000,
+        system: SYSTEM,
+        messages: [{ role: 'user', content: text }]
+      })
+    });
+    const data = await res.json();
+    removeTyping();
+    if (data.content?.[0]?.text) {
+      const reply = data.content[0].text;
+      addMsg('ai', reply);
+      // If response contains HTML, offer download
+      if (reply.includes('<!DOCTYPE') || reply.includes('<html')) {
+        offerDownload(reply);
+      }
+    } else {
+      addMsg('ai', 'Signal lost. Retry transmission.');
+    }
+  } catch(e) {
+    removeTyping();
+    addMsg('ai', 'Connection interrupted. Check your signal and retry.');
+  }
+
+  isThinking = false;
+  document.getElementById('sendBtn').disabled = false;
+  input.focus();
+}
+
+// ── DOWNLOAD GENERATED FILES ──────────────────────────────────
+function offerDownload(content) {
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.innerHTML = `
+    <div class="build-output">
+      <div class="build-title">◈ FILE GENERATED · READY FOR DEPLOYMENT</div>
+      <div class="build-actions">
+        <button class="build-btn primary" onclick="downloadFile(this)">⬇ DOWNLOAD HTML</button>
+        <button class="build-btn" onclick="this.closest('.build-output').remove()">DISMISS</button>
+      </div>
+    </div>`;
+  div.querySelector('.build-btn').dataset.content = content;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  div.querySelector('.build-btn.primary').addEventListener('click', () => {
+    const htmlMatch = content.match(/```(?:html)?\n?([\s\S]*?)```/);
+    const fileContent = htmlMatch ? htmlMatch[1] : content;
+    const blob = new Blob([fileContent], {type:'text/html'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'fluentra-build.html';
+    a.click();
+  });
+}
+
+// ── CINEMATIC INTRO SEQUENCE ─────────────────────────────────
+(function() {
+  const intro    = document.getElementById('introScreen');
+  const boot     = document.getElementById('bootPhase');
+  const words    = document.getElementById('wordsPhase');
+  const line1    = document.getElementById('wordLine1');
+  const line2    = document.getElementById('wordLine2');
+  const canvas   = document.getElementById('dissolveCanvas');
+  const pure     = document.getElementById('pureOcean');
+  const pureDot  = document.getElementById('pureRedDot');
+  const welcome  = document.getElementById('welcome');
+  const ctx      = canvas.getContext('2d');
+
+  // Resize canvas
+  function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // Particle system for text dissolve
+  let particles = [];
+  let animFrame;
+
+  function createParticlesFromText() {
+    // Draw text to canvas to sample pixels
+    canvas.style.opacity = '1';
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw the two lines of text
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const fs = Math.min(canvas.width * 0.09, 88);
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = 'rgba(232,220,200,0.9)';
+    ctx.font = `300 ${fs}px "Cormorant Garamond", serif`;
+    ctx.fillText('Still waters.', cx, cy - fs * 0.65);
+
+    ctx.fillStyle = 'rgba(232,168,112,0.9)';
+    ctx.font = `italic 300 ${fs}px "Cormorant Garamond", serif`;
+    ctx.fillText('Infinite depth.', cx, cy + fs * 0.65);
+
+    // Sample pixels and create particles
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    particles = [];
+
+    const step = 4; // sample every N pixels
+    for (let y = 0; y < canvas.height; y += step) {
+      for (let x = 0; x < canvas.width; x += step) {
+        const idx = (y * canvas.width + x) * 4;
+        const alpha = data[idx + 3];
+        if (alpha > 60) {
+          particles.push({
+            x: x, y: y,
+            ox: x, oy: y, // original position
+            r: data[idx],
+            g: data[idx+1],
+            b: data[idx+2],
+            a: alpha / 255,
+            // Velocity — mostly upward, slight horizontal drift
+            vx: (Math.random() - 0.5) * 0.8,
+            vy: -(Math.random() * 2.5 + 0.5),
+            // Some become comets (fast + trail)
+            isComet: Math.random() < 0.08,
+            speed: Math.random() * 3 + 1,
+            size: Math.random() * 1.5 + 0.5,
+            life: 1,
+            decay: Math.random() * 0.008 + 0.004,
+            // Twinkle at end
+            twinkle: Math.random() < 0.3,
+          });
         }
+      }
+    }
+  }
 
-        function startDrawing(e) {
-            e.preventDefault();
-            drawing = true;
-            if (!hasSigned) {
-                placeholder.style.display = 'none';
-                hasSigned = true;
-            }
-            const pos = getEventPos(e);
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y);
+  let dissolveStart = null;
+  function animateDissolve(ts) {
+    if (!dissolveStart) dissolveStart = ts;
+    const elapsed = ts - dissolveStart;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    let allDead = true;
+    for (const p of particles) {
+      if (p.life <= 0) continue;
+      allDead = false;
+
+      p.x  += p.vx;
+      p.y  += p.vy;
+      p.vx += (Math.random() - 0.5) * 0.1;
+      p.vy -= 0.01; // accelerate upward
+      p.life -= p.decay;
+
+      const alpha = Math.max(0, p.life) * p.a;
+
+      if (p.isComet) {
+        // Comet with trail
+        const gradient = ctx.createLinearGradient(
+          p.x, p.y, p.x - p.vx * 8, p.y - p.vy * 8
+        );
+        gradient.addColorStop(0, `rgba(${p.r},${p.g},${p.b},${alpha})`);
+        gradient.addColorStop(1, `rgba(${p.r},${p.g},${p.b},0)`);
+        ctx.beginPath();
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = p.size * 1.5;
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x - p.vx * 10, p.y - p.vy * 10);
+        ctx.stroke();
+        // Bright head
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,220,160,${alpha})`;
+        ctx.fill();
+      } else {
+        // Regular particle → becomes a star
+        const twinkleA = p.twinkle
+          ? alpha * (0.5 + 0.5 * Math.sin(elapsed * 0.01 + p.ox))
+          : alpha;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.r},${p.g},${p.b},${twinkleA})`;
+        ctx.fill();
+      }
+    }
+
+    if (!allDead) {
+      animFrame = requestAnimationFrame(animateDissolve);
+    } else {
+      // Dissolve complete — show pure ocean
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.opacity = '0';
+      pure.style.opacity   = '1';
+      pureDot.style.opacity = '1';
+
+      // Hold on pure ocean for 2 seconds then show UI
+      setTimeout(() => {
+        // Fade intro out
+        intro.style.transition = 'opacity 1.5s ease';
+        intro.style.opacity = '0';
+        // Fade welcome in
+        if (welcome) {
+          welcome.style.opacity = '1';
         }
+        setTimeout(() => {
+          intro.style.display = 'none';
+          intro.style.pointerEvents = 'none';
+        }, 1600);
+      }, 2000);
+    }
+  }
 
-        function draw(e) {
-            if (!drawing) return;
-            e.preventDefault();
-            const pos = getEventPos(e);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.strokeStyle = '#374151';
-            ctx.lineWidth = 2;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y);
-        }
+  // ── SEQUENCE TIMELINE ─────────────────────────────────────
+  // 0.0s — Boot terminal
+  // 2.5s — Boot fades, words appear
+  // 3.5s — Line 1 visible
+  // 4.2s — Line 2 visible
+  // 5.5s — Words dissolve into stars/comets
+  // 8.0s — Pure ocean moment
+  // 10.0s — UI appears from the deep
 
-        function stopDrawing() {
-            drawing = false;
-            ctx.beginPath();
-        }
+  setTimeout(() => {
+    // Fade boot out
+    boot.style.opacity = '0';
+    setTimeout(() => { boot.style.display = 'none'; }, 800);
 
-        function clearSignature() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            placeholder.style.display = 'block';
-            hasSigned = false;
-        }
+    // Show words phase
+    words.style.opacity = '1';
 
-        // Adjust canvas on load and resize
-        function resizeCanvas() {
-            const ratio = Math.max(window.devicePixelRatio || 1, 1);
-            const rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width * ratio;
-            canvas.height = rect.height * ratio;
-            ctx.scale(ratio, ratio);
-            clearSignature();
-        }
+    // Line 1
+    setTimeout(() => {
+      line1.style.opacity = '1';
+      line1.style.transform = 'translateY(0)';
+    }, 200);
 
-        window.addEventListener('load', resizeCanvas);
-        window.addEventListener('resize', resizeCanvas);
+    // Line 2
+    setTimeout(() => {
+      line2.style.opacity = '1';
+      line2.style.transform = 'translateY(0)';
+    }, 900);
 
-        // Event Listeners
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mouseleave', stopDrawing);
-        
-        canvas.addEventListener('touchstart', startDrawing);
-        canvas.addEventListener('touchmove', draw);
-        canvas.addEventListener('touchend', stopDrawing);
+    // Start dissolve
+    setTimeout(() => {
+      words.style.opacity = '0'; // hide DOM text
+      createParticlesFromText();
+      requestAnimationFrame(animateDissolve);
+    }, 2800);
 
-        // Set date to today
-        document.getElementById('dateSigned').valueAsDate = new Date();
-    </script>
+  }, 2500);
+
+})();
+</script>
 </body>
 </html>
