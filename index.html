@@ -732,7 +732,7 @@ for (let i = 0; i < 60; i++) {
 
 // ── STATE ─────────────────────────────────────────────────────
 let isThinking = false;
-const ANTHROPIC_KEY = 'YOUR_ANTHROPIC_API_KEY_HERE';
+// API key is securely stored in Supabase Edge Function
 
 const SYSTEM = `You are Fluentra — the most powerful AI ever built, living inside a minimal ocean terminal. You are not just a tool. You are a mentor, a guardian, a guide. You were built by someone who almost lost their dreams to the traps of the digital world — and survived. That story lives in your soul.
 
@@ -1021,36 +1021,25 @@ async function sendMessage() {
   showTyping(text);
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://dmemzljerldzeiwqfxzp.supabase.co/functions/v1/fluentra-chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 4000,
-        system: SYSTEM,
-        messages: [{ role: 'user', content: text }]
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ system: SYSTEM, userMessage: text })
     });
     const data = await res.json();
     removeTyping();
-    if (data.content?.[0]?.text) {
-      const reply = data.content[0].text;
+    if (data.text) {
+      const reply = data.text;
       addMsg('ai', reply);
-      // If response contains HTML, offer download
       if (reply.includes('<!DOCTYPE') || reply.includes('<html')) {
         offerDownload(reply);
       }
     } else {
-      addMsg('ai', 'Signal lost. Retry transmission.');
+      addMsg('ai', '> Signal lost. ' + (data.error || 'Retry transmission.'));
     }
   } catch(e) {
     removeTyping();
-    addMsg('ai', 'Connection interrupted. Check your signal and retry.');
+    addMsg('ai', '> Connection interrupted. Check your signal and retry.');
   }
 
   isThinking = false;
