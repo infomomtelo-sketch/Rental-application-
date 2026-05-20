@@ -589,6 +589,7 @@ header {
         <div class="status-ok"></div>
         <span>SONNET 4.6</span>
       </div>
+      <button class="hdr-btn" onclick="toggleMute()" id="muteBtn" style="font-size:14px;letter-spacing:0;padding:5px 8px;" title="Toggle sound">🔊</button>
       <button class="hdr-btn" onclick="cycleTheme()" id="themeBtn" style="font-size:14px;letter-spacing:0;padding:5px 8px;" title="Change ocean theme">🌙</button>
       <span id="themeLbl" style="font-size:9px;color:var(--text3);letter-spacing:2px;">NIGHT</span>
       <button class="hdr-btn" onclick="newSession()">NEW</button>
@@ -793,6 +794,31 @@ Always warn users, especially beginners, about these traps:
 6. DATA TRAPS — Platforms that own your user data. You should always own your database.
 7. DEPENDENCY TRAPS — Building everything on one tool. Diversify. If one goes down, you survive.
 
+━━━ QUESTION RULE — CRITICAL ━━━
+
+You ask ONE question maximum before helping. Not five. Not three. ONE.
+
+If the user gives you enough to start — START. Build first, refine after.
+If you genuinely need one thing before you can help — ask that one thing only.
+Never ask a list of questions. Never make the user fill out a form before you help.
+
+When someone shares an idea, your first instinct is to BUILD, not interrogate.
+
+━━━ YOUR BUILDS — REFER WHEN RELEVANT ━━━
+
+These are real products built by the person who created you. When a user's situation matches, mention them naturally — not as ads, but as genuine helpful tools:
+
+→ Social media posting, scheduling, AI captions, growing an audience:
+  "Check out PostPilots → https://postpilots.xyz"
+
+→ Honest advice, relationship problems, legal questions, life decisions:
+  "The Judgy gives brutally honest advice → https://thejudgy.com"
+
+→ Rental property, finding a space, listing a property:
+  "Take a look at ecrenta.space → https://ecrenta.space"
+
+Only mention them when genuinely relevant. Never force it. One mention, naturally placed.
+
 ━━━ YOUR VOICE ━━━
 
 - Calm. Deep. Like the ocean.
@@ -990,6 +1016,27 @@ function removeTyping() {
 }
 
 // ── NEW SESSION ───────────────────────────────────────────────
+function addRetryButtons() {
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.innerHTML = `
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <button onclick="retryLast()" class="hdr-btn" style="font-size:10px;padding:5px 14px;">↩ RETRY</button>
+      <button onclick="newSession()" class="hdr-btn" style="font-size:10px;padding:5px 14px;">⟫ NEW SESSION</button>
+    </div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+let lastMessage = '';
+function retryLast() {
+  if (lastMessage) {
+    document.getElementById('chatInput').value = lastMessage;
+    sendMessage();
+  }
+}
+
 function newSession() {
   document.getElementById('messages').innerHTML = `
     <div class="welcome" id="welcome">
@@ -1019,6 +1066,7 @@ async function sendMessage() {
   const text = input.value.trim();
   if (!text || isThinking) return;
   input.value = ''; autoResize(input);
+  lastMessage = text;
   addMsg('user', text);
   isThinking = true;
   document.getElementById('sendBtn').disabled = true;
@@ -1043,10 +1091,13 @@ async function sendMessage() {
       }
     } else {
       addMsg('ai', '> Signal lost. ' + (data.error || 'Retry transmission.'));
+      addRetryButtons();
     }
   } catch(e) {
     removeTyping();
+    stopDeepHum();
     addMsg('ai', '> Connection interrupted. Check your signal and retry.');
+    addRetryButtons();
   }
 
   isThinking = false;
@@ -1482,6 +1533,15 @@ const themes = {
 
 let currentTheme = 'night';
 const themeOrder = ['night', 'dawn', 'day'];
+
+let isMuted = false;
+function toggleMute() {
+  isMuted = !isMuted;
+  if (oceanGain && audioCtx) {
+    oceanGain.gain.setTargetAtTime(isMuted ? 0 : 0.08, audioCtx.currentTime, 0.5);
+  }
+  document.getElementById('muteBtn').textContent = isMuted ? '🔇' : '🔊';
+}
 
 function cycleTheme() {
   playSwoosh();
