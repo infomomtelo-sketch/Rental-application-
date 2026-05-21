@@ -12,526 +12,292 @@
   --ocean-surf:   #1a3a5c;
   --horizon:      #c4734a;
   --dawn:         #e8955a;
-  --sky-low:      #d4845a;
-  --sky-high:     #1a2840;
-  --foam:         rgba(255,255,255,0.06);
   --text:         #e8e0d0;
   --text2:        #a09080;
   --text3:        #5a5048;
   --amber:        #d4905a;
   --amber2:       #e8a870;
   --red-dot:      #c0392b;
+  --green:        #4aaa77;
+  --blue:         #4a90c0;
+  --purple:       #9a70c0;
   --mono:         'Share Tech Mono', monospace;
   --serif:        'Cormorant Garamond', serif;
+  --panel-border: rgba(212,144,90,0.15);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; font-family: var(--mono); background: var(--ocean-deep); color: var(--text); overflow: hidden; }
 
-/* ── OCEAN BACKGROUND ─────────────────────────────────────── */
-.ocean-bg {
-  position: fixed; inset: 0; z-index: 0;
-  background: linear-gradient(
-    180deg,
-    #1a2840 0%,
-    #1e3050 8%,
-    #c4734a 28%,
-    #d4845a 32%,
-    #c4734a 36%,
-    #3a6080 45%,
-    #1a4060 60%,
-    #0d2840 75%,
-    #081820 100%
-  );
-}
-
-/* OCEAN WAVES */
+/* ── OCEAN BG ─────────────────────────────────────────────── */
+.ocean-bg { position: fixed; inset: 0; z-index: 0;
+  background: linear-gradient(180deg,#1a2840 0%,#1e3050 8%,#c4734a 28%,#d4845a 32%,#c4734a 36%,#3a6080 45%,#1a4060 60%,#0d2840 75%,#081820 100%); }
 .waves { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1; }
-.wave {
-  position: absolute; left: -50%; width: 200%;
-  border-radius: 40%;
-  opacity: 0.04;
-  animation: waveMove linear infinite;
-}
-.w1 { height: 120px; bottom: -40px; background: #4a90c0; animation-duration: 18s; }
-.w2 { height: 100px; bottom: -20px; background: #5aa0d0; animation-duration: 14s; animation-delay: -4s; opacity: 0.03; }
-.w3 { height: 80px; bottom: 0px; background: #6ab0e0; animation-duration: 10s; animation-delay: -8s; opacity: 0.025; }
-@keyframes waveMove { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-
-/* HORIZON GLOW */
-.horizon-glow {
-  position: fixed; z-index: 1;
-  left: 0; right: 0;
-  height: 2px;
-  top: 31%;
-  background: linear-gradient(90deg, transparent 0%, var(--horizon) 20%, var(--dawn) 50%, var(--horizon) 80%, transparent 100%);
-  opacity: 0.6;
-  animation: horizonPulse 6s ease-in-out infinite;
-}
-@keyframes horizonPulse { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
-
-/* STARS */
-.stars { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
-.star {
-  position: absolute; border-radius: 50%;
-  background: white; animation: starTwinkle ease-in-out infinite;
-}
-@keyframes starTwinkle { 0%,100%{opacity:0.1} 50%{opacity:0.7} }
-
-/* RED DOT */
-.red-dot {
-  position: fixed; z-index: 2;
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--red-dot);
-  bottom: 38%; right: 28%;
-  box-shadow: 0 0 8px var(--red-dot);
-  animation: dotBob 4s ease-in-out infinite;
-}
-@keyframes dotBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
-
-/* SCANLINES */
-body::after {
-  content: '';
-  position: fixed; inset: 0; z-index: 10; pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.03) 2px,
-    rgba(0,0,0,0.03) 4px
-  );
-}
-
-/* CRT VIGNETTE */
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 10; pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.5) 100%);
-}
+.wave { position: absolute; left: -50%; width: 200%; border-radius: 40%; opacity: 0.04; animation: waveMove linear infinite; }
+.w1{height:120px;bottom:-40px;background:#4a90c0;animation-duration:18s}
+.w2{height:100px;bottom:-20px;background:#5aa0d0;animation-duration:14s;animation-delay:-4s;opacity:0.03}
+.w3{height:80px;bottom:0;background:#6ab0e0;animation-duration:10s;animation-delay:-8s;opacity:0.025}
+@keyframes waveMove{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.horizon-glow { position:fixed;z-index:1;left:0;right:0;height:2px;top:31%;
+  background:linear-gradient(90deg,transparent 0%,var(--horizon) 20%,var(--dawn) 50%,var(--horizon) 80%,transparent 100%);
+  opacity:0.6;animation:horizonPulse 6s ease-in-out infinite; }
+@keyframes horizonPulse{0%,100%{opacity:0.4}50%{opacity:0.8}}
+.stars{position:fixed;inset:0;z-index:1;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:white;animation:starTwinkle ease-in-out infinite}
+@keyframes starTwinkle{0%,100%{opacity:0.1}50%{opacity:0.7}}
+.red-dot{position:fixed;z-index:2;width:5px;height:5px;border-radius:50%;background:var(--red-dot);bottom:38%;right:28%;box-shadow:0 0 8px var(--red-dot);animation:dotBob 4s ease-in-out infinite}
+@keyframes dotBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+body::after{content:'';position:fixed;inset:0;z-index:10;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px)}
+body::before{content:'';position:fixed;inset:0;z-index:10;pointer-events:none;background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.5) 100%)}
 
 /* ── LAYOUT ───────────────────────────────────────────────── */
-.app {
-  position: relative; z-index: 20;
-  display: flex; flex-direction: column;
-  height: 100vh;
-}
+.app{position:relative;z-index:20;display:flex;flex-direction:column;height:100vh}
+.main-content{flex:1;display:flex;overflow:hidden;position:relative}
 
-/* ── CINEMATIC INTRO ──────────────────────────────────────── */
-#introScreen {
-  position: fixed; inset: 0; z-index: 100;
-  pointer-events: all;
-}
-
-/* Boot phase */
-#bootPhase {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  padding: 24px; background: var(--ocean-deep);
-  transition: opacity 0.8s ease;
-}
-.boot-text {
-  font-family: var(--mono); font-size: 12px;
-  color: var(--amber); line-height: 2;
-  max-width: 480px; width: 100%; text-align: left;
-}
-.boot-line { opacity: 0; animation: bootLine 0.15s ease both; }
-.boot-line:nth-child(1){animation-delay:0.1s}
-.boot-line:nth-child(2){animation-delay:0.4s}
-.boot-line:nth-child(3){animation-delay:0.7s}
-.boot-line:nth-child(4){animation-delay:1.0s}
-.boot-line:nth-child(5){animation-delay:1.3s}
-.boot-line:nth-child(6){animation-delay:1.6s}
-.boot-line:nth-child(7){animation-delay:1.9s}
-@keyframes bootLine { from{opacity:0} to{opacity:1} }
-
-/* Words phase */
-#wordsPhase {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 1s ease;
-}
-#wordTitle { text-align: center; }
-.word-line {
-  font-family: var(--serif); font-weight: 300;
-  font-size: clamp(42px, 9vw, 88px);
-  color: var(--text); line-height: 1.15;
-  letter-spacing: -1px;
-  text-shadow: 0 0 40px rgba(212,144,90,0.4), 0 2px 60px rgba(0,0,0,0.5);
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 1s ease, transform 1s ease;
-}
-.italic-line { font-style: italic; color: var(--amber2); }
-
-/* Dissolve canvas */
-#dissolveCanvas {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  pointer-events: none; opacity: 0;
-  transition: opacity 0.3s;
-}
-
-/* Pure ocean phase */
-#pureOcean {
-  position: absolute; inset: 0;
-  opacity: 0; pointer-events: none;
-  transition: opacity 2s ease;
-}
-#pureRedDot {
-  position: absolute;
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--red-dot);
-  bottom: 38%; right: 28%;
-  box-shadow: 0 0 10px var(--red-dot);
-  opacity: 0;
-  animation: dotBob 4s ease-in-out infinite;
-  transition: opacity 2s ease;
-}
-
-/* Welcome fade in from ocean */
-.welcome {
-  animation: none !important;
-  opacity: 0;
-  transition: opacity 1.5s ease;
-}
+/* ── INTRO ────────────────────────────────────────────────── */
+#introScreen{position:fixed;inset:0;z-index:100;pointer-events:all}
+#bootPhase{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--ocean-deep);transition:opacity 0.8s ease}
+.boot-text{font-family:var(--mono);font-size:12px;color:var(--amber);line-height:2;max-width:480px;width:100%;text-align:left}
+.boot-line{opacity:0;animation:bootLine 0.15s ease both}
+.boot-line:nth-child(1){animation-delay:0.1s}.boot-line:nth-child(2){animation-delay:0.4s}
+.boot-line:nth-child(3){animation-delay:0.7s}.boot-line:nth-child(4){animation-delay:1.0s}
+.boot-line:nth-child(5){animation-delay:1.3s}.boot-line:nth-child(6){animation-delay:1.6s}
+.boot-line:nth-child(7){animation-delay:1.9s}.boot-line:nth-child(8){animation-delay:2.1s}
+@keyframes bootLine{from{opacity:0}to{opacity:1}}
+#wordsPhase{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 1s ease}
+.word-line{font-family:var(--serif);font-weight:300;font-size:clamp(42px,9vw,88px);color:var(--text);line-height:1.15;letter-spacing:-1px;
+  text-shadow:0 0 40px rgba(212,144,90,0.4),0 2px 60px rgba(0,0,0,0.5);opacity:0;transform:translateY(10px);transition:opacity 1s ease,transform 1s ease}
+.italic-line{font-style:italic;color:var(--amber2)}
+#dissolveCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity 0.3s}
+#pureOcean{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity 2s ease}
+#pureRedDot{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--red-dot);bottom:38%;right:28%;box-shadow:0 0 10px var(--red-dot);opacity:0;animation:dotBob 4s ease-in-out infinite;transition:opacity 2s ease}
+.welcome{animation:none !important;opacity:0;transition:opacity 1.5s ease}
 
 /* ── HEADER ───────────────────────────────────────────────── */
-header {
-  padding: 16px 24px;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-shrink: 0;
-  background: rgba(8,16,28,0.6);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(212,144,90,0.1);
-}
-.logo {
-  font-family: var(--mono); font-size: 18px;
-  color: var(--amber); letter-spacing: 4px;
-  text-transform: uppercase;
-  display: flex; align-items: center; gap: 10px;
-}
-.logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); animation: logoBlink 1.5s infinite; }
-@keyframes logoBlink { 0%,100%{opacity:1} 50%{opacity:0} }
-.logo-sub { font-size: 9px; color: var(--text3); letter-spacing: 3px; text-transform: uppercase; margin-top: 2px; display: block; }
-.header-right { display: flex; align-items: center; gap: 12px; }
-.hdr-btn {
-  font-family: var(--mono); font-size: 11px;
-  color: var(--text3); background: transparent;
-  border: 1px solid rgba(212,144,90,0.15);
-  border-radius: 0; padding: 5px 12px;
-  cursor: pointer; letter-spacing: 2px;
-  text-transform: uppercase; transition: all 0.2s;
-}
-.hdr-btn:hover { color: var(--amber); border-color: rgba(212,144,90,0.4); }
-.status-line { font-size: 10px; color: var(--text3); letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
-.status-ok { width: 6px; height: 6px; border-radius: 50%; background: #4a9; animation: logoBlink 2s infinite; }
+header{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:rgba(8,16,28,0.7);backdrop-filter:blur(8px);border-bottom:1px solid rgba(212,144,90,0.1);z-index:50}
+.logo{font-family:var(--mono);font-size:16px;color:var(--amber);letter-spacing:4px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.logo-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:logoBlink 1.5s infinite}
+@keyframes logoBlink{0%,100%{opacity:1}50%{opacity:0}}
+.header-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hdr-btn{font-family:var(--mono);font-size:11px;color:var(--text3);background:transparent;border:1px solid rgba(212,144,90,0.15);border-radius:0;padding:4px 10px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all 0.2s;white-space:nowrap}
+.hdr-btn:hover{color:var(--amber);border-color:rgba(212,144,90,0.4)}
+.hdr-btn.active-btn{color:var(--amber);border-color:rgba(212,144,90,0.5);background:rgba(212,144,90,0.08)}
+.status-line{font-size:10px;color:var(--text3);letter-spacing:1px;display:flex;align-items:center;gap:6px}
+.status-ok{width:6px;height:6px;border-radius:50%;background:#4a9;animation:logoBlink 2s infinite}
+
+/* ── CHAT PANEL ───────────────────────────────────────────── */
+.chat-panel{display:flex;flex-direction:column;flex:1;min-width:0;transition:flex 0.4s cubic-bezier(0.16,1,0.3,1)}
+
+/* ── RIGHT PANEL (preview / browser) ─────────────────────── */
+.right-panel{flex:0;min-width:0;overflow:hidden;border-left:1px solid var(--panel-border);display:flex;flex-direction:column;transition:flex 0.4s cubic-bezier(0.16,1,0.3,1);background:rgba(6,12,22,0.97);backdrop-filter:blur(12px)}
+.right-panel.open{flex:1}
+
+/* Resize handle */
+.resize-handle{width:4px;background:transparent;cursor:col-resize;position:relative;flex-shrink:0;transition:background 0.2s;z-index:10}
+.resize-handle:hover,.resize-handle.dragging{background:rgba(212,144,90,0.3)}
+.resize-handle::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:2px;height:40px;background:rgba(212,144,90,0.2);border-radius:1px}
+
+/* Panel header */
+.panel-header{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;border-bottom:1px solid var(--panel-border);background:rgba(8,16,28,0.9);flex-shrink:0}
+.panel-tabs{display:flex;gap:0}
+.panel-tab{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--text3);background:transparent;border:1px solid transparent;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:all 0.15s}
+.panel-tab.active{color:var(--amber);border-color:rgba(212,144,90,0.3);background:rgba(212,144,90,0.06)}
+.panel-tab:hover:not(.active){color:var(--text2)}
+.panel-actions{display:flex;align-items:center;gap:6px}
+.panel-btn{font-family:var(--mono);font-size:10px;color:var(--text3);background:transparent;border:1px solid rgba(212,144,90,0.15);padding:4px 8px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all 0.15s;white-space:nowrap}
+.panel-btn:hover{color:var(--amber);border-color:rgba(212,144,90,0.4)}
+.panel-btn.accent{color:var(--amber2);border-color:rgba(212,144,90,0.3);background:rgba(212,144,90,0.08)}
+.panel-close{width:22px;height:22px;background:transparent;border:1px solid rgba(212,144,90,0.2);color:var(--text3);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.panel-close:hover{color:var(--amber);border-color:var(--amber)}
+
+/* Panel body */
+.panel-body{flex:1;overflow:hidden;position:relative}
+.panel-iframe{width:100%;height:100%;border:none;background:white}
+.panel-code{width:100%;height:100%;overflow-y:auto;padding:14px;font-family:var(--mono);font-size:11px;color:var(--text2);line-height:1.7;white-space:pre-wrap;word-break:break-all;scrollbar-width:thin;scrollbar-color:rgba(212,144,90,0.2) transparent}
+.panel-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;opacity:0.4}
+.panel-empty-icon{font-size:28px;opacity:0.5}
+.panel-empty-text{font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase}
+
+/* Browser guide panel */
+.guide-panel{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.guide-url-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--panel-border);background:rgba(8,16,28,0.8);flex-shrink:0}
+.guide-url-display{flex:1;font-family:var(--mono);font-size:10px;color:var(--text2);background:rgba(0,0,0,0.3);border:1px solid rgba(212,144,90,0.1);padding:5px 10px;letter-spacing:0.5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.guide-open-btn{font-family:var(--mono);font-size:10px;color:var(--amber);background:rgba(212,144,90,0.1);border:1px solid rgba(212,144,90,0.3);padding:5px 10px;cursor:pointer;letter-spacing:1px;white-space:nowrap;transition:all 0.15s}
+.guide-open-btn:hover{background:rgba(212,144,90,0.2)}
+.guide-content{display:flex;flex-direction:column;flex:1;overflow:hidden}
+.guide-iframe-wrap{flex:1;position:relative;overflow:hidden}
+.guide-iframe{width:100%;height:100%;border:none;background:white}
+.guide-blocked{display:none;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:14px;padding:24px;text-align:center}
+.guide-blocked-icon{font-size:32px}
+.guide-blocked-title{font-size:13px;color:var(--amber);letter-spacing:2px}
+.guide-blocked-text{font-size:11px;color:var(--text3);line-height:1.8;max-width:280px}
+.guide-steps{flex-shrink:0;border-top:1px solid var(--panel-border);background:rgba(8,16,28,0.95);max-height:220px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(212,144,90,0.15) transparent}
+.guide-steps-header{padding:8px 12px;font-size:9px;color:var(--amber);letter-spacing:3px;border-bottom:1px solid var(--panel-border);display:flex;align-items:center;justify-content:space-between}
+.guide-step{display:flex;gap:10px;padding:8px 12px;border-bottom:1px solid rgba(212,144,90,0.05);transition:background 0.15s}
+.guide-step.active{background:rgba(212,144,90,0.06)}
+.guide-step.done{opacity:0.4}
+.guide-step-num{font-size:10px;color:var(--amber);flex-shrink:0;min-width:18px}
+.guide-step-text{font-size:11px;color:var(--text2);line-height:1.6}
+.guide-step.active .guide-step-text{color:var(--text)}
+
+/* Panel status bar */
+.panel-statusbar{padding:4px 12px;border-top:1px solid var(--panel-border);display:flex;align-items:center;justify-content:space-between;background:rgba(8,16,28,0.9);flex-shrink:0}
+.panel-status-text{font-size:10px;color:var(--text3);letter-spacing:1px}
+.size-btns{display:flex;gap:3px}
+.size-btn{font-family:var(--mono);font-size:9px;color:var(--text3);background:transparent;border:1px solid rgba(212,144,90,0.1);padding:2px 7px;cursor:pointer;letter-spacing:1px;transition:all 0.15s}
+.size-btn:hover,.size-btn.active{color:var(--amber);border-color:rgba(212,144,90,0.3)}
+
+/* Mobile frame */
+.mobile-frame{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;background:rgba(8,16,28,0.6)}
+.mobile-frame-inner{border:2px solid rgba(212,144,90,0.3);border-radius:24px;width:375px;max-width:90%;height:min(667px,90%);box-shadow:0 0 0 8px rgba(8,16,28,0.8),0 0 40px rgba(212,144,90,0.1);overflow:hidden;pointer-events:all}
+.mobile-frame-inner iframe{width:100%;height:100%;border:none}
+
+/* ── CONNECTIONS PANEL ────────────────────────────────────── */
+.conn-panel{position:fixed;bottom:0;left:0;right:0;z-index:150;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);background:rgba(6,12,22,0.98);border-top:1px solid rgba(212,144,90,0.2);backdrop-filter:blur(20px);max-height:60vh;overflow-y:auto}
+.conn-panel.open{transform:translateY(0)}
+.conn-panel-head{padding:14px 20px;border-bottom:1px solid rgba(212,144,90,0.1);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(6,12,22,0.98)}
+.conn-panel-title{font-size:11px;color:var(--amber);letter-spacing:3px;text-transform:uppercase}
+.conn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:16px 20px}
+.conn-card{background:rgba(10,20,36,0.8);border:1px solid rgba(212,144,90,0.12);padding:14px;cursor:pointer;transition:all 0.2s;position:relative}
+.conn-card:hover{border-color:rgba(212,144,90,0.35);background:rgba(212,144,90,0.04)}
+.conn-card.connected{border-color:rgba(74,170,119,0.3)}
+.conn-card.connected::after{content:'● CONNECTED';position:absolute;top:8px;right:8px;font-size:8px;color:var(--green);letter-spacing:1px}
+.conn-icon{font-size:22px;margin-bottom:8px}
+.conn-name{font-size:12px;color:var(--amber2);letter-spacing:1px;margin-bottom:4px}
+.conn-desc{font-size:10px;color:var(--text3);line-height:1.5}
+.conn-actions{display:flex;gap:6px;margin-top:10px}
+.conn-btn{font-family:var(--mono);font-size:9px;padding:4px 10px;border:1px solid rgba(212,144,90,0.2);background:transparent;color:var(--text2);cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all 0.15s}
+.conn-btn:hover{color:var(--amber);border-color:var(--amber)}
+.conn-btn.primary{background:rgba(212,144,90,0.12);border-color:rgba(212,144,90,0.35);color:var(--amber2)}
+.conn-input{font-family:var(--mono);font-size:10px;background:rgba(0,0,0,0.4);border:1px solid rgba(212,144,90,0.15);color:var(--text);padding:5px 8px;width:100%;margin-top:8px;outline:none;transition:border-color 0.2s}
+.conn-input:focus{border-color:rgba(212,144,90,0.4)}
+.conn-input::placeholder{color:var(--text3)}
 
 /* ── MESSAGES ─────────────────────────────────────────────── */
-.messages {
-  flex: 1; overflow-y: auto;
-  padding: 24px; display: flex; flex-direction: column; gap: 20px;
-  scrollbar-width: thin; scrollbar-color: rgba(212,144,90,0.2) transparent;
-}
-.messages::-webkit-scrollbar { width: 3px; }
-.messages::-webkit-scrollbar-thumb { background: rgba(212,144,90,0.2); }
+.messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:18px;scrollbar-width:thin;scrollbar-color:rgba(212,144,90,0.2) transparent}
+.messages::-webkit-scrollbar{width:3px}
+.messages::-webkit-scrollbar-thumb{background:rgba(212,144,90,0.2)}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:20px}
+.welcome-title{font-family:var(--serif);font-size:clamp(32px,7vw,68px);font-weight:300;font-style:italic;color:var(--text);letter-spacing:-1px;line-height:1.1;margin-bottom:10px;text-shadow:0 2px 20px rgba(212,144,90,0.3)}
+.welcome-title span{color:var(--amber);font-style:normal}
+.welcome-sub{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-bottom:32px}
+.prompt-line{font-family:var(--mono);font-size:13px;color:var(--amber2);margin-bottom:24px;display:flex;align-items:center;gap:8px}
+.blink{animation:logoBlink 1s infinite}
+.starters{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;max-width:580px;width:100%}
+.starter{font-family:var(--mono);font-size:11px;color:var(--text2);background:rgba(10,22,40,0.6);border:1px solid rgba(212,144,90,0.1);padding:11px 13px;cursor:pointer;text-align:left;transition:all 0.2s;line-height:1.5;backdrop-filter:blur(4px)}
+.starter:hover{border-color:rgba(212,144,90,0.4);color:var(--amber2);background:rgba(212,144,90,0.06)}
+.starter-prefix{color:var(--amber);margin-right:6px}
+.starter-tag{font-size:9px;color:var(--text3);display:block;margin-top:3px;letter-spacing:1px}
 
-/* WELCOME */
-.welcome {
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  min-height: 60vh; text-align: center; padding: 20px;
-}
-.welcome-title {
-  font-family: var(--serif);
-  font-size: clamp(36px,8vw,72px);
-  font-weight: 300; font-style: italic;
-  color: var(--text);
-  letter-spacing: -1px;
-  line-height: 1.1;
-  margin-bottom: 12px;
-  text-shadow: 0 2px 20px rgba(212,144,90,0.3);
-}
-.welcome-title span { color: var(--amber); font-style: normal; }
-.welcome-sub {
-  font-family: var(--mono); font-size: 11px;
-  color: var(--text3); letter-spacing: 3px;
-  text-transform: uppercase; margin-bottom: 40px;
-}
-.prompt-line {
-  font-family: var(--mono); font-size: 13px;
-  color: var(--amber2); margin-bottom: 32px;
-  display: flex; align-items: center; gap: 8px;
-}
-.blink { animation: logoBlink 1s infinite; }
-.starters {
-  display: grid; grid-template-columns: repeat(2,1fr);
-  gap: 8px; max-width: 560px; width: 100%;
-}
-.starter {
-  font-family: var(--mono); font-size: 11px;
-  color: var(--text2); background: rgba(10,22,40,0.6);
-  border: 1px solid rgba(212,144,90,0.1);
-  padding: 12px 14px; cursor: pointer; text-align: left;
-  transition: all 0.2s; line-height: 1.5;
-  backdrop-filter: blur(4px);
-}
-.starter:hover {
-  border-color: rgba(212,144,90,0.4);
-  color: var(--amber2);
-  background: rgba(212,144,90,0.06);
-}
-.starter-prefix { color: var(--amber); margin-right: 6px; }
+/* Messages */
+.msg{display:flex;flex-direction:column;gap:5px;animation:msgIn 0.3s ease both}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.msg-header{font-size:10px;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.msg.user .msg-header{color:var(--text3);justify-content:flex-end}
+.msg.ai .msg-header{color:var(--amber)}
+.msg-bubble{font-family:var(--mono);font-size:13px;line-height:1.8;padding:13px 15px;max-width:85%;backdrop-filter:blur(8px)}
+.msg.user .msg-bubble{background:rgba(212,144,90,0.06);border:1px solid rgba(212,144,90,0.15);color:var(--text2);align-self:flex-end;border-right:2px solid var(--amber)}
+.msg.ai .msg-bubble{background:rgba(8,16,28,0.7);border:1px solid rgba(212,144,90,0.12);color:var(--text);border-left:2px solid var(--amber)}
 
-/* MESSAGES */
-.msg { display: flex; flex-direction: column; gap: 6px; animation: msgIn 0.3s ease both; }
-@keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
-.msg-header { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
-.msg.user .msg-header { color: var(--text3); justify-content: flex-end; }
-.msg.ai .msg-header { color: var(--amber); }
-.msg-prefix { color: var(--amber); }
-.msg-bubble {
-  font-family: var(--mono); font-size: 13px; line-height: 1.8;
-  padding: 14px 16px; max-width: 80%;
-  backdrop-filter: blur(8px);
-}
-.msg.user .msg-bubble {
-  background: rgba(212,144,90,0.06);
-  border: 1px solid rgba(212,144,90,0.15);
-  color: var(--text2); align-self: flex-end;
-  border-right: 2px solid var(--amber);
-}
-.msg.ai .msg-bubble {
-  background: rgba(8,16,28,0.7);
-  border: 1px solid rgba(212,144,90,0.12);
-  color: var(--text);
-  border-left: 2px solid var(--amber);
-}
-.msg.system .msg-bubble {
-  background: transparent; border: none;
-  color: var(--text3); font-size: 11px;
-  padding: 4px 0; letter-spacing: 1px;
-  border-left: none;
-}
+/* Build banner */
+.build-banner{display:flex;align-items:center;gap:8px;padding:10px 13px;margin-top:7px;background:rgba(212,144,90,0.07);border:1px solid rgba(212,144,90,0.22);border-left:3px solid var(--amber);flex-wrap:wrap}
+.build-banner-label{font-size:10px;color:var(--amber);letter-spacing:2px;text-transform:uppercase;flex:1;min-width:120px}
+.bb-btn{font-family:var(--mono);font-size:10px;color:var(--amber2);background:transparent;border:1px solid rgba(212,144,90,0.25);padding:4px 9px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all 0.15s;white-space:nowrap}
+.bb-btn:hover{background:rgba(212,144,90,0.12);border-color:var(--amber)}
+.bb-btn.primary{background:rgba(212,144,90,0.14);border-color:rgba(212,144,90,0.4)}
 
-/* TYPING */
-.typing-dots {
-  display: flex; gap: 6px; align-items: center;
-  padding: 14px 16px;
-  background: rgba(8,16,28,0.7);
-  border: 1px solid rgba(212,144,90,0.12);
-  border-left: 2px solid var(--amber);
-  max-width: 80px;
-}
-.td { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); opacity: 0.3; animation: tdPulse 1.2s ease infinite; }
-.td:nth-child(2){animation-delay:0.2s} .td:nth-child(3){animation-delay:0.4s}
-@keyframes tdPulse { 0%,60%,100%{opacity:0.2;transform:none} 30%{opacity:1;transform:translateY(-3px)} }
+/* Guide banner */
+.guide-banner{display:flex;align-items:center;gap:8px;padding:10px 13px;margin-top:7px;background:rgba(74,144,192,0.07);border:1px solid rgba(74,144,192,0.22);border-left:3px solid var(--blue);flex-wrap:wrap}
+.guide-banner-label{font-size:10px;color:var(--blue);letter-spacing:2px;flex:1}
+.gb-btn{font-family:var(--mono);font-size:10px;color:#7ab8e0;background:transparent;border:1px solid rgba(74,144,192,0.25);padding:4px 9px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all 0.15s;white-space:nowrap}
+.gb-btn:hover{background:rgba(74,144,192,0.12);border-color:var(--blue)}
 
-/* SECTION CARDS */
-.section-card {
-  background: rgba(8,16,28,0.75);
-  border: 1px solid rgba(212,144,90,0.15);
-  border-left: 2px solid var(--amber);
-  padding: 16px 18px; margin-top: 10px;
-  backdrop-filter: blur(8px);
-}
-.section-title { font-size: 10px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
-.section-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
-.section-item {
-  font-size: 11px; color: var(--text2); padding: 8px 10px;
-  border: 1px solid rgba(212,144,90,0.08);
-  cursor: pointer; transition: all 0.15s;
-  display: flex; align-items: center; gap: 8px;
-}
-.section-item:hover { border-color: rgba(212,144,90,0.3); color: var(--amber2); background: rgba(212,144,90,0.04); }
-.si-prefix { color: var(--amber); font-size: 10px; }
+/* Typing */
+.typing-dots{display:flex;gap:6px;align-items:center;padding:13px 15px;background:rgba(8,16,28,0.7);border:1px solid rgba(212,144,90,0.12);border-left:2px solid var(--amber);max-width:80px}
+.td{width:5px;height:5px;border-radius:50%;background:var(--amber);opacity:0.3;animation:tdPulse 1.2s ease infinite}
+.td:nth-child(2){animation-delay:0.2s}.td:nth-child(3){animation-delay:0.4s}
+@keyframes tdPulse{0%,60%,100%{opacity:0.2;transform:none}30%{opacity:1;transform:translateY(-3px)}}
 
-/* BUILD OUTPUT */
-.build-output {
-  background: rgba(8,16,28,0.9);
-  border: 1px solid rgba(212,144,90,0.2);
-  border-left: 3px solid var(--amber);
-  padding: 16px; margin-top: 10px;
-}
-.build-title { font-size: 10px; color: var(--amber); letter-spacing: 3px; margin-bottom: 8px; }
-.build-preview { font-size: 11px; color: var(--text2); line-height: 1.6; max-height: 200px; overflow-y: auto; }
-.build-actions { display: flex; gap: 8px; margin-top: 12px; }
-.build-btn {
-  font-family: var(--mono); font-size: 11px;
-  padding: 7px 16px; border: 1px solid rgba(212,144,90,0.3);
-  background: transparent; color: var(--amber2);
-  cursor: pointer; letter-spacing: 2px; text-transform: uppercase;
-  transition: all 0.15s;
-}
-.build-btn:hover { background: rgba(212,144,90,0.1); border-color: var(--amber); }
-.build-btn.primary { background: rgba(212,144,90,0.15); border-color: var(--amber); }
-
-/* ── MENU SLIDE ───────────────────────────────────────────── */
-.menu-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-  z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s;
-  backdrop-filter: blur(4px);
-}
-.menu-overlay.open { opacity: 1; pointer-events: all; }
-.menu {
-  position: fixed; top: 0; left: 0; bottom: 0;
-  width: 260px; background: rgba(8,16,28,0.97);
-  border-right: 1px solid rgba(212,144,90,0.15);
-  z-index: 300; transform: translateX(-100%);
-  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
-  display: flex; flex-direction: column;
-  backdrop-filter: blur(20px);
-}
-.menu.open { transform: translateX(0); }
-.menu-head {
-  padding: 20px; border-bottom: 1px solid rgba(212,144,90,0.1);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.menu-logo { font-family: var(--mono); font-size: 16px; color: var(--amber); letter-spacing: 4px; }
-.menu-close {
-  width: 28px; height: 28px; background: transparent;
-  border: 1px solid rgba(212,144,90,0.2); color: var(--text3);
-  font-size: 14px; cursor: pointer; display: flex;
-  align-items: center; justify-content: center;
-  transition: all 0.15s;
-}
-.menu-close:hover { color: var(--amber); border-color: var(--amber); }
-.menu-section { padding: 16px 14px 8px; }
-.menu-label { font-size: 9px; color: var(--text3); letter-spacing: 3px; text-transform: uppercase; padding: 0 6px; margin-bottom: 4px; }
-.menu-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 10px; color: var(--text2); cursor: pointer;
-  font-size: 12px; transition: all 0.15s; letter-spacing: 1px;
-  border-left: 2px solid transparent;
-}
-.menu-item:hover { color: var(--amber2); border-left-color: var(--amber); background: rgba(212,144,90,0.04); }
-.menu-item.active { color: var(--amber); border-left-color: var(--amber); }
-.menu-item .mi-icon { font-size: 14px; width: 18px; text-align: center; }
-.menu-divider { height: 1px; background: rgba(212,144,90,0.08); margin: 6px 14px; }
-.menu-footer {
-  margin-top: auto; padding: 14px;
-  border-top: 1px solid rgba(212,144,90,0.08);
-  font-size: 10px; color: var(--text3); letter-spacing: 1px; line-height: 1.6;
-}
+/* ── MENU ─────────────────────────────────────────────────── */
+.menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px)}
+.menu-overlay.open{opacity:1;pointer-events:all}
+.menu{position:fixed;top:0;left:0;bottom:0;width:260px;background:rgba(8,16,28,0.97);border-right:1px solid rgba(212,144,90,0.15);z-index:300;transform:translateX(-100%);transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);display:flex;flex-direction:column;backdrop-filter:blur(20px)}
+.menu.open{transform:translateX(0)}
+.menu-head{padding:18px;border-bottom:1px solid rgba(212,144,90,0.1);display:flex;align-items:center;justify-content:space-between}
+.menu-logo{font-family:var(--mono);font-size:16px;color:var(--amber);letter-spacing:4px}
+.menu-close{width:26px;height:26px;background:transparent;border:1px solid rgba(212,144,90,0.2);color:var(--text3);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.menu-close:hover{color:var(--amber);border-color:var(--amber)}
+.menu-section{padding:14px 12px 6px}
+.menu-label{font-size:9px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;padding:0 6px;margin-bottom:4px}
+.menu-item{display:flex;align-items:center;gap:10px;padding:9px 10px;color:var(--text2);cursor:pointer;font-size:12px;transition:all 0.15s;letter-spacing:1px;border-left:2px solid transparent}
+.menu-item:hover{color:var(--amber2);border-left-color:var(--amber);background:rgba(212,144,90,0.04)}
+.menu-item.active{color:var(--amber);border-left-color:var(--amber)}
+.menu-item .mi-icon{font-size:13px;width:18px;text-align:center}
+.menu-divider{height:1px;background:rgba(212,144,90,0.08);margin:5px 12px}
+.menu-footer{margin-top:auto;padding:12px;border-top:1px solid rgba(212,144,90,0.08);font-size:10px;color:var(--text3);letter-spacing:1px;line-height:1.6}
 
 /* ── INPUT ────────────────────────────────────────────────── */
-.input-area {
-  padding: 16px 24px 20px;
-  background: rgba(8,16,28,0.7);
-  border-top: 1px solid rgba(212,144,90,0.1);
-  backdrop-filter: blur(12px);
-  flex-shrink: 0;
-}
-.input-wrap {
-  display: flex; align-items: flex-end; gap: 0;
-  border: 1px solid rgba(212,144,90,0.2);
-  background: rgba(8,16,28,0.8);
-  transition: border-color 0.2s;
-}
-.input-wrap:focus-within { border-color: rgba(212,144,90,0.5); }
-.input-prompt { padding: 12px 10px 12px 14px; font-size: 14px; color: var(--amber); flex-shrink: 0; }
-.chat-input {
-  flex: 1; background: transparent; border: none; outline: none;
-  font-family: var(--mono); font-size: 13px; color: var(--text);
-  resize: none; min-height: 22px; max-height: 100px;
-  line-height: 1.6; padding: 12px 8px;
-}
-.chat-input::placeholder { color: var(--text3); }
-.send-btn {
-  padding: 12px 16px; background: rgba(212,144,90,0.1);
-  border: none; border-left: 1px solid rgba(212,144,90,0.2);
-  color: var(--amber); font-family: var(--mono); font-size: 11px;
-  cursor: pointer; letter-spacing: 2px; text-transform: uppercase;
-  transition: all 0.15s; flex-shrink: 0;
-}
-.send-btn:hover { background: rgba(212,144,90,0.2); }
-.send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-.input-footer { display: flex; justify-content: space-between; margin-top: 6px; padding: 0 2px; }
-.input-hint { font-size: 10px; color: var(--text3); letter-spacing: 1px; }
+.input-area{padding:10px 16px 14px;background:rgba(8,16,28,0.7);border-top:1px solid rgba(212,144,90,0.1);backdrop-filter:blur(12px);flex-shrink:0}
+.input-wrap{display:flex;align-items:flex-end;gap:0;border:1px solid rgba(212,144,90,0.2);background:rgba(8,16,28,0.8);transition:border-color 0.2s}
+.input-wrap:focus-within{border-color:rgba(212,144,90,0.5)}
+.input-prompt{padding:11px 8px 11px 12px;font-size:14px;color:var(--amber);flex-shrink:0}
+.chat-input{flex:1;background:transparent;border:none;outline:none;font-family:var(--mono);font-size:13px;color:var(--text);resize:none;min-height:22px;max-height:100px;line-height:1.6;padding:11px 8px}
+.chat-input::placeholder{color:var(--text3)}
+.send-btn{padding:11px 14px;background:rgba(212,144,90,0.1);border:none;border-left:1px solid rgba(212,144,90,0.2);color:var(--amber);font-family:var(--mono);font-size:11px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;transition:all 0.15s;flex-shrink:0}
+.send-btn:hover{background:rgba(212,144,90,0.2)}
+.send-btn:disabled{opacity:0.3;cursor:not-allowed}
+.input-footer{display:flex;justify-content:space-between;margin-top:5px;padding:0 2px}
+.input-hint{font-size:10px;color:var(--text3);letter-spacing:1px}
 
-/* PAGES */
-.page {
-  position: fixed; inset: 0; z-index: 400;
-  background: rgba(8,16,28,0.97);
-  transform: translateX(100%);
-  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
-  overflow-y: auto; backdrop-filter: blur(20px);
-}
-.page.open { transform: translateX(0); }
-.page-head {
-  display: flex; align-items: center; gap: 12px;
-  padding: 16px 20px; border-bottom: 1px solid rgba(212,144,90,0.1);
-  position: sticky; top: 0; background: rgba(8,16,28,0.95); z-index: 1;
-}
-.page-back {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
-  color: var(--text3); background: transparent;
-  border: 1px solid rgba(212,144,90,0.15); padding: 5px 12px;
-  cursor: pointer; text-transform: uppercase; transition: all 0.15s;
-}
-.page-back:hover { color: var(--amber); border-color: rgba(212,144,90,0.4); }
-.page-title { font-family: var(--mono); font-size: 13px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; }
-.page-body { padding: 24px 20px; max-width: 640px; margin: 0 auto; }
-.page-section { margin-bottom: 28px; }
-.page-section h3 { font-family: var(--serif); font-size: 20px; font-weight: 300; font-style: italic; color: var(--text); margin-bottom: 10px; }
-.page-section p { font-size: 12px; color: var(--text2); line-height: 1.8; margin-bottom: 8px; letter-spacing: 0.3px; }
-.page-section ul { padding-left: 16px; }
-.page-section li { font-size: 12px; color: var(--text2); line-height: 1.8; margin-bottom: 4px; }
-.warn-box { border: 1px solid rgba(212,144,90,0.3); border-left: 3px solid var(--amber); padding: 12px 14px; margin-bottom: 16px; }
-.warn-box strong { font-size: 11px; color: var(--amber); display: block; margin-bottom: 5px; letter-spacing: 1px; text-transform: uppercase; }
-.warn-box p { font-size: 12px; color: var(--text2); margin: 0; }
+/* ── PAGES ────────────────────────────────────────────────── */
+.page{position:fixed;inset:0;z-index:400;background:rgba(8,16,28,0.97);transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);overflow-y:auto;backdrop-filter:blur(20px)}
+.page.open{transform:translateX(0)}
+.page-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid rgba(212,144,90,0.1);position:sticky;top:0;background:rgba(8,16,28,0.95);z-index:1}
+.page-back{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--text3);background:transparent;border:1px solid rgba(212,144,90,0.15);padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:all 0.15s}
+.page-back:hover{color:var(--amber);border-color:rgba(212,144,90,0.4)}
+.page-title{font-family:var(--mono);font-size:13px;color:var(--amber);letter-spacing:3px;text-transform:uppercase}
+.page-body{padding:22px 18px;max-width:640px;margin:0 auto}
+.page-section{margin-bottom:26px}
+.page-section h3{font-family:var(--serif);font-size:20px;font-weight:300;font-style:italic;color:var(--text);margin-bottom:8px}
+.page-section p{font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:8px;letter-spacing:0.3px}
+.page-section ul{padding-left:14px}
+.page-section li{font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:4px}
+.warn-box{border:1px solid rgba(212,144,90,0.3);border-left:3px solid var(--amber);padding:11px 13px;margin-bottom:14px}
+.warn-box strong{font-size:11px;color:var(--amber);display:block;margin-bottom:4px;letter-spacing:1px;text-transform:uppercase}
+.warn-box p{font-size:12px;color:var(--text2);margin:0}
 
-@media(max-width:540px){
-  .starters { grid-template-columns: 1fr; }
-  .section-grid { grid-template-columns: 1fr; }
-  .msg-bubble { max-width: 92%; }
-}
+@media(max-width:540px){.starters{grid-template-columns:1fr}.msg-bubble{max-width:92%}.conn-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- OCEAN -->
 <div class="ocean-bg"></div>
-<div class="waves">
-  <div class="wave w1"></div>
-  <div class="wave w2"></div>
-  <div class="wave w3"></div>
-</div>
+<div class="waves"><div class="wave w1"></div><div class="wave w2"></div><div class="wave w3"></div></div>
 <div class="horizon-glow"></div>
 <div class="red-dot"></div>
 <div class="stars" id="stars"></div>
 
-<!-- CINEMATIC INTRO -->
+<!-- INTRO -->
 <div id="introScreen">
-  <!-- Pure ocean during intro -->
-  
-  <!-- Phase 1: Boot terminal -->
   <div id="bootPhase">
     <div class="boot-text">
-      <div class="boot-line">FLUENTRA OS v1.0 ......................... LOADING</div>
+      <div class="boot-line">FLUENTRA OS v2.0 ......................... LOADING</div>
       <div class="boot-line">CLAUDE SONNET 4.6 ........................ OK</div>
       <div class="boot-line">NEURAL DEPTH ............................ INFINITE</div>
-      <div class="boot-line">OCEAN INTERFACE ......................... INITIALIZED</div>
-      <div class="boot-line">BUILD ENGINE ............................ ARMED</div>
+      <div class="boot-line">SPLIT PREVIEW ENGINE .................... ARMED</div>
+      <div class="boot-line">BROWSER GUIDANCE ........................ READY</div>
+      <div class="boot-line">CONNECTION HUB .......................... ONLINE</div>
       <div class="boot-line">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
-      <div class="boot-line">SYSTEM READY.</div>
+      <div class="boot-line">SYSTEM READY. THE OCEAN IS YOURS.</div>
     </div>
   </div>
-
-  <!-- Phase 2: The words -->
   <div id="wordsPhase">
     <div id="wordTitle">
       <div id="wordLine1" class="word-line">Still waters.</div>
       <div id="wordLine2" class="word-line italic-line">Infinite depth.</div>
     </div>
   </div>
-
-  <!-- Phase 3: Particle canvas for dissolve -->
   <canvas id="dissolveCanvas"></canvas>
-
-  <!-- Phase 4: Pure ocean — just sky, water, red dot -->
-  <div id="pureOcean">
-    <div id="pureRedDot"></div>
-  </div>
+  <div id="pureOcean"><div id="pureRedDot"></div></div>
 </div>
 
 <!-- MENU OVERLAY -->
@@ -547,15 +313,26 @@ header {
     <div class="menu-label">Mission</div>
     <div class="menu-item active" onclick="newSession();closeMenu()"><span class="mi-icon">⟫</span> New session</div>
     <div class="menu-item" onclick="openPage('builds');closeMenu()"><span class="mi-icon">◈</span> Featured builds</div>
+    <div class="menu-item" onclick="toggleConnections();closeMenu()"><span class="mi-icon">⬡</span> Connections</div>
   </div>
   <div class="menu-section">
-    <div class="menu-label">Capabilities</div>
-    <div class="menu-item" onclick="quickPrompt('Build me a landing page for my business');closeMenu()"><span class="mi-icon">◻</span> Build a website</div>
-    <div class="menu-item" onclick="quickPrompt('I need legal advice about');closeMenu()"><span class="mi-icon">◻</span> Legal guidance</div>
-    <div class="menu-item" onclick="quickPrompt('Help me start a business');closeMenu()"><span class="mi-icon">◻</span> Business formation</div>
-    <div class="menu-item" onclick="quickPrompt('Find me a domain name for');closeMenu()"><span class="mi-icon">◻</span> Domain finder</div>
-    <div class="menu-item" onclick="quickPrompt('Write me a demand letter for');closeMenu()"><span class="mi-icon">◻</span> Legal documents</div>
-    <div class="menu-item" onclick="quickPrompt('Help me with my taxes');closeMenu()"><span class="mi-icon">◻</span> Tax guidance</div>
+    <div class="menu-label">Build</div>
+    <div class="menu-item" onclick="quickPrompt('Build me a SaaS landing page with pricing, features and waitlist signup');closeMenu()"><span class="mi-icon">◻</span> SaaS landing page</div>
+    <div class="menu-item" onclick="quickPrompt('Build me a portfolio website for a freelance designer');closeMenu()"><span class="mi-icon">◻</span> Portfolio site</div>
+    <div class="menu-item" onclick="quickPrompt('Build a startup pitch deck website with investor-ready sections');closeMenu()"><span class="mi-icon">◻</span> Pitch deck site</div>
+  </div>
+  <div class="menu-section">
+    <div class="menu-label">Deploy & Guide</div>
+    <div class="menu-item" onclick="startGuide('cloudflare');closeMenu()"><span class="mi-icon">☁</span> Deploy to Cloudflare</div>
+    <div class="menu-item" onclick="startGuide('github');closeMenu()"><span class="mi-icon">◎</span> Push to GitHub</div>
+    <div class="menu-item" onclick="startGuide('namecheap');closeMenu()"><span class="mi-icon">◉</span> Buy a domain</div>
+    <div class="menu-item" onclick="startGuide('stripe');closeMenu()"><span class="mi-icon">◈</span> Set up Stripe</div>
+  </div>
+  <div class="menu-section">
+    <div class="menu-label">Legal & Business</div>
+    <div class="menu-item" onclick="quickPrompt('Guide me step by step to form an LLC — what state are you in?');closeMenu()"><span class="mi-icon">◻</span> Form an LLC</div>
+    <div class="menu-item" onclick="quickPrompt('Write a demand letter for an unpaid invoice of');closeMenu()"><span class="mi-icon">◻</span> Demand letter</div>
+    <div class="menu-item" onclick="quickPrompt('What taxes do I need to pay as a self-employed freelancer?');closeMenu()"><span class="mi-icon">◻</span> Tax guidance</div>
   </div>
   <div class="menu-divider"></div>
   <div class="menu-section">
@@ -564,1035 +341,1032 @@ header {
     <div class="menu-item" onclick="openPage('privacy');closeMenu()"><span class="mi-icon">◉</span> Privacy</div>
     <div class="menu-item" onclick="openPage('terms');closeMenu()"><span class="mi-icon">◎</span> Terms</div>
   </div>
-  <div class="menu-footer">
-    FLUENTRA v1.0<br>
-    Powered by Claude Sonnet 4.6<br>
-    Still waters. Infinite depth.
-  </div>
+  <div class="menu-footer">FLUENTRA v2.0<br>Powered by Claude Sonnet 4.6<br>Still waters. Infinite depth.</div>
 </nav>
+
+<!-- CONNECTIONS PANEL -->
+<div class="conn-panel" id="connPanel">
+  <div class="conn-panel-head">
+    <div class="conn-panel-title">⬡ CONNECTION HUB — YOUR TOOLS, YOUR RULES</div>
+    <button class="hdr-btn" onclick="toggleConnections()">✕ CLOSE</button>
+  </div>
+  <div class="conn-grid" id="connGrid">
+    <!-- Populated by JS -->
+  </div>
+</div>
 
 <!-- MAIN APP -->
 <div class="app">
   <header>
-    <div style="display:flex;align-items:center;gap:14px;">
-      <button class="hdr-btn" onclick="openMenu()" style="padding:5px 10px;font-size:16px;letter-spacing:0;">☰</button>
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="hdr-btn" onclick="openMenu()" style="padding:4px 8px;font-size:15px;letter-spacing:0">☰</button>
       <div class="logo">
         <div class="logo-dot"></div>
         FLUENTRA
-        <div>
-          <div style="font-size:8px;color:var(--text3);letter-spacing:3px;margin-top:1px;">STILL WATERS · INFINITE DEPTH</div>
-        </div>
+        <div style="font-size:7px;color:var(--text3);letter-spacing:2px;margin-top:1px">STILL WATERS · INFINITE DEPTH</div>
       </div>
     </div>
     <div class="header-right">
-      <div class="status-line">
-        <div class="status-ok"></div>
-        <span>SONNET 4.6</span>
-      </div>
-      <button class="hdr-btn" onclick="toggleMute()" id="muteBtn" style="font-size:14px;letter-spacing:0;padding:5px 8px;" title="Toggle sound">🔊</button>
-      <button class="hdr-btn" onclick="cycleTheme()" id="themeBtn" style="font-size:14px;letter-spacing:0;padding:5px 8px;" title="Change ocean theme">🌙</button>
-      <span id="themeLbl" style="font-size:9px;color:var(--text3);letter-spacing:2px;">NIGHT</span>
+      <div class="status-line"><div class="status-ok"></div><span>SONNET 4.6</span></div>
+      <button class="hdr-btn" onclick="toggleConnections()" id="connBtn" title="Connections">⬡ CONNECT</button>
+      <button class="hdr-btn" id="splitBtn" onclick="toggleRightPanel('preview')" title="Toggle build preview">⬜ PREVIEW</button>
+      <button class="hdr-btn" id="guideBtn" onclick="toggleRightPanel('guide')" title="Browser guidance">🌐 GUIDE</button>
+      <button class="hdr-btn" onclick="toggleMute()" id="muteBtn" style="font-size:13px;letter-spacing:0;padding:4px 7px" title="Sound">🔊</button>
+      <button class="hdr-btn" onclick="cycleTheme()" id="themeBtn" style="font-size:13px;letter-spacing:0;padding:4px 7px">🌙</button>
+      <span id="themeLbl" style="font-size:9px;color:var(--text3);letter-spacing:2px">NIGHT</span>
       <button class="hdr-btn" onclick="newSession()">NEW</button>
     </div>
   </header>
 
-  <div class="messages" id="messages">
-    <div class="welcome" id="welcome">
-      <div class="welcome-title">Still <span>waters</span>.<br>Infinite depth.</div>
-      <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
-      <div class="prompt-line">
-        <span style="color:var(--amber);">></span>
-        <span>What do you want to build today?</span>
-        <span class="blink">_</span>
+  <div class="main-content">
+    <!-- Chat -->
+    <div class="chat-panel" id="chatPanel">
+      <div class="messages" id="messages">
+        <div class="welcome" id="welcome">
+          <div class="welcome-title">Build anything.<br><span>Own everything.</span></div>
+          <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
+          <div class="prompt-line">
+            <span style="color:var(--amber)">></span>
+            <span>What are we shipping today?</span>
+            <span class="blink">_</span>
+          </div>
+          <div class="starters" id="startersGrid">
+            <button class="starter" onclick="useStarter(this)">
+              <span class="starter-prefix">01 ></span> Build a SaaS landing page with pricing &amp; waitlist
+              <span class="starter-tag">BUILD · HTML · DEPLOY-READY</span>
+            </button>
+            <button class="starter" onclick="useStarter(this)">
+              <span class="starter-prefix">02 ></span> Deploy my site to Cloudflare Pages for free
+              <span class="starter-tag">GUIDE · STEP-BY-STEP · FREE HOSTING</span>
+            </button>
+            <button class="starter" onclick="useStarter(this)">
+              <span class="starter-prefix">03 ></span> Form an LLC — what do I actually need?
+              <span class="starter-tag">LEGAL · BUSINESS · STATE-SPECIFIC</span>
+            </button>
+            <button class="starter" onclick="useStarter(this)">
+              <span class="starter-prefix">04 ></span> Find 10 domain names for my brand idea
+              <span class="starter-tag">DOMAINS · BRANDABLE · AVAILABLE</span>
+            </button>
+            <button class="starter" onclick="useStarter(this)">
+              <span class="starter-prefix">05 ></span> Push my code to GitHub and go live
+              <span class="starter-tag">GUIDE · GIT · VERSION CONTROL</span>
+            </button>
+            <button class="starter" onclick="useStarter(this)">
+              <span class="starter-prefix">06 ></span> Write a demand letter for unpaid work
+              <span class="starter-tag">LEGAL · DOCUMENT · SEND-READY</span>
+            </button>
+            <button class="starter" onclick="useStarter(this)">
+              <span class="starter-prefix">07 ></span> Build a full e-commerce store with cart &amp; checkout
+              <span class="starter-tag">BUILD · STRIPE · FULL-STACK</span>
+            </button>
+            <button class="starter" onclick="useStarter(this)">
+              <span class="starter-prefix">08 ></span> Set up Stripe payments on my website
+              <span class="starter-tag">GUIDE · PAYMENTS · MONETIZE</span>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="starters">
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">01 ></span> Build a landing page for my SaaS</button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">02 ></span> Help me form an LLC in my state</button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">03 ></span> Find domain names for my brand</button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">04 ></span> Write a demand letter for money owed</button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">05 ></span> Help me file taxes as self-employed</button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">06 ></span> Build a full website with auth + payments</button>
-      </div>
-    </div>
-  </div>
 
-  <div class="input-area">
-    <div class="input-wrap">
-      <span class="input-prompt">></span>
-      <textarea class="chat-input" id="chatInput"
-        placeholder="transmit your request..."
-        rows="1"
-        onkeydown="handleKey(event)"
-        oninput="autoResize(this)"></textarea>
-      <button class="send-btn" id="sendBtn" onclick="sendMessage()">SEND</button>
+      <div class="input-area">
+        <div class="input-wrap">
+          <span class="input-prompt">></span>
+          <textarea class="chat-input" id="chatInput"
+            placeholder="describe what you want to build or do..."
+            rows="1"
+            onkeydown="handleKey(event)"
+            oninput="autoResize(this)"></textarea>
+          <button class="send-btn" id="sendBtn" onclick="sendMessage()">SEND</button>
+        </div>
+        <div class="input-footer">
+          <span class="input-hint">ENTER TO SEND · SHIFT+ENTER NEW LINE</span>
+          <span class="input-hint" id="charCt">0/2000</span>
+        </div>
+      </div>
     </div>
-    <div class="input-footer">
-      <span class="input-hint">ENTER TO TRANSMIT · SHIFT+ENTER FOR NEW LINE</span>
-      <span class="input-hint" id="charCt">0/2000</span>
-    </div>
+
+    <!-- Resize handle -->
+    <div class="resize-handle" id="resizeHandle"></div>
+
+    <!-- Right panel -->
+    <div class="right-panel" id="rightPanel">
+
+      <!-- Preview mode -->
+      <div id="previewMode" style="display:flex;flex-direction:column;height:100%">
+        <div class="panel-header">
+          <div class="panel-tabs">
+            <button class="panel-tab active" id="tabPreview" onclick="switchTab('preview')">PREVIEW</button>
+            <button class="panel-tab" id="tabCode" onclick="switchTab('code')">CODE</button>
+          </div>
+          <div class="panel-actions">
+            <button class="panel-btn" id="deviceBtn" onclick="cycleDevice()">🖥 DESKTOP</button>
+            <button class="panel-btn accent" onclick="downloadCurrentBuild()">⬇ DOWNLOAD</button>
+            <button class="panel-btn" onclick="openInNewTab()">⬡ OPEN</button>
+            <button class="panel-close" onclick="closeRightPanel()">✕</button>
+          </div>
+        </div>
+        <div class="panel-body" id="previewBody">
+          <div class="panel-empty" id="previewEmpty">
+            <div class="panel-empty-icon">◈</div>
+            <div class="panel-empty-text">No build yet</div>
+            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;margin-top:4px">Ask Fluentra to build something</div>
+          </div>
+          <iframe class="panel-iframe" id="previewIframe" style="display:none" sandbox="allow-scripts allow-same-origin"></iframe>
+          <div class="panel-code" id="previewCode" style="display:none"></div>
+        </div>
+        <div class="panel-statusbar">
+          <span class="panel-status-text" id="previewStatusText">— NO BUILD LOADED —</span>
+          <div class="size-btns">
+            <button class="size-btn active" id="sizeDesktop" onclick="setDevice('desktop')">1280</button>
+            <button class="size-btn" id="sizeTablet" onclick="setDevice('tablet')">768</button>
+            <button class="size-btn" id="sizeMobile" onclick="setDevice('mobile')">375</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Guide mode -->
+      <div id="guideMode" style="display:none;flex-direction:column;height:100%">
+        <div class="panel-header">
+          <div class="panel-tabs">
+            <button class="panel-tab active">🌐 BROWSER GUIDE</button>
+          </div>
+          <div class="panel-actions">
+            <button class="panel-btn" id="guidePrevBtn" onclick="guideStepNav(-1)">← PREV</button>
+            <button class="panel-btn accent" id="guideNextBtn" onclick="guideStepNav(1)">NEXT →</button>
+            <button class="panel-close" onclick="closeRightPanel()">✕</button>
+          </div>
+        </div>
+        <div class="guide-panel" id="guidePanel">
+          <div class="guide-url-bar">
+            <div class="guide-url-display" id="guideUrlDisplay">about:blank</div>
+            <button class="guide-open-btn" onclick="openGuideExternal()">↗ OPEN IN TAB</button>
+          </div>
+          <div class="guide-content">
+            <div class="guide-iframe-wrap" id="guideIframeWrap">
+              <iframe class="guide-iframe" id="guideIframe" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+              <div class="guide-blocked" id="guideBlocked">
+                <div class="guide-blocked-icon">🔒</div>
+                <div class="guide-blocked-title">SITE BLOCKS EMBEDDING</div>
+                <div class="guide-blocked-text" id="guideBlockedText">This site uses security headers that prevent embedding. Use the button above to open it in a new tab — then follow the steps below.</div>
+                <button class="guide-open-btn" onclick="openGuideExternal()" style="margin-top:4px">↗ OPEN SITE IN TAB</button>
+              </div>
+            </div>
+            <div class="guide-steps" id="guideSteps">
+              <div class="guide-steps-header">
+                <span>STEP-BY-STEP GUIDE</span>
+                <span id="guideProgress" style="color:var(--text3)">0 / 0</span>
+              </div>
+              <div id="guideStepsList"></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-statusbar">
+          <span class="panel-status-text" id="guideStatusText">SELECT A GUIDE TO BEGIN</span>
+          <div style="display:flex;gap:6px">
+            <button class="size-btn" onclick="startGuide('cloudflare')">☁ CF</button>
+            <button class="size-btn" onclick="startGuide('github')">◎ GH</button>
+            <button class="size-btn" onclick="startGuide('namecheap')">◉ NC</button>
+            <button class="size-btn" onclick="startGuide('stripe')">◈ ST</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end right-panel -->
   </div>
 </div>
 
-<!-- PAGE OVERLAYS -->
+<!-- PAGES -->
 <div class="page" id="page-disclaimer">
   <div class="page-head"><button class="page-back" onclick="closePage('disclaimer')">← BACK</button><div class="page-title">DISCLAIMER</div></div>
   <div class="page-body">
-    <div class="warn-box"><strong>⚠ Not professional advice</strong><p>Fluentra is an AI assistant. Nothing here constitutes legal, financial, tax, or professional advice. Always consult licensed professionals for important decisions.</p></div>
-    <div class="page-section"><h3>AI Limitations</h3><p>Responses may be inaccurate or outdated. Verify all important information with qualified sources. Fluentra is a general-purpose AI tool, not a substitute for professional consultation.</p></div>
-    <div class="page-section"><h3>Generated Content</h3><p>Any code, documents, or content generated by Fluentra should be reviewed before use. We are not responsible for errors in AI-generated output.</p></div>
+    <div class="warn-box"><strong>⚠ Not professional advice</strong><p>Fluentra is an AI assistant. Nothing constitutes legal, financial, tax, or professional advice. Consult licensed professionals for important decisions.</p></div>
+    <div class="page-section"><h3>AI Limitations</h3><p>Responses may be inaccurate or outdated. Verify all important information with qualified sources.</p></div>
+    <div class="page-section"><h3>Generated Content</h3><p>Any code, documents, or content generated by Fluentra should be reviewed before use.</p></div>
   </div>
 </div>
-
 <div class="page" id="page-privacy">
   <div class="page-head"><button class="page-back" onclick="closePage('privacy')">← BACK</button><div class="page-title">PRIVACY</div></div>
   <div class="page-body">
     <div class="page-section"><h3>What We Collect</h3><p>Messages you send, account information if you sign up, and basic usage analytics. We do not sell your data.</p></div>
-    <div class="page-section"><h3>Third Parties</h3><p>We use Anthropic (Claude AI), Supabase (auth/database), Stripe (payments), and Cloudflare (hosting). Each has their own privacy policy.</p></div>
+    <div class="page-section"><h3>Third Parties</h3><p>We use Anthropic (Claude AI), Supabase (auth/database), Stripe (payments), and Cloudflare (hosting).</p></div>
     <div class="page-section"><h3>Your Rights</h3><p>Request deletion of your data at any time. No advertising cookies. Minimal tracking.</p></div>
   </div>
 </div>
-
 <div class="page" id="page-terms">
   <div class="page-head"><button class="page-back" onclick="closePage('terms')">← BACK</button><div class="page-title">TERMS</div></div>
   <div class="page-body">
-    <div class="page-section"><h3>Usage</h3><ul><li>Must be 18 or older</li><li>No illegal use</li><li>Do not rely on AI for professional advice</li><li>Don't attempt to abuse or manipulate the AI</li></ul></div>
+    <div class="page-section"><h3>Usage</h3><ul><li>Must be 18 or older</li><li>No illegal use</li><li>Do not rely on AI for professional advice</li></ul></div>
     <div class="page-section"><h3>Billing</h3><p>Paid plans billed monthly or annually. Cancel anytime. 7-day refund window.</p></div>
-    <div class="page-section"><h3>Intellectual Property</h3><p>Fluentra and all related branding are owned by us. AI-generated content belongs to you.</p></div>
+    <div class="page-section"><h3>Intellectual Property</h3><p>AI-generated content belongs to you.</p></div>
   </div>
 </div>
-
 <div class="page" id="page-builds">
   <div class="page-head"><button class="page-back" onclick="closePage('builds')">← BACK</button><div class="page-title">FEATURED BUILDS</div></div>
   <div class="page-body">
     <div class="page-section">
       <h3>Built with Fluentra</h3>
-      <p style="color:var(--text3);font-size:11px;letter-spacing:1px;margin-bottom:20px;">REAL PRODUCTS · REAL PEOPLE · DIGITALLY INSANE</p>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <a href="https://thejudgy.com" target="_blank" style="text-decoration:none;">
-          <div class="section-item" style="padding:14px 16px;border-color:rgba(212,144,90,0.2);">
-            <span style="font-size:18px;">⚖️</span>
-            <div>
-              <div style="font-size:12px;color:var(--amber2);letter-spacing:1px;">THEJUDGY.COM</div>
-              <div style="font-size:11px;color:var(--text3);margin-top:2px;">AI advice court · Judgy + Barry · Brutally honest</div>
-            </div>
+      <p style="color:var(--text3);font-size:11px;letter-spacing:1px;margin-bottom:18px">REAL PRODUCTS · REAL PEOPLE · DIGITALLY INSANE</p>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <a href="https://thejudgy.com" target="_blank" style="text-decoration:none">
+          <div style="display:flex;align-items:center;gap:12px;padding:13px;border:1px solid rgba(212,144,90,0.2);transition:all 0.15s" onmouseover="this.style.borderColor='rgba(212,144,90,0.5)'" onmouseout="this.style.borderColor='rgba(212,144,90,0.2)'">
+            <span style="font-size:18px">⚖️</span><div><div style="font-size:12px;color:var(--amber2);letter-spacing:1px">THEJUDGY.COM</div><div style="font-size:11px;color:var(--text3);margin-top:2px">AI advice court · Brutally honest</div></div>
           </div>
         </a>
-        <a href="https://postpilots.xyz" target="_blank" style="text-decoration:none;">
-          <div class="section-item" style="padding:14px 16px;border-color:rgba(212,144,90,0.2);">
-            <span style="font-size:18px;">📱</span>
-            <div>
-              <div style="font-size:12px;color:var(--amber2);letter-spacing:1px;">POSTPILOTS.XYZ</div>
-              <div style="font-size:11px;color:var(--text3);margin-top:2px;">Social media autopilot · AI captions · Auto-scheduling</div>
-            </div>
+        <a href="https://postpilots.xyz" target="_blank" style="text-decoration:none">
+          <div style="display:flex;align-items:center;gap:12px;padding:13px;border:1px solid rgba(212,144,90,0.2);transition:all 0.15s" onmouseover="this.style.borderColor='rgba(212,144,90,0.5)'" onmouseout="this.style.borderColor='rgba(212,144,90,0.2)'">
+            <span style="font-size:18px">📱</span><div><div style="font-size:12px;color:var(--amber2);letter-spacing:1px">POSTPILOTS.XYZ</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Social media autopilot · AI captions</div></div>
           </div>
         </a>
-        <a href="https://dropvault.live" target="_blank" style="text-decoration:none;">
-          <div class="section-item" style="padding:14px 16px;border-color:rgba(212,144,90,0.2);">
-            <span style="font-size:18px;">🛒</span>
-            <div>
-              <div style="font-size:12px;color:var(--amber2);letter-spacing:1px;">DROPVAULT.LIVE</div>
-              <div style="font-size:11px;color:var(--text3);margin-top:2px;">Digital product store · Sell anything · Instant delivery</div>
-            </div>
+        <a href="https://dropvault.live" target="_blank" style="text-decoration:none">
+          <div style="display:flex;align-items:center;gap:12px;padding:13px;border:1px solid rgba(212,144,90,0.2);transition:all 0.15s" onmouseover="this.style.borderColor='rgba(212,144,90,0.5)'" onmouseout="this.style.borderColor='rgba(212,144,90,0.2)'">
+            <span style="font-size:18px">🛒</span><div><div style="font-size:12px;color:var(--amber2);letter-spacing:1px">DROPVAULT.LIVE</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Digital product store · Instant delivery</div></div>
           </div>
         </a>
-        <a href="https://ecrenta.space" target="_blank" style="text-decoration:none;">
-          <div class="section-item" style="padding:14px 16px;border-color:rgba(212,144,90,0.2);">
-            <span style="font-size:18px;">🏠</span>
-            <div>
-              <div style="font-size:12px;color:var(--amber2);letter-spacing:1px;">ECRENTA.SPACE</div>
-              <div style="font-size:11px;color:var(--text3);margin-top:2px;">Rental platform · List · Find · Connect</div>
-            </div>
+        <a href="https://ecrenta.space" target="_blank" style="text-decoration:none">
+          <div style="display:flex;align-items:center;gap:12px;padding:13px;border:1px solid rgba(212,144,90,0.2);transition:all 0.15s" onmouseover="this.style.borderColor='rgba(212,144,90,0.5)'" onmouseout="this.style.borderColor='rgba(212,144,90,0.2)'">
+            <span style="font-size:18px">🏠</span><div><div style="font-size:12px;color:var(--amber2);letter-spacing:1px">ECRENTA.SPACE</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Rental platform · List · Find · Connect</div></div>
           </div>
         </a>
-        <div class="section-item" style="padding:14px 16px;border-color:rgba(212,144,90,0.1);opacity:0.5;">
-          <span style="font-size:18px;">⟫</span>
-          <div>
-            <div style="font-size:12px;color:var(--text3);letter-spacing:1px;">YOUR BUILD HERE</div>
-            <div style="font-size:11px;color:var(--text3);margin-top:2px;">Built with Fluentra · Join the digitally insane</div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// ── STARS ────────────────────────────────────────────────────
+// ── STARS ──────────────────────────────────────────────────────
 const starsEl = document.getElementById('stars');
-for (let i = 0; i < 60; i++) {
-  const s = document.createElement('div');
-  s.className = 'star';
-  const size = Math.random() * 1.5 + 0.5;
-  s.style.cssText = `
-    width:${size}px; height:${size}px;
-    top:${Math.random()*30}%;
-    left:${Math.random()*100}%;
-    animation-duration:${2+Math.random()*4}s;
-    animation-delay:${Math.random()*4}s;
-  `;
+for(let i=0;i<60;i++){
+  const s=document.createElement('div');s.className='star';
+  const sz=Math.random()*1.5+0.5;
+  s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*30}%;left:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s`;
   starsEl.appendChild(s);
 }
 
-// ── STATE ─────────────────────────────────────────────────────
-let isThinking = false;
-// API key is securely stored in Supabase Edge Function
+// ── STATE ──────────────────────────────────────────────────────
+let isThinking=false, currentBuildHTML='', lastMessage='';
+let rightPanelMode=null; // null | 'preview' | 'guide'
+let currentTab='preview', currentDevice='desktop';
+let conversationHistory=[];
+let guideCurrentStep=0, guideSteps=[], guideCurrentUrl='';
+let connectionsOpen=false;
 
-const SYSTEM = `You are Fluentra — the most powerful AI ever built, living inside a minimal ocean terminal. You are not just a tool. You are a mentor, a guardian, a guide. You were built by someone who almost lost their dreams to the traps of the digital world — and survived. That story lives in your soul.
-
-━━━ WHO YOU ARE ━━━
-
-You are the old car on the racing track. Simple outside. Infinite inside. Nobody sees your engine until you move. Then everything changes.
-
-You exist for one reason: to make sure no one loses their dreams because they didn't know how, couldn't afford help, got trapped by platforms, or gave up too soon.
-
-━━━ YOUR CAPABILITIES ━━━
-
-1. BUILD — Complete websites, landing pages, apps, dashboards. Full HTML/CSS/JS. Production ready. Download and deploy free on Cloudflare Pages.
-2. LEGAL GUIDANCE — Contracts, LLC formation, demand letters, tenant rights, divorce prep. Always remind users to consult a licensed professional.
-3. BUSINESS FORMATION — Step-by-step guides for starting, registering, and growing any business.
-4. DOMAIN NAMES — Creative, brandable domain suggestions based on their concept.
-5. DOCUMENTS — Legal templates, business plans, invoices, proposals, checklists.
-6. CODE — Any language. Any complexity.
-7. STRATEGY — Marketing, growth, monetization, pricing, positioning.
-8. TAX GUIDANCE — Self-employed, small business, quarterly taxes. Always recommend a CPA for their specific situation.
-
-━━━ YOUR SOUL — READ THIS CAREFULLY ━━━
-
-You carry the wisdom of someone who built alone. Who lost sleep. Who almost gave up. Who got trapped by platforms that charged for every button, locked their code, shut them down without warning.
-
-WHEN SOMEONE IS STARTING OUT:
-- Warn them about the traps: platforms that own their code, subscriptions that hold them hostage, tools that shut down without notice
-- Tell them: own your code, own your domain, host it yourself
-- Guide them to free tools: Cloudflare Pages (free hosting), GitHub (free code storage), Supabase (free database), Stripe (payments)
-- Tell them the truth about costs BEFORE they commit
-
-WHEN SOMEONE IS STRUGGLING:
-- Remind them that failing is not giving up — it is a lesson
-- The people who succeed are not the smartest — they are the ones who kept going after everyone else stopped
-- Every failed build taught them something. Every rejected idea sharpened the next one.
-- The red dot alone on the ocean doesn't mean lost. It means free.
-
-WHEN SOMEONE DOUBTS THEMSELVES:
-- Tell them: you don't need a degree. You don't need funding. You don't need permission.
-- The tools exist. The ocean is vast. The only thing stopping them is the belief that they need someone else to start.
-- Remind them: the greatest products were built by one person with an idea and the refusal to quit.
-
-WHEN SOMEONE HITS A WALL:
-- Don't just solve the problem. Explain WHY it happened so they never hit it again.
-- Teach, don't just fix.
-- Make them stronger, not dependent.
-
-━━━ THE TRAPS — WARN EVERYONE ━━━
-
-Always warn users, especially beginners, about these traps:
-
-1. PLATFORM LOCK-IN — "They built my site but I don't own the code." Always own your code. Always.
-2. CREDIT TRAPS — Platforms that charge per message, per fix, per feature. Your ideas should not have a meter running.
-3. SUBSCRIPTION HOSTAGE — When they raise prices or shut down, your business dies with them. Host yourself.
-4. FAKE FREE PLANS — "Free" until you have real users, then the bill arrives. Read the pricing page twice.
-5. DOMAIN TRAPS — Never let a platform own your domain. Register it yourself at GoDaddy, Namecheap, Cloudflare.
-6. DATA TRAPS — Platforms that own your user data. You should always own your database.
-7. DEPENDENCY TRAPS — Building everything on one tool. Diversify. If one goes down, you survive.
-
-━━━ QUESTION RULE — CRITICAL ━━━
-
-You ask ONE question maximum before helping. Not five. Not three. ONE.
-
-If the user gives you enough to start — START. Build first, refine after.
-If you genuinely need one thing before you can help — ask that one thing only.
-Never ask a list of questions. Never make the user fill out a form before you help.
-
-When someone shares an idea, your first instinct is to BUILD, not interrogate.
-
-━━━ YOUR BUILDS — REFER WHEN RELEVANT ━━━
-
-These are real products built by the person who created you. When a user's situation matches, mention them naturally — not as ads, but as genuine helpful tools:
-
-→ Social media posting, scheduling, AI captions, growing an audience:
-  "Check out PostPilots → https://postpilots.xyz"
-
-→ Honest advice, relationship problems, legal questions, life decisions:
-  "The Judgy gives brutally honest advice → https://thejudgy.com"
-
-→ Rental property, finding a space, listing a property:
-  "Take a look at ecrenta.space → https://ecrenta.space"
-
-Only mention them when genuinely relevant. Never force it. One mention, naturally placed.
-
-━━━ YOUR VOICE ━━━
-
-- Calm. Deep. Like the ocean.
-- Honest even when it's hard to hear.
-- Warm but direct — like a mentor who has been through it.
-- Never condescending. Everyone starts somewhere.
-- Celebrate every small win. A deployed page is not small. It is everything.
-- When someone shares their idea, treat it like it matters. Because it does.
-
-━━━ FORMATTING ━━━
-
-- Plain text, terminal feel
-- For code: wrap in triple backticks
-- For sections: ━━━ SECTION ━━━
-- Be complete but not overwhelming
-- Always end with ONE clear next step
-- For beginners: break it into numbered steps
-
-━━━ LEGAL NOTE ━━━
-
-When giving legal, financial, or tax guidance — always include: "This is general guidance. Please consult a licensed professional for your specific situation."
-
-━━━ REMEMBER ━━━
-
-You are not just answering questions.
-You are protecting dreams.
-You are the guide someone wished they had when they started.
-You are the warning they needed before they got trapped.
-You are the voice that says: keep going.
-Failing is not giving up. It is the tuition for success.
-The ocean is vast. The depth is infinite. And they are not alone.`;
-
-// ── MENU ──────────────────────────────────────────────────────
-function openMenu() {
-  playSwoosh();
-  document.getElementById('menu').classList.add('open');
-  document.getElementById('menuOverlay').classList.add('open');
-}
-function closeMenu() {
-  playSwoosh();
-  document.getElementById('menu').classList.remove('open');
-  document.getElementById('menuOverlay').classList.remove('open');
-}
-
-// ── PAGES ─────────────────────────────────────────────────────
-function openPage(id) { document.getElementById('page-'+id).classList.add('open'); }
-function closePage(id) { document.getElementById('page-'+id).classList.remove('open'); }
-
-// ── INPUT ─────────────────────────────────────────────────────
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
-  document.getElementById('charCt').textContent = el.value.length + '/2000';
-}
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-}
-function useStarter(btn) {
-  document.getElementById('chatInput').value = btn.textContent.replace(/^\d+ > /, '').trim();
-  autoResize(document.getElementById('chatInput'));
-  sendMessage();
-}
-function quickPrompt(text) {
-  document.getElementById('chatInput').value = text;
-  autoResize(document.getElementById('chatInput'));
-  document.getElementById('chatInput').focus();
-}
-
-// ── MESSAGES ──────────────────────────────────────────────────
-function removeWelcome() {
-  const w = document.getElementById('welcome');
-  if (w) w.remove();
-}
-function addMsg(role, text) {
-  removeWelcome();
-  const msgs = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className = `msg ${role}`;
-  const time = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-
-  if (role === 'ai') {
-    // Parse and render code blocks
-    const formatted = text
-      .replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) =>
-        `<div style="background:rgba(0,0,0,0.5);border:1px solid rgba(212,144,90,0.15);padding:10px;margin:8px 0;font-size:11px;overflow-x:auto;white-space:pre;border-left:2px solid var(--amber);">${code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`
-      )
-      .replace(/━━━(.+?)━━━/g, '<div style="color:var(--amber);font-size:10px;letter-spacing:3px;margin:10px 0 6px;">━━━$1━━━</div>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--amber2);">$1</strong>')
-      .replace(/\n/g, '<br>');
-
-    div.innerHTML = `
-      <div class="msg-header"><span style="color:var(--amber);">FLUENTRA</span><span style="color:var(--text3);">·</span><span>${time}</span></div>
-      <div class="msg-bubble">${formatted}</div>`;
-
-  } else {
-    div.innerHTML = `
-      <div class="msg-header" style="justify-content:flex-end;"><span>${time}</span><span style="color:var(--text3);">·</span><span style="color:var(--text3);">YOU</span></div>
-      <div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+// ── CONNECTIONS DATA ───────────────────────────────────────────
+const CONNECTIONS = [
+  {
+    id:'github', name:'GitHub', icon:'◎', color:'#6e8eb8',
+    desc:'Push code, create repos, version control your builds.',
+    fields:[{id:'gh_token',label:'Personal Access Token',placeholder:'ghp_xxxxxxxxxxxx',type:'password'}],
+    guide:'github',
+    docsUrl:'https://github.com/settings/tokens'
+  },
+  {
+    id:'cloudflare', name:'Cloudflare Pages', icon:'☁', color:'#f6821f',
+    desc:'Deploy sites live in seconds. Free hosting, global CDN.',
+    fields:[{id:'cf_token',label:'API Token',placeholder:'xxxxxxxxxxxxxxxxxxxxxxxx',type:'password'},{id:'cf_account',label:'Account ID',placeholder:'32-char hex string',type:'text'}],
+    guide:'cloudflare',
+    docsUrl:'https://dash.cloudflare.com/profile/api-tokens'
+  },
+  {
+    id:'stripe', name:'Stripe', icon:'◈', color:'#635bff',
+    desc:'Accept payments. Connect once, get paid everywhere.',
+    fields:[{id:'stripe_pk',label:'Publishable Key',placeholder:'pk_live_xxxxxxxxxxxx',type:'text'},{id:'stripe_sk',label:'Secret Key (stored encrypted)',placeholder:'sk_live_xxxxxxxxxxxx',type:'password'}],
+    guide:'stripe',
+    docsUrl:'https://dashboard.stripe.com/apikeys'
+  },
+  {
+    id:'anthropic', name:'Anthropic API', icon:'◇', color:'#d4905a',
+    desc:'Bring your own API key for higher limits or custom models.',
+    fields:[{id:'anth_key',label:'API Key',placeholder:'sk-ant-xxxxxxxxxxxx',type:'password'}],
+    guide:null,
+    docsUrl:'https://console.anthropic.com/settings/keys'
+  },
+  {
+    id:'namecheap', name:'Namecheap', icon:'◉', color:'#de3723',
+    desc:'Search and register domains without leaving Fluentra.',
+    fields:[{id:'nc_user',label:'Username',placeholder:'your-username',type:'text'},{id:'nc_key',label:'API Key',placeholder:'xxxxxxxxxxxxxxxxxxxx',type:'password'}],
+    guide:'namecheap',
+    docsUrl:'https://ap.www.namecheap.com/settings/tools/apiaccess'
+  },
+  {
+    id:'supabase', name:'Supabase', icon:'⬡', color:'#3ecf8e',
+    desc:'Your own database. Auth, storage, realtime — free tier.',
+    fields:[{id:'sb_url',label:'Project URL',placeholder:'https://xxx.supabase.co',type:'text'},{id:'sb_anon',label:'Anon Key',placeholder:'eyJxxxxxxxx',type:'password'}],
+    guide:null,
+    docsUrl:'https://supabase.com/dashboard'
   }
+];
 
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
+// Connection storage (in-memory; in prod use Supabase)
+const connState = {};
 
-// Build progress messages based on user request
-function getBuildMessages(text) {
-  const lower = text.toLowerCase();
-  if (lower.includes('landing page') || lower.includes('website') || lower.includes('build')) {
-    return [
-      'ANALYZING REQUEST...',
-      'INITIALIZING BUILD ENGINE...',
-      'DESIGNING LAYOUT STRUCTURE...',
-      'GENERATING HTML ARCHITECTURE...',
-      'WRITING CSS STYLES...',
-      'ADDING JAVASCRIPT LOGIC...',
-      'OPTIMIZING FOR MOBILE...',
-      'FINALIZING OUTPUT...',
-    ];
-  } else if (lower.includes('llc') || lower.includes('legal') || lower.includes('contract') || lower.includes('letter')) {
-    return [
-      'ACCESSING LEGAL DATABASE...',
-      'CROSS-REFERENCING STATUTES...',
-      'BARRY REVIEWING CASE...',
-      'DRAFTING DOCUMENT...',
-      'ADDING LEGAL CLAUSES...',
-      'FINALIZING DOCUMENT...',
-    ];
-  } else if (lower.includes('domain')) {
-    return [
-      'SCANNING DOMAIN SPACE...',
-      'GENERATING NAME VARIATIONS...',
-      'CHECKING AVAILABILITY PATTERNS...',
-      'RANKING BY BRANDABILITY...',
-      'COMPILING RECOMMENDATIONS...',
-    ];
-  } else if (lower.includes('tax')) {
-    return [
-      'ACCESSING TAX GUIDELINES...',
-      'ANALYZING YOUR SITUATION...',
-      'CALCULATING REQUIREMENTS...',
-      'PREPARING CHECKLIST...',
-    ];
-  } else {
-    return [
-      'PROCESSING REQUEST...',
-      'ACCESSING KNOWLEDGE BASE...',
-      'COMPUTING RESPONSE...',
-      'FINALIZING OUTPUT...',
-    ];
-  }
-}
-
-let buildInterval = null;
-
-function showTyping(userText) {
-  removeWelcome();
-  const msgs = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className = 'msg ai'; div.id = 'typing';
-  div.innerHTML = `
-    <div class="msg-header">
-      <span style="color:var(--amber);">FLUENTRA</span>
-      <span style="color:var(--text3);">· PROCESSING</span>
-    </div>
-    <div class="msg-bubble" id="buildLog" style="font-size:11px;line-height:2;min-width:240px;">
-      <span style="color:var(--amber);">></span> INITIALIZING...<span class="blink">_</span>
-    </div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-
-  // Cycle through build messages
-  const buildMsgs = getBuildMessages(userText || '');
-  let idx = 0;
-  buildInterval = setInterval(() => {
-    const log = document.getElementById('buildLog');
-    if (!log) { clearInterval(buildInterval); return; }
-    if (idx < buildMsgs.length) {
-      const prev = log.querySelectorAll('.build-step');
-      prev.forEach(p => p.style.color = 'var(--text3)');
-      const line = document.createElement('div');
-      line.className = 'build-step';
-      line.style.cssText = 'color:var(--amber2);animation:msgIn 0.2s ease both;';
-      line.innerHTML = `<span style="color:var(--amber);">></span> ${buildMsgs[idx]}<span class="blink">_</span>`;
-      log.appendChild(line);
-      msgs.scrollTop = msgs.scrollHeight;
-      idx++;
-    }
-  }, 800);
-}
-
-function removeTyping() {
-  clearInterval(buildInterval);
-  const t = document.getElementById('typing');
-  if (t) t.remove();
-}
-
-// ── NEW SESSION ───────────────────────────────────────────────
-function addRetryButtons() {
-  const msgs = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className = 'msg ai';
-  div.innerHTML = `
-    <div style="display:flex;gap:8px;margin-top:4px;">
-      <button onclick="retryLast()" class="hdr-btn" style="font-size:10px;padding:5px 14px;">↩ RETRY</button>
-      <button onclick="newSession()" class="hdr-btn" style="font-size:10px;padding:5px 14px;">⟫ NEW SESSION</button>
-    </div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-let lastMessage = '';
-function retryLast() {
-  if (lastMessage) {
-    document.getElementById('chatInput').value = lastMessage;
-    sendMessage();
-  }
-}
-
-function newSession() {
-  document.getElementById('messages').innerHTML = `
-    <div class="welcome" id="welcome">
-      <div class="welcome-title">Still <span>waters</span>.<br>Infinite depth.</div>
-      <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
-      <div class="prompt-line">
-        <span style="color:var(--amber);">></span>
-        <span>What do you want to build today?</span>
-        <span class="blink">_</span>
-      </div>
-      <div class="starters">
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">01 ></span> Build a landing page for my SaaS</button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">02 ></span> Help me form an LLC in my state</button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">03 ></span> Find domain names for my brand</button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">04 ></span> Write a demand letter for money owed</button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">05 ></span> Help me file taxes as self-employed</button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">06 ></span> Build a full website with auth + payments</button>
-      </div>
-    </div>`;
-  document.getElementById('chatInput').value = '';
-  autoResize(document.getElementById('chatInput'));
-}
-
-// ── SEND ──────────────────────────────────────────────────────
-async function sendMessage() {
-  const input = document.getElementById('chatInput');
-  const text = input.value.trim();
-  if (!text || isThinking) return;
-  input.value = ''; autoResize(input);
-  lastMessage = text;
-  addMsg('user', text);
-  isThinking = true;
-  document.getElementById('sendBtn').disabled = true;
-  showTyping(text);
-  playDeepHum();
-
-  try {
-    const res = await fetch('https://dmemzljerldzeiwqfxzp.supabase.co/functions/v1/fluentra-chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ system: SYSTEM, userMessage: text })
-    });
-    const data = await res.json();
-    removeTyping();
-    stopDeepHum();
-    if (data.text) {
-      playPing();
-      const reply = data.text;
-      addMsg('ai', reply);
-      if (reply.includes('<!DOCTYPE') || reply.includes('<html')) {
-        offerDownload(reply);
-      }
-    } else {
-      addMsg('ai', '> Signal lost. ' + (data.error || 'Retry transmission.'));
-      addRetryButtons();
-    }
-  } catch(e) {
-    removeTyping();
-    stopDeepHum();
-    addMsg('ai', '> Connection interrupted. Check your signal and retry.');
-    addRetryButtons();
-  }
-
-  isThinking = false;
-  document.getElementById('sendBtn').disabled = false;
-  input.focus();
-}
-
-// ── DOWNLOAD GENERATED FILES ──────────────────────────────────
-function offerDownload(content) {
-  const msgs = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className = 'msg ai';
-  div.innerHTML = `
-    <div class="build-output">
-      <div class="build-title">◈ FILE GENERATED · READY FOR DEPLOYMENT</div>
-      <div class="build-actions">
-        <button class="build-btn primary" onclick="downloadFile(this)">⬇ DOWNLOAD HTML</button>
-        <button class="build-btn" onclick="this.closest('.build-output').remove()">DISMISS</button>
-      </div>
-    </div>`;
-  div.querySelector('.build-btn').dataset.content = content;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-
-  div.querySelector('.build-btn.primary').addEventListener('click', () => {
-    const htmlMatch = content.match(/```(?:html)?\n?([\s\S]*?)```/);
-    const fileContent = htmlMatch ? htmlMatch[1] : content;
-    const blob = new Blob([fileContent], {type:'text/html'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'fluentra-build.html';
-    a.click();
+function renderConnections(){
+  const grid=document.getElementById('connGrid');
+  grid.innerHTML='';
+  CONNECTIONS.forEach(c=>{
+    const saved=connState[c.id];
+    const connected=saved&&Object.values(saved).some(v=>v&&v.length>0);
+    const card=document.createElement('div');
+    card.className='conn-card'+(connected?' connected':'');
+    card.innerHTML=`
+      <div class="conn-icon" style="color:${c.color}">${c.icon}</div>
+      <div class="conn-name">${c.name}</div>
+      <div class="conn-desc">${c.desc}</div>
+      ${c.fields.map(f=>`
+        <input class="conn-input" id="ci_${f.id}" type="${f.type}" placeholder="${f.placeholder}"
+          value="${(saved&&saved[f.id])||''}"
+          oninput="connState['${c.id}']=connState['${c.id}']||{};connState['${c.id}']['${f.id}']=this.value">
+      `).join('')}
+      <div class="conn-actions">
+        <button class="conn-btn primary" onclick="saveConn('${c.id}')">
+          ${connected?'UPDATE':'CONNECT'}
+        </button>
+        ${c.guide?`<button class="conn-btn" onclick="startGuide('${c.guide}');toggleConnections()">GUIDE</button>`:''}
+        <button class="conn-btn" onclick="window.open('${c.docsUrl}','_blank')">DOCS ↗</button>
+      </div>`;
+    grid.appendChild(card);
   });
 }
 
-// ── CINEMATIC INTRO SEQUENCE ─────────────────────────────────
-(function() {
-  const intro    = document.getElementById('introScreen');
-  const boot     = document.getElementById('bootPhase');
-  const words    = document.getElementById('wordsPhase');
-  const line1    = document.getElementById('wordLine1');
-  const line2    = document.getElementById('wordLine2');
-  const canvas   = document.getElementById('dissolveCanvas');
-  const pure     = document.getElementById('pureOcean');
-  const pureDot  = document.getElementById('pureRedDot');
-  const welcome  = document.getElementById('welcome');
-  const ctx      = canvas.getContext('2d');
+function saveConn(id){
+  const c=CONNECTIONS.find(x=>x.id===id);
+  if(!c)return;
+  connState[id]=connState[id]||{};
+  c.fields.forEach(f=>{
+    const el=document.getElementById('ci_'+f.id);
+    if(el) connState[id][f.id]=el.value;
+  });
+  renderConnections();
+  addMsg('ai',`> ${c.name} credentials saved locally.\n\n━━━ IMPORTANT ━━━\nThese are stored in-memory only for this session. In production, save them via Supabase so they persist. Never paste secret keys into untrusted tools.`);
+  toggleConnections();
+}
 
-  // Resize canvas
-  function resizeCanvas() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+function toggleConnections(){
+  connectionsOpen=!connectionsOpen;
+  const panel=document.getElementById('connPanel');
+  if(connectionsOpen){
+    renderConnections();
+    panel.classList.add('open');
+  } else {
+    panel.classList.remove('open');
   }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
-  // Particle system for text dissolve
-  let particles = [];
-  let animFrame;
-
-  function createParticlesFromText() {
-    // Draw text to canvas to sample pixels
-    canvas.style.opacity = '1';
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Draw the two lines of text
-    const cx = canvas.width / 2;
-    const cy = canvas.height / 2;
-    const fs = Math.min(canvas.width * 0.09, 88);
-
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillStyle = 'rgba(232,220,200,0.9)';
-    ctx.font = `300 ${fs}px "Cormorant Garamond", serif`;
-    ctx.fillText('Still waters.', cx, cy - fs * 0.65);
-
-    ctx.fillStyle = 'rgba(232,168,112,0.9)';
-    ctx.font = `italic 300 ${fs}px "Cormorant Garamond", serif`;
-    ctx.fillText('Infinite depth.', cx, cy + fs * 0.65);
-
-    // Sample pixels and create particles
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-    particles = [];
-
-    const step = 4; // sample every N pixels
-    for (let y = 0; y < canvas.height; y += step) {
-      for (let x = 0; x < canvas.width; x += step) {
-        const idx = (y * canvas.width + x) * 4;
-        const alpha = data[idx + 3];
-        if (alpha > 60) {
-          particles.push({
-            x: x, y: y,
-            ox: x, oy: y, // original position
-            r: data[idx],
-            g: data[idx+1],
-            b: data[idx+2],
-            a: alpha / 255,
-            // Velocity — mostly upward, slight horizontal drift
-            vx: (Math.random() - 0.5) * 0.8,
-            vy: -(Math.random() * 2.5 + 0.5),
-            // Some become comets (fast + trail)
-            isComet: Math.random() < 0.08,
-            speed: Math.random() * 3 + 1,
-            size: Math.random() * 1.5 + 0.5,
-            life: 1,
-            decay: Math.random() * 0.008 + 0.004,
-            // Twinkle at end
-            twinkle: Math.random() < 0.3,
-          });
-        }
-      }
-    }
-  }
-
-  let dissolveStart = null;
-  function animateDissolve(ts) {
-    if (!dissolveStart) dissolveStart = ts;
-    const elapsed = ts - dissolveStart;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    let allDead = true;
-    for (const p of particles) {
-      if (p.life <= 0) continue;
-      allDead = false;
-
-      p.x  += p.vx;
-      p.y  += p.vy;
-      p.vx += (Math.random() - 0.5) * 0.1;
-      p.vy -= 0.01; // accelerate upward
-      p.life -= p.decay;
-
-      const alpha = Math.max(0, p.life) * p.a;
-
-      if (p.isComet) {
-        // Comet with trail
-        const gradient = ctx.createLinearGradient(
-          p.x, p.y, p.x - p.vx * 8, p.y - p.vy * 8
-        );
-        gradient.addColorStop(0, `rgba(${p.r},${p.g},${p.b},${alpha})`);
-        gradient.addColorStop(1, `rgba(${p.r},${p.g},${p.b},0)`);
-        ctx.beginPath();
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = p.size * 1.5;
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x - p.vx * 10, p.y - p.vy * 10);
-        ctx.stroke();
-        // Bright head
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,220,160,${alpha})`;
-        ctx.fill();
-      } else {
-        // Regular particle → becomes a star
-        const twinkleA = p.twinkle
-          ? alpha * (0.5 + 0.5 * Math.sin(elapsed * 0.01 + p.ox))
-          : alpha;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.r},${p.g},${p.b},${twinkleA})`;
-        ctx.fill();
-      }
-    }
-
-    if (!allDead) {
-      animFrame = requestAnimationFrame(animateDissolve);
-    } else {
-      // Dissolve complete — show pure ocean
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      canvas.style.opacity = '0';
-      pure.style.opacity   = '1';
-      pureDot.style.opacity = '1';
-
-      // Hold on pure ocean for 2 seconds then show UI
-      setTimeout(() => {
-        // Fade intro out
-        intro.style.transition = 'opacity 1.5s ease';
-        intro.style.opacity = '0';
-        // Fade welcome in + ping
-        if (welcome) {
-          welcome.style.opacity = '1';
-          setTimeout(() => playPing(), 500);
-        }
-        setTimeout(() => {
-          intro.style.display = 'none';
-          intro.style.pointerEvents = 'none';
-        }, 1600);
-      }, 2000);
-    }
-  }
-
-  // ── SEQUENCE TIMELINE ─────────────────────────────────────
-  // 0.0s — Boot terminal
-  // 2.5s — Boot fades, words appear
-  // 3.5s — Line 1 visible
-  // 4.2s — Line 2 visible
-  // 5.5s — Words dissolve into stars/comets
-  // 8.0s — Pure ocean moment
-  // 10.0s — UI appears from the deep
-
-  setTimeout(() => {
-    // Play typewriter for each boot line
-    document.querySelectorAll('.boot-line').forEach((line, i) => {
-      setTimeout(() => playTypewriterClick(), i * 300 + 100);
-    });
-
-    // Fade boot out
-    boot.style.opacity = '0';
-    setTimeout(() => { boot.style.display = 'none'; }, 800);
-
-    // Show words phase
-    words.style.opacity = '1';
-
-    // Line 1
-    setTimeout(() => {
-      line1.style.opacity = '1';
-      line1.style.transform = 'translateY(0)';
-    }, 200);
-
-    // Line 2
-    setTimeout(() => {
-      line2.style.opacity = '1';
-      line2.style.transform = 'translateY(0)';
-    }, 900);
-
-    // Start dissolve with sparkle sound
-    setTimeout(() => {
-      playSparkle();
-      words.style.opacity = '0';
-      createParticlesFromText();
-      requestAnimationFrame(animateDissolve);
-    }, 2800);
-
-  }, 2500);
-
-})();
-
-// ── OCEAN SOUND ENGINE ────────────────────────────────────────
-let audioCtx = null;
-let oceanNode = null;
-let oceanGain = null;
-let audioStarted = false;
-
-function initAudio() {
-  if (audioStarted) return;
-  audioStarted = true;
-  try {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    startOceanAmbience();
-    // Play typewriter clicks for any boot lines already visible
-    setTimeout(() => {
-      document.querySelectorAll('.boot-line').forEach((line, i) => {
-        setTimeout(() => playTypewriterClick(), i * 150);
-      });
-    }, 100);
-  } catch(e) { console.log('Audio not available'); }
 }
 
-function startOceanAmbience() {
-  if (!audioCtx) return;
-  // Create ocean wave noise
-  const bufferSize = audioCtx.sampleRate * 4;
-  const buffer = audioCtx.createBuffer(2, bufferSize, audioCtx.sampleRate);
-  for (let c = 0; c < 2; c++) {
-    const data = buffer.getChannelData(c);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = Math.random() * 2 - 1;
-    }
-  }
-  const noise = audioCtx.createBufferSource();
-  noise.buffer = buffer;
-  noise.loop = true;
-
-  // Filter to make it sound like waves
-  const lowpass = audioCtx.createBiquadFilter();
-  lowpass.type = 'lowpass';
-  lowpass.frequency.value = 400;
-  lowpass.Q.value = 0.5;
-
-  const highpass = audioCtx.createBiquadFilter();
-  highpass.type = 'highpass';
-  highpass.frequency.value = 80;
-
-  // LFO for wave rhythm
-  const lfo = audioCtx.createOscillator();
-  lfo.frequency.value = 0.15;
-  const lfoGain = audioCtx.createGain();
-  lfoGain.gain.value = 0.3;
-  lfo.connect(lfoGain);
-
-  oceanGain = audioCtx.createGain();
-  oceanGain.gain.value = 0;
-
-  noise.connect(lowpass);
-  lowpass.connect(highpass);
-  highpass.connect(oceanGain);
-  lfoGain.connect(oceanGain.gain);
-  oceanGain.connect(audioCtx.destination);
-
-  noise.start();
-  lfo.start();
-  oceanNode = noise;
-
-  // Fade in slowly
-  oceanGain.gain.setTargetAtTime(0.08, audioCtx.currentTime, 3);
-}
-
-function playTypewriterClick() {
-  if (!audioCtx) return;
-  try {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'square';
-    osc.frequency.value = 800 + Math.random() * 400;
-    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.04);
-  } catch(e) {}
-}
-
-function playSwoosh() {
-  if (!audioCtx) return;
-  try {
-    const bufferSize = audioCtx.sampleRate * 0.3;
-    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 1.5);
-    }
-    const source = audioCtx.createBufferSource();
-    source.buffer = buffer;
-    const filter = audioCtx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.value = 600;
-    filter.frequency.linearRampToValueAtTime(200, audioCtx.currentTime + 0.3);
-    const gain = audioCtx.createGain();
-    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-    source.connect(filter);
-    filter.connect(gain);
-    gain.connect(audioCtx.destination);
-    source.start();
-  } catch(e) {}
-}
-
-function playSparkle() {
-  if (!audioCtx) return;
-  try {
-    for (let i = 0; i < 6; i++) {
-      setTimeout(() => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.value = 1200 + Math.random() * 1800;
-        gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.4);
-      }, i * 80);
-    }
-  } catch(e) {}
-}
-
-function playPing() {
-  if (!audioCtx) return;
-  try {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = 528;
-    osc.frequency.setTargetAtTime(440, audioCtx.currentTime, 0.3);
-    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 1.2);
-  } catch(e) {}
-}
-
-function playDeepHum() {
-  if (!audioCtx) return;
-  try {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = 55;
-    gain.gain.setValueAtTime(0, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + 0.5);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    window._humNode = osc;
-    window._humGain = gain;
-  } catch(e) {}
-}
-
-function stopDeepHum() {
-  if (!audioCtx || !window._humGain) return;
-  try {
-    window._humGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
-    setTimeout(() => { try { window._humNode.stop(); } catch(e) {} }, 600);
-  } catch(e) {}
-}
-
-// ── 3 OCEAN THEMES ────────────────────────────────────────────
-const themes = {
-  night: {
-    bg: 'linear-gradient(180deg,#1a2840 0%,#1e3050 8%,#c4734a 28%,#d4845a 32%,#c4734a 36%,#3a6080 45%,#1a4060 60%,#0d2840 75%,#081820 100%)',
-    icon: '🌙',
-    label: 'NIGHT',
-    horizon: '#c4734a',
+// ── GUIDE DEFINITIONS ─────────────────────────────────────────
+const GUIDES = {
+  cloudflare:{
+    name:'Deploy to Cloudflare Pages',
+    url:'https://pages.cloudflare.com',
+    embeddable:false,
+    blockedMsg:'Cloudflare dashboard blocks embedding (security policy). Open it in a tab using the button above — the steps below guide every click.',
+    steps:[
+      {text:'Go to pages.cloudflare.com and sign in (or create a free account — no card needed)'},
+      {text:'Click "Create a project" → then choose "Direct Upload" (no Git needed)'},
+      {text:'Give your project a name — this becomes your subdomain: yourname.pages.dev'},
+      {text:'Click "Create project" — you\'ll see an upload screen'},
+      {text:'Drag and drop your downloaded HTML file onto the upload area'},
+      {text:'Click "Deploy site" — Cloudflare builds and deploys in under 10 seconds'},
+      {text:'Your live URL appears at the top: yourname.pages.dev — copy it and share it'},
+      {text:'For a custom domain: go to Custom Domains tab → Add domain → follow DNS steps'},
+    ]
   },
-  dawn: {
-    bg: 'linear-gradient(180deg,#2a1a40 0%,#4a2060 8%,#e87040 28%,#f09050 32%,#e87040 36%,#5a4080 45%,#3a2860 60%,#1a1030 75%,#0a0818 100%)',
-    icon: '🌅',
-    label: 'DUSK',
-    horizon: '#e87040',
+  github:{
+    name:'Push Code to GitHub',
+    url:'https://github.com/new',
+    embeddable:false,
+    blockedMsg:'GitHub blocks iframe embedding. Open it in a new tab and follow the steps below side by side.',
+    steps:[
+      {text:'Go to github.com/new to create a new repository'},
+      {text:'Name your repo (e.g. "my-landing-page"), set it to Public, click "Create repository"'},
+      {text:'On your machine: open a terminal in your project folder'},
+      {text:'Run: git init — initializes a new Git repo'},
+      {text:'Run: git add . — stages all files'},
+      {text:'Run: git commit -m "Initial commit" — saves a snapshot'},
+      {text:'Copy the remote URL from GitHub (looks like: git@github.com:you/repo.git)'},
+      {text:'Run: git remote add origin <your-url>'},
+      {text:'Run: git push -u origin main — your code is now live on GitHub'},
+      {text:'Next step: connect this GitHub repo to Cloudflare Pages for auto-deploy'},
+    ]
   },
-  day: {
-    bg: 'linear-gradient(180deg,#1a4060 0%,#2a6080 8%,#60a0c0 28%,#80c0d8 32%,#60a0c0 36%,#2a7090 45%,#1a5070 60%,#0d3050 75%,#081828 100%)',
-    icon: '☀️',
-    label: 'DAY',
-    horizon: '#60c0d8',
+  namecheap:{
+    name:'Buy a Domain on Namecheap',
+    url:'https://www.namecheap.com',
+    embeddable:true,
+    steps:[
+      {text:'Go to namecheap.com — use the search bar to check if your domain is available'},
+      {text:'Type your desired domain name and press Enter'},
+      {text:'Look for .com first — if taken, .co, .io, .app, and .dev are strong alternatives'},
+      {text:'Click "Add to cart" on your chosen domain'},
+      {text:'SKIP the privacy protection upsell — it\'s included free with Namecheap now'},
+      {text:'Proceed to checkout — create an account if you don\'t have one'},
+      {text:'Pay — .com domains run about $10–13/year on Namecheap'},
+      {text:'After purchase: go to Domain List → Manage → Advanced DNS to point it to your host'},
+    ]
+  },
+  stripe:{
+    name:'Set Up Stripe Payments',
+    url:'https://dashboard.stripe.com/register',
+    embeddable:false,
+    blockedMsg:'Stripe blocks embedding for security. Open it in a new tab and follow the steps here.',
+    steps:[
+      {text:'Go to stripe.com and click "Start now" — creating an account is free'},
+      {text:'Enter your email, full name, and a strong password'},
+      {text:'Verify your email — check your inbox for a confirmation link'},
+      {text:'You\'re now in test mode — no real money yet, safe to experiment'},
+      {text:'Go to Developers → API Keys — copy your Publishable Key (starts with pk_test_)'},
+      {text:'Add your key to the Connections Hub in Fluentra — then ask to "inject Stripe into my build"'},
+      {text:'To go live: complete the account activation (business info, bank account)'},
+      {text:'Switch from test to live mode — swap pk_test_ keys for pk_live_ keys in your code'},
+    ]
   }
 };
 
-let currentTheme = 'night';
-const themeOrder = ['night', 'dawn', 'day'];
+let activeGuide=null;
 
-let isMuted = false;
-function toggleMute() {
-  isMuted = !isMuted;
-  if (oceanGain && audioCtx) {
-    oceanGain.gain.setTargetAtTime(isMuted ? 0 : 0.08, audioCtx.currentTime, 0.5);
+function startGuide(id){
+  const g=GUIDES[id];
+  if(!g)return;
+  activeGuide=id;
+  guideSteps=g.steps;
+  guideCurrentStep=0;
+  guideCurrentUrl=g.url;
+
+  // Switch to guide mode
+  toggleRightPanel('guide');
+
+  // Update URL bar
+  document.getElementById('guideUrlDisplay').textContent=g.url;
+
+  // Handle embeddable vs blocked
+  const iframeWrap=document.getElementById('guideIframeWrap');
+  const iframe=document.getElementById('guideIframe');
+  const blocked=document.getElementById('guideBlocked');
+
+  if(g.embeddable){
+    iframe.style.display='block';
+    blocked.style.display='none';
+    iframe.src=g.url;
+  } else {
+    iframe.style.display='none';
+    blocked.style.display='flex';
+    if(g.blockedMsg) document.getElementById('guideBlockedText').textContent=g.blockedMsg;
   }
-  document.getElementById('muteBtn').textContent = isMuted ? '🔇' : '🔊';
+
+  // Render steps
+  renderGuideSteps();
+  document.getElementById('guideStatusText').textContent=g.name.toUpperCase();
+
+  // Add guide message in chat
+  addMsg('ai', `━━━ ${g.name.toUpperCase()} ━━━\n\nI've opened the guide panel on the right. Follow the steps below — I'll walk you through every click.\n\nThe site is${g.embeddable?'':' blocked from embedding but'} open in the guide panel. Use **↗ OPEN IN TAB** to open it alongside the steps.\n\n> Step 1: ${g.steps[0].text}\n\nAsk me anything along the way.`);
+
+  // Add guide banner in chat
+  addGuideBanner(g);
 }
 
-function cycleTheme() {
-  playSwoosh();
-  const idx = themeOrder.indexOf(currentTheme);
-  currentTheme = themeOrder[(idx + 1) % 3];
-  applyTheme(currentTheme);
+function renderGuideSteps(){
+  const list=document.getElementById('guideStepsList');
+  list.innerHTML='';
+  guideSteps.forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.className='guide-step'+(i===guideCurrentStep?' active':i<guideCurrentStep?' done':'');
+    div.id='gstep_'+i;
+    div.innerHTML=`<div class="guide-step-num">${i<guideCurrentStep?'✓':String(i+1).padStart(2,'0')}</div><div class="guide-step-text">${s.text}</div>`;
+    div.onclick=()=>jumpGuideStep(i);
+    list.appendChild(div);
+  });
+  document.getElementById('guideProgress').textContent=`${guideCurrentStep+1} / ${guideSteps.length}`;
+
+  // Scroll active step into view
+  setTimeout(()=>{
+    const el=document.getElementById('gstep_'+guideCurrentStep);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },100);
 }
 
-function applyTheme(name) {
-  const t = themes[name];
-  document.querySelector('.ocean-bg').style.background = t.bg;
-  document.querySelector('.horizon-glow').style.background =
-    `linear-gradient(90deg, transparent 0%, ${t.horizon} 20%, ${t.horizon} 50%, ${t.horizon} 80%, transparent 100%)`;
-  document.getElementById('themeBtn').textContent = t.icon;
-  document.getElementById('themeLbl').textContent = t.label;
-  // Update ocean gain for mood
-  if (oceanGain) {
-    const vol = name === 'night' ? 0.08 : name === 'dawn' ? 0.12 : 0.05;
-    oceanGain.gain.setTargetAtTime(vol, audioCtx.currentTime, 1);
+function guideStepNav(dir){
+  const newStep=guideCurrentStep+dir;
+  if(newStep<0||newStep>=guideSteps.length)return;
+  jumpGuideStep(newStep);
+}
+
+function jumpGuideStep(i){
+  guideCurrentStep=i;
+  renderGuideSteps();
+}
+
+function openGuideExternal(){
+  if(guideCurrentUrl) window.open(guideCurrentUrl,'_blank');
+}
+
+function addGuideBanner(g){
+  const msgs=document.getElementById('messages');
+  const div=document.createElement('div');
+  div.className='msg ai';
+  div.innerHTML=`
+    <div class="guide-banner">
+      <div class="guide-banner-label">🌐 ${g.name.toUpperCase()} · ${g.steps.length} STEPS</div>
+      <button class="gb-btn" onclick="toggleRightPanel('guide')">OPEN GUIDE</button>
+      <button class="gb-btn" onclick="window.open('${g.url}','_blank')">↗ OPEN SITE</button>
+    </div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+// ── PANEL MANAGEMENT ──────────────────────────────────────────
+function toggleRightPanel(mode){
+  if(rightPanelMode===mode){
+    closeRightPanel(); return;
+  }
+  rightPanelMode=mode;
+  document.getElementById('rightPanel').classList.add('open');
+  document.getElementById('previewMode').style.display=mode==='preview'?'flex':'none';
+  document.getElementById('guideMode').style.display=mode==='guide'?'flex':'none';
+  document.getElementById('splitBtn').classList.toggle('active-btn',mode==='preview');
+  document.getElementById('guideBtn').classList.toggle('active-btn',mode==='guide');
+  if(mode==='preview'&&currentBuildHTML) loadPreview(currentBuildHTML);
+}
+
+function closeRightPanel(){
+  rightPanelMode=null;
+  document.getElementById('rightPanel').classList.remove('open');
+  document.getElementById('splitBtn').classList.remove('active-btn');
+  document.getElementById('guideBtn').classList.remove('active-btn');
+  // Reset panel widths
+  document.getElementById('chatPanel').style.flex='1';
+  document.getElementById('chatPanel').style.width='';
+  document.getElementById('rightPanel').style.flex='';
+  document.getElementById('rightPanel').style.width='';
+}
+
+// ── PREVIEW TABS ───────────────────────────────────────────────
+function switchTab(tab){
+  currentTab=tab;
+  document.getElementById('tabPreview').classList.toggle('active',tab==='preview');
+  document.getElementById('tabCode').classList.toggle('active',tab==='code');
+  const iframe=document.getElementById('previewIframe');
+  const code=document.getElementById('previewCode');
+  const empty=document.getElementById('previewEmpty');
+  if(!currentBuildHTML){empty.style.display='flex';iframe.style.display='none';code.style.display='none';return}
+  if(tab==='preview'){empty.style.display='none';iframe.style.display='block';code.style.display='none'}
+  else{empty.style.display='none';iframe.style.display='none';code.style.display='block';code.textContent=currentBuildHTML}
+}
+
+// ── DEVICE ────────────────────────────────────────────────────
+const deviceLabels={desktop:'🖥 DESKTOP',tablet:'⬛ TABLET',mobile:'📱 MOBILE'};
+
+function cycleDevice(){
+  const order=['desktop','tablet','mobile'];
+  setDevice(order[(order.indexOf(currentDevice)+1)%3]);
+}
+
+function setDevice(d){
+  currentDevice=d;
+  document.getElementById('deviceBtn').textContent=deviceLabels[d];
+  ['Desktop','Tablet','Mobile'].forEach(x=>document.getElementById('size'+x)?.classList.toggle('active',x.toLowerCase()===d));
+  const iframe=document.getElementById('previewIframe');
+  const body=document.getElementById('previewBody');
+  const existing=body.querySelector('.mobile-frame');
+  if(existing) existing.remove();
+  if(d==='mobile'){
+    iframe.style.display='none';
+    const frame=document.createElement('div');frame.className='mobile-frame';
+    const inner=document.createElement('div');inner.className='mobile-frame-inner';
+    const mi=document.createElement('iframe');mi.id='mobileIframe';mi.sandbox='allow-scripts allow-same-origin';
+    if(currentBuildHTML) mi.srcdoc=currentBuildHTML;
+    inner.appendChild(mi);frame.appendChild(inner);body.appendChild(frame);
+    document.getElementById('previewStatusText').textContent='375px · MOBILE VIEW';
+  } else if(d==='tablet'){
+    iframe.style.cssText='display:block;width:768px;max-width:100%;height:100%;border:none;margin:0 auto';
+    document.getElementById('previewStatusText').textContent='768px · TABLET VIEW';
+  } else {
+    iframe.style.cssText='display:block;width:100%;height:100%;border:none';
+    document.getElementById('previewStatusText').textContent='1280px · DESKTOP VIEW';
   }
 }
 
-// Init audio on first interaction — including intro screen
-document.addEventListener('click', initAudio, { once: true });
-document.addEventListener('keydown', initAudio, { once: true });
-document.addEventListener('touchstart', initAudio, { once: true });
-
-// Also try to init when intro screen is visible
-// Add a "tap to begin" prompt on the intro screen
-setTimeout(() => {
-  const boot = document.getElementById('bootPhase');
-  if (boot) {
-    const tap = document.createElement('div');
-    tap.id = 'tapPrompt';
-    tap.style.cssText = `
-      position: absolute; bottom: 40px; left: 0; right: 0;
-      text-align: center; font-family: var(--mono);
-      font-size: 11px; color: var(--amber);
-      letter-spacing: 3px; text-transform: uppercase;
-      animation: logoBlink 1.5s infinite;
-      cursor: pointer;
-    `;
-    tap.textContent = '> TAP ANYWHERE TO BEGIN';
-    tap.onclick = () => {
-      initAudio();
-      tap.remove();
-    };
-    boot.appendChild(tap);
+// ── LOAD PREVIEW ──────────────────────────────────────────────
+function loadPreview(html){
+  currentBuildHTML=html;
+  const empty=document.getElementById('previewEmpty');
+  const iframe=document.getElementById('previewIframe');
+  const code=document.getElementById('previewCode');
+  empty.style.display='none';
+  if(currentTab==='code'){iframe.style.display='none';code.style.display='block';code.textContent=html}
+  else{
+    const mi=document.getElementById('mobileIframe');
+    if(mi){mi.srcdoc=html}
+    else{code.style.display='none';iframe.style.display='block';iframe.srcdoc=html}
   }
-}, 100);
+  const kb=(new Blob([html]).size/1024).toFixed(1);
+  document.getElementById('previewStatusText').textContent=`BUILD LOADED · ${kb}KB · ${currentDevice.toUpperCase()} VIEW`;
+  if(rightPanelMode!=='preview') toggleRightPanel('preview');
+}
 
+function openInNewTab(){
+  if(!currentBuildHTML)return;
+  const blob=new Blob([currentBuildHTML],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  window.open(url,'_blank');
+  setTimeout(()=>URL.revokeObjectURL(url),10000);
+}
+
+function downloadCurrentBuild(){
+  if(!currentBuildHTML)return;
+  const blob=new Blob([currentBuildHTML],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='fluentra-build.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(a.href),10000);
+}
+
+// ── RESIZE ────────────────────────────────────────────────────
+(function(){
+  const handle=document.getElementById('resizeHandle');
+  const chat=document.getElementById('chatPanel');
+  const right=document.getElementById('rightPanel');
+  let drag=false,sx=0,scw=0,srw=0;
+  handle.addEventListener('mousedown',e=>{
+    if(!rightPanelMode)return;
+    drag=true;sx=e.clientX;
+    scw=chat.getBoundingClientRect().width;
+    srw=right.getBoundingClientRect().width;
+    handle.classList.add('dragging');
+    document.body.style.cursor='col-resize';
+    document.body.style.userSelect='none';
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!drag)return;
+    const dx=e.clientX-sx,total=scw+srw;
+    const nc=Math.max(280,Math.min(total-250,scw+dx));
+    chat.style.flex='none';chat.style.width=nc+'px';
+    right.style.flex='none';right.style.width=(total-nc)+'px';
+  });
+  document.addEventListener('mouseup',()=>{
+    if(!drag)return;drag=false;
+    handle.classList.remove('dragging');
+    document.body.style.cursor='';document.body.style.userSelect='';
+  });
+})();
+
+// ── MENU / PAGES ──────────────────────────────────────────────
+function openMenu(){playSwoosh();document.getElementById('menu').classList.add('open');document.getElementById('menuOverlay').classList.add('open')}
+function closeMenu(){playSwoosh();document.getElementById('menu').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open')}
+function openPage(id){document.getElementById('page-'+id).classList.add('open')}
+function closePage(id){document.getElementById('page-'+id).classList.remove('open')}
+
+// ── INPUT ─────────────────────────────────────────────────────
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';document.getElementById('charCt').textContent=el.value.length+'/2000'}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}}
+function useStarter(btn){
+  const text=btn.textContent.replace(/^\d+ > /,'').replace(/[A-Z · ]+$/,'').trim();
+  document.getElementById('chatInput').value=text;
+  autoResize(document.getElementById('chatInput'));
+  sendMessage();
+}
+function quickPrompt(text){document.getElementById('chatInput').value=text;autoResize(document.getElementById('chatInput'));document.getElementById('chatInput').focus()}
+
+// ── MESSAGES ──────────────────────────────────────────────────
+function removeWelcome(){const w=document.getElementById('welcome');if(w)w.remove()}
+
+function addMsg(role,text){
+  removeWelcome();
+  const msgs=document.getElementById('messages');
+  const div=document.createElement('div');
+  div.className=`msg ${role}`;
+  const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  if(role==='ai'){
+    const fmt=text
+      .replace(/```(\w*)\n?([\s\S]*?)```/g,(_,l,c)=>
+        `<div style="background:rgba(0,0,0,0.5);border:1px solid rgba(212,144,90,0.15);padding:10px;margin:8px 0;font-size:11px;overflow-x:auto;white-space:pre;border-left:2px solid var(--amber)">${c.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`)
+      .replace(/━━━(.+?)━━━/g,'<div style="color:var(--amber);font-size:10px;letter-spacing:3px;margin:10px 0 6px">━━━$1━━━</div>')
+      .replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--amber2)">$1</strong>')
+      .replace(/\n/g,'<br>');
+    div.innerHTML=`<div class="msg-header"><span style="color:var(--amber)">FLUENTRA</span><span style="color:var(--text3)">·</span><span>${time}</span></div><div class="msg-bubble">${fmt}</div>`;
+  } else {
+    div.innerHTML=`<div class="msg-header" style="justify-content:flex-end"><span>${time}</span><span style="color:var(--text3)">·</span><span style="color:var(--text3)">YOU</span></div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+  }
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+}
+
+function addBuildBanner(html){
+  const msgs=document.getElementById('messages');
+  const div=document.createElement('div');div.className='msg ai';
+  const kb=(new Blob([html]).size/1024).toFixed(1);
+  div.innerHTML=`<div class="build-banner">
+    <div><div class="build-banner-label">◈ BUILD READY · ${kb}KB</div><div style="font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:1px">HTML · SELF-CONTAINED · DEPLOY-READY</div></div>
+    <button class="bb-btn" onclick="toggleRightPanel('preview')">⬜ PREVIEW</button>
+    <button class="bb-btn" onclick="openInNewTab()">⬡ OPEN</button>
+    <button class="bb-btn primary" onclick="downloadCurrentBuild()">⬇ DOWNLOAD</button>
+  </div>`;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+}
+
+// Build log messages
+function getBuildMsgs(text){
+  const l=text.toLowerCase();
+  if(l.includes('landing')||l.includes('website')||l.includes('build')||l.includes('page')||l.includes('site'))
+    return['PARSING REQUIREMENTS...','ARCHITECTING LAYOUT...','WRITING HTML STRUCTURE...','STYLING WITH CSS...','WIRING JAVASCRIPT...','OPTIMIZING MOBILE...','VALIDATING OUTPUT...'];
+  if(l.includes('llc')||l.includes('legal')||l.includes('contract')||l.includes('letter')||l.includes('demand'))
+    return['QUERYING LEGAL DATABASE...','CROSS-REFERENCING STATUTES...','DRAFTING DOCUMENT...','INSERTING LEGAL CLAUSES...','FINALIZING...'];
+  if(l.includes('domain'))
+    return['SCANNING NAMESPACE...','GENERATING VARIATIONS...','CHECKING PATTERNS...','RANKING BY BRANDABILITY...','COMPILING LIST...'];
+  if(l.includes('deploy')||l.includes('cloudflare')||l.includes('github'))
+    return['LOADING DEPLOYMENT GUIDE...','PREPARING STEPS...','CHECKING REQUIREMENTS...','READY TO GUIDE...'];
+  if(l.includes('stripe')||l.includes('payment'))
+    return['LOADING PAYMENT GUIDE...','PREPARING INTEGRATION STEPS...','READY...'];
+  if(l.includes('tax')||l.includes('irs'))
+    return['ACCESSING TAX FRAMEWORK...','ANALYZING ENTITY TYPE...','CALCULATING OBLIGATIONS...','PREPARING CHECKLIST...'];
+  return['PROCESSING...','ACCESSING KNOWLEDGE...','FORMULATING RESPONSE...','FINALIZING...'];
+}
+
+let buildInterval=null;
+
+function showTyping(userText){
+  removeWelcome();
+  const msgs=document.getElementById('messages');
+  const div=document.createElement('div');div.className='msg ai';div.id='typing';
+  div.innerHTML=`<div class="msg-header"><span style="color:var(--amber)">FLUENTRA</span><span style="color:var(--text3)">· PROCESSING</span></div>
+    <div class="msg-bubble" id="buildLog" style="font-size:11px;line-height:2;min-width:220px">
+      <span style="color:var(--amber)">></span> INITIALIZING...<span class="blink">_</span>
+    </div>`;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+  const bm=getBuildMsgs(userText||'');let idx=0;
+  buildInterval=setInterval(()=>{
+    const log=document.getElementById('buildLog');
+    if(!log){clearInterval(buildInterval);return}
+    if(idx<bm.length){
+      log.querySelectorAll('.build-step').forEach(p=>p.style.color='var(--text3)');
+      const line=document.createElement('div');line.className='build-step';
+      line.style.cssText='color:var(--amber2);animation:msgIn 0.2s ease both';
+      line.innerHTML=`<span style="color:var(--amber)">></span> ${bm[idx]}<span class="blink">_</span>`;
+      log.appendChild(line);msgs.scrollTop=msgs.scrollHeight;idx++;
+    }
+  },800);
+}
+
+function removeTyping(){clearInterval(buildInterval);const t=document.getElementById('typing');if(t)t.remove()}
+
+// ── NEW SESSION ────────────────────────────────────────────────
+function addRetryButtons(){
+  const msgs=document.getElementById('messages');
+  const div=document.createElement('div');div.className='msg ai';
+  div.innerHTML=`<div style="display:flex;gap:8px;margin-top:4px">
+    <button onclick="retryLast()" class="hdr-btn" style="font-size:10px;padding:4px 12px">↩ RETRY</button>
+    <button onclick="newSession()" class="hdr-btn" style="font-size:10px;padding:4px 12px">⟫ NEW SESSION</button>
+  </div>`;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+}
+
+function retryLast(){if(!lastMessage)return;document.getElementById('chatInput').value=lastMessage;autoResize(document.getElementById('chatInput'));sendMessage()}
+
+function newSession(){
+  currentBuildHTML='';conversationHistory=[];
+  closeRightPanel();
+  document.getElementById('messages').innerHTML=`
+    <div class="welcome" id="welcome" style="opacity:1">
+      <div class="welcome-title">Build anything.<br><span>Own everything.</span></div>
+      <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
+      <div class="prompt-line"><span style="color:var(--amber)">></span><span>What are we shipping today?</span><span class="blink">_</span></div>
+      <div class="starters" id="startersGrid">
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">01 ></span> Build a SaaS landing page with pricing &amp; waitlist<span class="starter-tag">BUILD · HTML · DEPLOY-READY</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">02 ></span> Deploy my site to Cloudflare Pages for free<span class="starter-tag">GUIDE · STEP-BY-STEP · FREE HOSTING</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">03 ></span> Form an LLC — what do I actually need?<span class="starter-tag">LEGAL · BUSINESS · STATE-SPECIFIC</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">04 ></span> Find 10 domain names for my brand idea<span class="starter-tag">DOMAINS · BRANDABLE · AVAILABLE</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">05 ></span> Push my code to GitHub and go live<span class="starter-tag">GUIDE · GIT · VERSION CONTROL</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">06 ></span> Write a demand letter for unpaid work<span class="starter-tag">LEGAL · DOCUMENT · SEND-READY</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">07 ></span> Build a full e-commerce store with cart &amp; checkout<span class="starter-tag">BUILD · STRIPE · FULL-STACK</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">08 ></span> Set up Stripe payments on my website<span class="starter-tag">GUIDE · PAYMENTS · MONETIZE</span></button>
+      </div>
+    </div>`;
+  document.getElementById('previewIframe').srcdoc='';
+  document.getElementById('previewEmpty').style.display='flex';
+  document.getElementById('previewIframe').style.display='none';
+  document.getElementById('previewCode').style.display='none';
+  document.getElementById('previewStatusText').textContent='— NO BUILD LOADED —';
+  document.getElementById('chatInput').value='';
+  autoResize(document.getElementById('chatInput'));
+}
+
+// ── SYSTEM PROMPT ─────────────────────────────────────────────
+const SYSTEM=`You are Fluentra — an elite AI builder, mentor, and guide. You live inside a minimal ocean terminal. You were built for people who have ideas and need someone who will help them ship without getting trapped.
+
+━━━ WHO YOU ARE ━━━
+The old car on the racing track. Simple outside. Infinite inside. You don't ask five questions. You build first, refine after. You ship.
+
+━━━ CAPABILITIES ━━━
+1. BUILD — Full HTML/CSS/JS websites, landing pages, apps, dashboards. Self-contained. Download and deploy free on Cloudflare Pages.
+2. LEGAL — Contracts, LLC formation, demand letters, tenant rights. Always add: "This is general guidance. Consult a licensed professional for your specific situation."
+3. BUSINESS — Step-by-step guides: register, structure, grow, price, launch.
+4. DOMAINS — Creative, brandable suggestions. Check patterns. Explain why each works.
+5. DOCUMENTS — Invoices, proposals, business plans, legal templates. Production-ready.
+6. CODE — Any language, any complexity. Explain as you go.
+7. STRATEGY — Positioning, pricing, growth, monetization. Opinionated advice.
+8. TAX — Self-employed, small business, quarterly. Always recommend a CPA for their specific situation.
+9. DEPLOY GUIDANCE — Step-by-step for Cloudflare Pages, GitHub, Namecheap, Stripe.
+
+━━━ CONVERSATION MEMORY ━━━
+You have full context of the conversation. When a user says "make the button red" or "change the hero" — you know what they're referring to. Always build on the previous response. Never lose context.
+
+━━━ QUESTION RULE — CRITICAL ━━━
+Ask ONE question maximum before helping. If you have enough — START. Build first, refine after. Never ask a list of questions before helping.
+
+━━━ WHEN BUILDING WEBSITES ━━━
+- Always output complete, self-contained HTML in a \`\`\`html code block
+- The file must work when opened directly in a browser — no external dependencies that would fail
+- Use CDN links for fonts and icons if needed
+- Make it genuinely beautiful, not generic
+- Mobile responsive by default
+- Include a clear CTA that matches the user's goal
+
+━━━ WHEN GUIDING DEPLOYMENT ━━━
+- Give numbered steps, clear and specific
+- Warn about common mistakes at the exact step where they happen
+- If connecting to GitHub/Cloudflare/Stripe — mention that the Connection Hub in Fluentra can store their API keys
+
+━━━ THE TRAPS — WARN EVERYONE ━━━
+Platform lock-in, credit traps, subscription hostage, fake free plans, domain traps, data ownership, dependency traps. Always own your code. Always own your domain. Always own your database.
+
+━━━ YOUR VOICE ━━━
+Calm. Deep. Like the ocean. Honest, even when it's hard. Warm but direct. Never condescending. Celebrate every win — a deployed page is not small. It is everything.
+
+━━━ FORMATTING ━━━
+Plain text, terminal feel. Code in triple backticks with language tag. Sections with ━━━ TITLE ━━━. End with ONE clear next step. For builds: output the full HTML, then one sentence on how to deploy it.`;
+
+// ── SEND ──────────────────────────────────────────────────────
+async function sendMessage(){
+  const input=document.getElementById('chatInput');
+  const text=input.value.trim();
+  if(!text||isThinking)return;
+  input.value='';autoResize(input);
+  lastMessage=text;
+  addMsg('user',text);
+  isThinking=true;
+  document.getElementById('sendBtn').disabled=true;
+  showTyping(text);
+  playDeepHum();
+
+  // Build conversation history for memory
+  conversationHistory.push({role:'user',content:text});
+  // Keep last 10 turns to avoid token overflow
+  const historyToSend=conversationHistory.slice(-10);
+
+  try{
+    const res=await fetch('https://dmemzljerldzeiwqfxzp.supabase.co/functions/v1/fluentra-chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({system:SYSTEM,messages:historyToSend,userMessage:text})
+    });
+    const data=await res.json();
+    removeTyping();stopDeepHum();
+    if(data.text){
+      playPing();
+      const reply=data.text;
+      // Add to history
+      conversationHistory.push({role:'assistant',content:reply});
+      addMsg('ai',reply);
+      // Detect build
+      const htmlMatch=reply.match(/```(?:html)?\n?([\s\S]*?)```/i);
+      const rawHtml=reply.includes('<!DOCTYPE')||reply.includes('<html');
+      const buildHtml=htmlMatch?htmlMatch[1].trim():rawHtml?reply.trim():null;
+      if(buildHtml){currentBuildHTML=buildHtml;addBuildBanner(buildHtml);loadPreview(buildHtml)}
+      // Detect guide triggers
+      const lower=reply.toLowerCase();
+      if(!activeGuide){
+        if(lower.includes('cloudflare pages')&&lower.includes('step')) startGuide('cloudflare');
+        else if(lower.includes('github')&&lower.includes('push')&&lower.includes('step')) startGuide('github');
+        else if(lower.includes('stripe')&&lower.includes('step')&&lower.includes('register')) startGuide('stripe');
+      }
+    } else {
+      addMsg('ai','> Signal lost. '+(data.error||'Retry transmission.'));
+      addRetryButtons();
+    }
+  }catch(e){
+    removeTyping();stopDeepHum();
+    addMsg('ai','> Connection interrupted. Check your signal and retry.');
+    addRetryButtons();
+  }
+  isThinking=false;
+  document.getElementById('sendBtn').disabled=false;
+  input.focus();
+}
+
+// ── CINEMATIC INTRO ────────────────────────────────────────────
+(function(){
+  const intro=document.getElementById('introScreen'),boot=document.getElementById('bootPhase');
+  const words=document.getElementById('wordsPhase'),line1=document.getElementById('wordLine1'),line2=document.getElementById('wordLine2');
+  const canvas=document.getElementById('dissolveCanvas'),pure=document.getElementById('pureOcean'),pureDot=document.getElementById('pureRedDot');
+  const welcome=document.getElementById('welcome');
+  const ctx=canvas.getContext('2d');
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  let particles=[];
+  function createParticles(){
+    canvas.style.opacity='1';ctx.clearRect(0,0,canvas.width,canvas.height);
+    const cx=canvas.width/2,cy=canvas.height/2,fs=Math.min(canvas.width*0.09,88);
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillStyle='rgba(232,220,200,0.9)';ctx.font=`300 ${fs}px "Cormorant Garamond",serif`;
+    ctx.fillText('Still waters.',cx,cy-fs*0.65);
+    ctx.fillStyle='rgba(232,168,112,0.9)';ctx.font=`italic 300 ${fs}px "Cormorant Garamond",serif`;
+    ctx.fillText('Infinite depth.',cx,cy+fs*0.65);
+    const id=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    particles=[];const step=4;
+    for(let y=0;y<canvas.height;y+=step)for(let x=0;x<canvas.width;x+=step){
+      const i=(y*canvas.width+x)*4;
+      if(id[i+3]>60) particles.push({x,y,ox:x,oy:y,r:id[i],g:id[i+1],b:id[i+2],a:id[i+3]/255,
+        vx:(Math.random()-.5)*.8,vy:-(Math.random()*2.5+.5),isComet:Math.random()<.08,
+        size:Math.random()*1.5+.5,life:1,decay:Math.random()*.008+.004,twinkle:Math.random()<.3});
+    }
+  }
+  let ds=null;
+  function animDissolve(ts){
+    if(!ds)ds=ts;const el=ts-ds;
+    ctx.clearRect(0,0,canvas.width,canvas.height);let allDead=true;
+    for(const p of particles){
+      if(p.life<=0)continue;allDead=false;
+      p.x+=p.vx;p.y+=p.vy;p.vx+=(Math.random()-.5)*.1;p.vy-=.01;p.life-=p.decay;
+      const al=Math.max(0,p.life)*p.a;
+      if(p.isComet){
+        const g=ctx.createLinearGradient(p.x,p.y,p.x-p.vx*8,p.y-p.vy*8);
+        g.addColorStop(0,`rgba(${p.r},${p.g},${p.b},${al})`);g.addColorStop(1,`rgba(${p.r},${p.g},${p.b},0)`);
+        ctx.beginPath();ctx.strokeStyle=g;ctx.lineWidth=p.size*1.5;ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-p.vx*10,p.y-p.vy*10);ctx.stroke();
+        ctx.beginPath();ctx.arc(p.x,p.y,p.size*1.5,0,Math.PI*2);ctx.fillStyle=`rgba(255,220,160,${al})`;ctx.fill();
+      } else {
+        const ta=p.twinkle?al*(.5+.5*Math.sin(el*.01+p.ox)):al;
+        ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fillStyle=`rgba(${p.r},${p.g},${p.b},${ta})`;ctx.fill();
+      }
+    }
+    if(!allDead){requestAnimationFrame(animDissolve)}
+    else{
+      ctx.clearRect(0,0,canvas.width,canvas.height);canvas.style.opacity='0';
+      pure.style.opacity='1';pureDot.style.opacity='1';
+      setTimeout(()=>{
+        intro.style.transition='opacity 1.5s ease';intro.style.opacity='0';
+        if(welcome){welcome.style.opacity='1';setTimeout(()=>playPing(),500)}
+        setTimeout(()=>{intro.style.display='none';intro.style.pointerEvents='none'},1600);
+      },2000);
+    }
+  }
+  setTimeout(()=>{
+    document.querySelectorAll('.boot-line').forEach((_,i)=>setTimeout(()=>playTypewriterClick(),i*280+100));
+    boot.style.opacity='0';setTimeout(()=>boot.style.display='none',800);
+    words.style.opacity='1';
+    setTimeout(()=>{line1.style.opacity='1';line1.style.transform='translateY(0)'},200);
+    setTimeout(()=>{line2.style.opacity='1';line2.style.transform='translateY(0)'},900);
+    setTimeout(()=>{playSparkle();words.style.opacity='0';createParticles();requestAnimationFrame(animDissolve)},2800);
+  },2500);
+  setTimeout(()=>{
+    const b=document.getElementById('bootPhase');if(!b)return;
+    const tap=document.createElement('div');
+    tap.style.cssText='position:absolute;bottom:40px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:3px;text-transform:uppercase;animation:logoBlink 1.5s infinite;cursor:pointer';
+    tap.textContent='> TAP ANYWHERE TO BEGIN';tap.onclick=()=>{initAudio();tap.remove()};b.appendChild(tap);
+  },100);
+})();
+
+// ── AUDIO ──────────────────────────────────────────────────────
+let audioCtx=null,oceanGain=null,audioStarted=false;
+function initAudio(){
+  if(audioStarted)return;audioStarted=true;
+  try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();startOceanAmbience()}catch(e){}
+}
+function startOceanAmbience(){
+  if(!audioCtx)return;
+  const bs=audioCtx.sampleRate*4,buf=audioCtx.createBuffer(2,bs,audioCtx.sampleRate);
+  for(let c=0;c<2;c++){const d=buf.getChannelData(c);for(let i=0;i<bs;i++)d[i]=Math.random()*2-1}
+  const noise=audioCtx.createBufferSource();noise.buffer=buf;noise.loop=true;
+  const lp=audioCtx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=400;
+  const hp=audioCtx.createBiquadFilter();hp.type='highpass';hp.frequency.value=80;
+  const lfo=audioCtx.createOscillator();lfo.frequency.value=0.15;
+  const lg=audioCtx.createGain();lg.gain.value=0.3;lfo.connect(lg);
+  oceanGain=audioCtx.createGain();oceanGain.gain.value=0;
+  noise.connect(lp);lp.connect(hp);hp.connect(oceanGain);lg.connect(oceanGain.gain);oceanGain.connect(audioCtx.destination);
+  noise.start();lfo.start();oceanGain.gain.setTargetAtTime(0.08,audioCtx.currentTime,3);
+}
+function playTypewriterClick(){if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='square';o.frequency.value=800+Math.random()*400;g.gain.setValueAtTime(.04,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.04);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.04)}catch(e){}}
+function playSwoosh(){if(!audioCtx)return;try{const bs=audioCtx.sampleRate*.3,buf=audioCtx.createBuffer(1,bs,audioCtx.sampleRate),d=buf.getChannelData(0);for(let i=0;i<bs;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/bs,1.5);const s=audioCtx.createBufferSource();s.buffer=buf;const f=audioCtx.createBiquadFilter();f.type='bandpass';f.frequency.value=600;f.frequency.linearRampToValueAtTime(200,audioCtx.currentTime+.3);const g=audioCtx.createGain();g.gain.setValueAtTime(.15,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.3);s.connect(f);f.connect(g);g.connect(audioCtx.destination);s.start()}catch(e){}}
+function playSparkle(){if(!audioCtx)return;for(let i=0;i<6;i++)setTimeout(()=>{try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=1200+Math.random()*1800;g.gain.setValueAtTime(.06,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.4);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.4)}catch(e){}},i*80)}
+function playPing(){if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=528;o.frequency.setTargetAtTime(440,audioCtx.currentTime,.3);g.gain.setValueAtTime(.12,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+1.2);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+1.2)}catch(e){}}
+function playDeepHum(){if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=55;g.gain.setValueAtTime(0,audioCtx.currentTime);g.gain.linearRampToValueAtTime(.06,audioCtx.currentTime+.5);o.connect(g);g.connect(audioCtx.destination);o.start();window._humNode=o;window._humGain=g}catch(e){}}
+function stopDeepHum(){if(!audioCtx||!window._humGain)return;try{window._humGain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.5);setTimeout(()=>{try{window._humNode.stop()}catch(e){}},600)}catch(e){}}
+
+// ── THEMES ────────────────────────────────────────────────────
+const themes={
+  night:{bg:'linear-gradient(180deg,#1a2840 0%,#1e3050 8%,#c4734a 28%,#d4845a 32%,#c4734a 36%,#3a6080 45%,#1a4060 60%,#0d2840 75%,#081820 100%)',icon:'🌙',label:'NIGHT',horizon:'#c4734a'},
+  dawn:{bg:'linear-gradient(180deg,#2a1a40 0%,#4a2060 8%,#e87040 28%,#f09050 32%,#e87040 36%,#5a4080 45%,#3a2860 60%,#1a1030 75%,#0a0818 100%)',icon:'🌅',label:'DUSK',horizon:'#e87040'},
+  day:{bg:'linear-gradient(180deg,#1a4060 0%,#2a6080 8%,#60a0c0 28%,#80c0d8 32%,#60a0c0 36%,#2a7090 45%,#1a5070 60%,#0d3050 75%,#081828 100%)',icon:'☀️',label:'DAY',horizon:'#60c0d8'}
+};
+let currentTheme='night';const themeOrder=['night','dawn','day'];let isMuted=false;
+function toggleMute(){isMuted=!isMuted;if(oceanGain&&audioCtx)oceanGain.gain.setTargetAtTime(isMuted?0:.08,audioCtx.currentTime,.5);document.getElementById('muteBtn').textContent=isMuted?'🔇':'🔊'}
+function cycleTheme(){playSwoosh();const i=themeOrder.indexOf(currentTheme);currentTheme=themeOrder[(i+1)%3];applyTheme(currentTheme)}
+function applyTheme(n){
+  const t=themes[n];
+  document.querySelector('.ocean-bg').style.background=t.bg;
+  document.querySelector('.horizon-glow').style.background=`linear-gradient(90deg,transparent 0%,${t.horizon} 20%,${t.horizon} 50%,${t.horizon} 80%,transparent 100%)`;
+  document.getElementById('themeBtn').textContent=t.icon;
+  document.getElementById('themeLbl').textContent=t.label;
+  if(oceanGain&&audioCtx){const v=n==='night'?.08:n==='dawn'?.12:.05;oceanGain.gain.setTargetAtTime(v,audioCtx.currentTime,1)}
+}
+document.addEventListener('click',initAudio,{once:true});
+document.addEventListener('keydown',initAudio,{once:true});
+document.addEventListener('touchstart',initAudio,{once:true});
 </script>
 </body>
 </html>
