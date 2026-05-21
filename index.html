@@ -265,7 +265,174 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .warn-box strong{font-size:11px;color:var(--amber);display:block;margin-bottom:4px;letter-spacing:1px;text-transform:uppercase}
 .warn-box p{font-size:12px;color:var(--text2);margin:0}
 
-@media(max-width:540px){.starters{grid-template-columns:1fr}.msg-bubble{max-width:92%}.conn-grid{grid-template-columns:1fr}}
+/* ── FLOATING PILL ────────────────────────────────────────── */
+.float-pill{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+  z-index:160;opacity:0;pointer-events:none;
+  transition:opacity 0.3s ease,transform 0.3s cubic-bezier(0.16,1,0.3,1);
+  display:none;
+}
+.float-pill.visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all}
+.float-pill-inner{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(10,20,36,0.95);
+  border:1px solid rgba(212,144,90,0.4);
+  padding:10px 16px;
+  backdrop-filter:blur(16px);
+  box-shadow:0 4px 32px rgba(0,0,0,0.5),0 0 0 1px rgba(212,144,90,0.1);
+  white-space:nowrap;
+  cursor:pointer;
+  animation:pillPulse 3s ease-in-out infinite;
+}
+@keyframes pillPulse{0%,100%{box-shadow:0 4px 32px rgba(0,0,0,0.5),0 0 0 1px rgba(212,144,90,0.1)}50%{box-shadow:0 4px 32px rgba(0,0,0,0.5),0 0 12px rgba(212,144,90,0.25)}}
+.float-pill-icon{font-size:14px;color:var(--amber)}
+.float-pill-label{font-family:var(--mono);font-size:11px;color:var(--amber2);letter-spacing:2px;text-transform:uppercase}
+.float-pill-sub{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:1px}
+.float-pill-close{font-size:14px;color:var(--text3);padding:0 0 0 6px;cursor:pointer;transition:color 0.15s}
+.float-pill-close:hover{color:var(--amber)}
+
+/* ── BOTTOM SHEET ─────────────────────────────────────────── */
+.sheet-backdrop{
+  position:fixed;inset:0;z-index:170;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity 0.3s ease;
+}
+.sheet-backdrop.open{opacity:1;pointer-events:all}
+
+.bottom-sheet{
+  position:fixed;bottom:0;left:0;right:0;z-index:180;
+  background:rgba(8,16,28,0.98);
+  border-top:1px solid rgba(212,144,90,0.25);
+  border-radius:16px 16px 0 0;
+  transform:translateY(100%);
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  display:flex;flex-direction:column;
+  max-height:88vh;
+  backdrop-filter:blur(20px);
+  will-change:transform;
+}
+.bottom-sheet.open{transform:translateY(0)}
+
+/* Sheet drag handle */
+.sheet-handle-area{
+  padding:12px 0 4px;display:flex;justify-content:center;flex-shrink:0;cursor:grab;
+}
+.sheet-handle-area:active{cursor:grabbing}
+.sheet-handle{width:40px;height:4px;border-radius:2px;background:rgba(212,144,90,0.3)}
+
+/* Sheet header */
+.sheet-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 16px 12px;flex-shrink:0;
+}
+.sheet-title{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:3px;text-transform:uppercase}
+.sheet-close{
+  width:28px;height:28px;background:rgba(212,144,90,0.08);
+  border:1px solid rgba(212,144,90,0.2);color:var(--text3);
+  font-size:14px;cursor:pointer;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;transition:all 0.15s;
+}
+.sheet-close:hover{color:var(--amber);border-color:var(--amber)}
+
+/* Sheet tabs */
+.sheet-tabs{display:flex;border-bottom:1px solid rgba(212,144,90,0.12);flex-shrink:0}
+.sheet-tab{
+  flex:1;font-family:var(--mono);font-size:10px;letter-spacing:2px;
+  color:var(--text3);background:transparent;border:none;
+  padding:10px 0;cursor:pointer;text-transform:uppercase;
+  border-bottom:2px solid transparent;transition:all 0.15s;
+}
+.sheet-tab.active{color:var(--amber);border-bottom-color:var(--amber)}
+
+/* Sheet body */
+.sheet-body{flex:1;overflow:hidden;position:relative;min-height:0}
+.sheet-iframe{width:100%;height:100%;border:none;background:white}
+.sheet-code{
+  width:100%;height:100%;overflow-y:auto;padding:14px;
+  font-family:var(--mono);font-size:11px;color:var(--text2);
+  line-height:1.7;white-space:pre-wrap;word-break:break-all;
+}
+
+/* Sheet actions bar */
+.sheet-actions{
+  display:flex;gap:8px;padding:12px 16px;
+  border-top:1px solid rgba(212,144,90,0.1);
+  background:rgba(8,16,28,0.9);flex-shrink:0;
+}
+.sheet-action-btn{
+  flex:1;font-family:var(--mono);font-size:11px;color:var(--text2);
+  background:rgba(10,22,40,0.8);border:1px solid rgba(212,144,90,0.15);
+  padding:10px 8px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;
+  transition:all 0.15s;text-align:center;
+}
+.sheet-action-btn:hover,.sheet-action-btn:active{color:var(--amber);border-color:rgba(212,144,90,0.4);background:rgba(212,144,90,0.08)}
+.sheet-action-btn.primary{background:rgba(212,144,90,0.12);border-color:rgba(212,144,90,0.35);color:var(--amber2)}
+
+/* Guide sheet */
+.sheet-guide-steps{flex:1;overflow-y:auto;padding:0}
+.sheet-guide-step{
+  display:flex;gap:12px;padding:14px 16px;
+  border-bottom:1px solid rgba(212,144,90,0.06);
+  transition:background 0.15s;cursor:pointer;
+}
+.sheet-guide-step.active{background:rgba(212,144,90,0.07);border-left:3px solid var(--amber)}
+.sheet-guide-step.done{opacity:0.35}
+.sheet-guide-step.done .sgn{color:var(--green)}
+.sgn{font-size:11px;color:var(--amber);flex-shrink:0;min-width:22px;padding-top:1px}
+.sgt{font-size:12px;color:var(--text2);line-height:1.6}
+.sheet-guide-step.active .sgt{color:var(--text)}
+.sheet-guide-nav{
+  display:flex;gap:8px;padding:12px 16px;
+  border-top:1px solid rgba(212,144,90,0.1);flex-shrink:0;
+}
+.sheet-url-row{
+  display:flex;gap:8px;align-items:center;
+  padding:8px 16px;border-bottom:1px solid rgba(212,144,90,0.1);
+  background:rgba(0,0,0,0.3);flex-shrink:0;
+}
+.sheet-url-text{flex:1;font-size:10px;color:var(--text3);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+
+/* ── MOBILE OVERRIDES (≤640px) ────────────────────────────── */
+@media(max-width:640px){
+  /* Hide desktop split controls */
+  #splitBtn,#guideBtn,#themeLbl,.status-line{display:none !important}
+  /* Compact header */
+  header{padding:8px 12px}
+  .logo{font-size:14px;letter-spacing:3px}
+  .hdr-btn{padding:4px 8px;font-size:10px}
+  /* Single column starters */
+  .starters{grid-template-columns:1fr}
+  .starter-tag{display:none}
+  /* Full-width message bubbles */
+  .msg-bubble{max-width:94%}
+  /* Connections single column */
+  .conn-grid{grid-template-columns:1fr}
+  /* Hide desktop right panel entirely */
+  .right-panel,.resize-handle{display:none !important}
+  /* Show float pill */
+  .float-pill{display:block}
+  /* Larger tap targets for messages */
+  .starter{padding:14px}
+  /* Input area */
+  .input-area{padding:8px 12px 12px}
+  /* Welcome title smaller on tiny screens */
+  .welcome-title{font-size:clamp(28px,10vw,52px)}
+  /* Boot text smaller */
+  .boot-text{font-size:11px}
+}
+
+/* Tablet: hide split, use bottom sheet, keep header full */
+@media(min-width:641px) and (max-width:900px){
+  #splitBtn,#guideBtn{display:none !important}
+  .right-panel,.resize-handle{display:none !important}
+  .float-pill{display:block}
+  .starters{grid-template-columns:1fr 1fr}
+}
+
+@media(min-width:901px){
+  /* Desktop: hide bottom sheet system, use split */
+  .float-pill,.sheet-backdrop,.bottom-sheet{display:none !important}
+}
 </style>
 </head>
 <body>
@@ -352,6 +519,66 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
   </div>
   <div class="conn-grid" id="connGrid">
     <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- FLOATING PILL (mobile) -->
+<div class="float-pill" id="floatPill">
+  <div class="float-pill-inner" onclick="openBottomSheet('preview')">
+    <span class="float-pill-icon">◈</span>
+    <div>
+      <div class="float-pill-label">BUILD READY</div>
+      <div class="float-pill-sub" id="pillSub">TAP TO PREVIEW</div>
+    </div>
+  </div>
+  <span class="float-pill-close" onclick="dismissPill(event)">✕</span>
+</div>
+
+<!-- SHEET BACKDROP -->
+<div class="sheet-backdrop" id="sheetBackdrop" onclick="closeBottomSheet()"></div>
+
+<!-- BOTTOM SHEET -->
+<div class="bottom-sheet" id="bottomSheet">
+  <div class="sheet-handle-area" id="sheetHandleArea">
+    <div class="sheet-handle"></div>
+  </div>
+
+  <!-- Preview sheet content -->
+  <div id="sheetPreview" style="display:flex;flex-direction:column;flex:1;min-height:0">
+    <div class="sheet-header">
+      <div class="sheet-title" id="sheetPreviewTitle">◈ BUILD PREVIEW</div>
+      <button class="sheet-close" onclick="closeBottomSheet()">✕</button>
+    </div>
+    <div class="sheet-tabs">
+      <button class="sheet-tab active" id="sheetTabPreview" onclick="switchSheetTab('preview')">PREVIEW</button>
+      <button class="sheet-tab" id="sheetTabCode" onclick="switchSheetTab('code')">CODE</button>
+    </div>
+    <div class="sheet-body" id="sheetBody">
+      <iframe class="sheet-iframe" id="sheetIframe" sandbox="allow-scripts allow-same-origin"></iframe>
+      <div class="sheet-code" id="sheetCode" style="display:none"></div>
+    </div>
+    <div class="sheet-actions">
+      <button class="sheet-action-btn" onclick="openInNewTab()">⬡ OPEN</button>
+      <button class="sheet-action-btn primary" onclick="downloadCurrentBuild()">⬇ DOWNLOAD</button>
+      <button class="sheet-action-btn" onclick="closeBottomSheet()">✕ CLOSE</button>
+    </div>
+  </div>
+
+  <!-- Guide sheet content -->
+  <div id="sheetGuide" style="display:none;flex-direction:column;flex:1;min-height:0">
+    <div class="sheet-header">
+      <div class="sheet-title" id="sheetGuideTitle">🌐 GUIDE</div>
+      <button class="sheet-close" onclick="closeBottomSheet()">✕</button>
+    </div>
+    <div class="sheet-url-row">
+      <span class="sheet-url-text" id="sheetUrlText">—</span>
+      <button class="sheet-action-btn" style="flex:none;padding:5px 10px;font-size:9px" onclick="openGuideExternal()">↗ OPEN</button>
+    </div>
+    <div class="sheet-guide-steps" id="sheetGuideSteps"></div>
+    <div class="sheet-guide-nav">
+      <button class="sheet-action-btn" onclick="guideStepNav(-1)">← PREV</button>
+      <button class="sheet-action-btn primary" onclick="guideStepNav(1)">NEXT →</button>
+    </div>
   </div>
 </div>
 
@@ -789,35 +1016,29 @@ function startGuide(id){
   guideCurrentStep=0;
   guideCurrentUrl=g.url;
 
-  // Switch to guide mode
-  toggleRightPanel('guide');
-
-  // Update URL bar
-  document.getElementById('guideUrlDisplay').textContent=g.url;
-
-  // Handle embeddable vs blocked
-  const iframeWrap=document.getElementById('guideIframeWrap');
-  const iframe=document.getElementById('guideIframe');
-  const blocked=document.getElementById('guideBlocked');
-
-  if(g.embeddable){
-    iframe.style.display='block';
-    blocked.style.display='none';
-    iframe.src=g.url;
+  if(isTabletOrMobile()){
+    // ── MOBILE: open bottom sheet ──
+    renderGuideSteps(); // keep desktop steps in sync too
+    setTimeout(()=>{ openBottomSheet('guide'); dismissPill(); },100);
   } else {
-    iframe.style.display='none';
-    blocked.style.display='flex';
-    if(g.blockedMsg) document.getElementById('guideBlockedText').textContent=g.blockedMsg;
+    // ── DESKTOP: open right panel ──
+    toggleRightPanel('guide');
+    document.getElementById('guideUrlDisplay').textContent=g.url;
+    const iframe=document.getElementById('guideIframe');
+    const blocked=document.getElementById('guideBlocked');
+    if(g.embeddable){
+      iframe.style.display='block'; blocked.style.display='none'; iframe.src=g.url;
+    } else {
+      iframe.style.display='none'; blocked.style.display='flex';
+      if(g.blockedMsg) document.getElementById('guideBlockedText').textContent=g.blockedMsg;
+    }
+    renderGuideSteps();
+    document.getElementById('guideStatusText').textContent=g.name.toUpperCase();
   }
 
-  // Render steps
-  renderGuideSteps();
-  document.getElementById('guideStatusText').textContent=g.name.toUpperCase();
-
-  // Add guide message in chat
-  addMsg('ai', `━━━ ${g.name.toUpperCase()} ━━━\n\nI've opened the guide panel on the right. Follow the steps below — I'll walk you through every click.\n\nThe site is${g.embeddable?'':' blocked from embedding but'} open in the guide panel. Use **↗ OPEN IN TAB** to open it alongside the steps.\n\n> Step 1: ${g.steps[0].text}\n\nAsk me anything along the way.`);
-
-  // Add guide banner in chat
+  // Chat message and banner (both platforms)
+  const panelWord=isTabletOrMobile()?'bottom panel':'right panel';
+  addMsg('ai',`━━━ ${g.name.toUpperCase()} ━━━\n\nI've opened the guide in the ${panelWord}. Follow the steps — I'll walk you through every click.\n\n> Step 1: ${g.steps[0].text}\n\nAsk me anything along the way.`);
   addGuideBanner(g);
 }
 
@@ -850,6 +1071,7 @@ function guideStepNav(dir){
 function jumpGuideStep(i){
   guideCurrentStep=i;
   renderGuideSteps();
+  renderSheetGuideSteps(); // sync mobile sheet
 }
 
 function openGuideExternal(){
@@ -860,10 +1082,13 @@ function addGuideBanner(g){
   const msgs=document.getElementById('messages');
   const div=document.createElement('div');
   div.className='msg ai';
+  const guideAction=isTabletOrMobile()
+    ? `onclick="openBottomSheet('guide')"`
+    : `onclick="toggleRightPanel('guide')"`;
   div.innerHTML=`
     <div class="guide-banner">
       <div class="guide-banner-label">🌐 ${g.name.toUpperCase()} · ${g.steps.length} STEPS</div>
-      <button class="gb-btn" onclick="toggleRightPanel('guide')">OPEN GUIDE</button>
+      <button class="gb-btn" ${guideAction}>OPEN GUIDE</button>
       <button class="gb-btn" onclick="window.open('${g.url}','_blank')">↗ OPEN SITE</button>
     </div>`;
   msgs.appendChild(div);
@@ -945,17 +1170,30 @@ function setDevice(d){
 // ── LOAD PREVIEW ──────────────────────────────────────────────
 function loadPreview(html){
   currentBuildHTML=html;
+  const kb=(new Blob([html]).size/1024).toFixed(1);
+
+  if(isTabletOrMobile()){
+    // ── MOBILE: feed sheet iframe directly, show pill ──
+    const sheetIframe=document.getElementById('sheetIframe');
+    const sheetCode=document.getElementById('sheetCode');
+    if(sheetIframe) sheetIframe.srcdoc=html;
+    if(sheetCode) sheetCode.textContent=html;
+    showPill('BUILD READY · '+kb+'KB','TAP TO PREVIEW');
+    return;
+  }
+
+  // ── DESKTOP: feed split-panel iframe ──
   const empty=document.getElementById('previewEmpty');
   const iframe=document.getElementById('previewIframe');
   const code=document.getElementById('previewCode');
   empty.style.display='none';
-  if(currentTab==='code'){iframe.style.display='none';code.style.display='block';code.textContent=html}
-  else{
+  if(currentTab==='code'){
+    iframe.style.display='none';code.style.display='block';code.textContent=html;
+  } else {
     const mi=document.getElementById('mobileIframe');
     if(mi){mi.srcdoc=html}
     else{code.style.display='none';iframe.style.display='block';iframe.srcdoc=html}
   }
-  const kb=(new Blob([html]).size/1024).toFixed(1);
   document.getElementById('previewStatusText').textContent=`BUILD LOADED · ${kb}KB · ${currentDevice.toUpperCase()} VIEW`;
   if(rightPanelMode!=='preview') toggleRightPanel('preview');
 }
@@ -1051,9 +1289,12 @@ function addBuildBanner(html){
   const msgs=document.getElementById('messages');
   const div=document.createElement('div');div.className='msg ai';
   const kb=(new Blob([html]).size/1024).toFixed(1);
+  const previewAction=isTabletOrMobile()
+    ? `onclick="openBottomSheet('preview')"`
+    : `onclick="toggleRightPanel('preview')"`;
   div.innerHTML=`<div class="build-banner">
     <div><div class="build-banner-label">◈ BUILD READY · ${kb}KB</div><div style="font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:1px">HTML · SELF-CONTAINED · DEPLOY-READY</div></div>
-    <button class="bb-btn" onclick="toggleRightPanel('preview')">⬜ PREVIEW</button>
+    <button class="bb-btn" ${previewAction}>⬜ PREVIEW</button>
     <button class="bb-btn" onclick="openInNewTab()">⬡ OPEN</button>
     <button class="bb-btn primary" onclick="downloadCurrentBuild()">⬇ DOWNLOAD</button>
   </div>`;
@@ -1367,6 +1608,122 @@ function applyTheme(n){
 document.addEventListener('click',initAudio,{once:true});
 document.addEventListener('keydown',initAudio,{once:true});
 document.addEventListener('touchstart',initAudio,{once:true});
+
+// ── MOBILE DETECTION ──────────────────────────────────────────
+function isMobile(){return window.innerWidth<=640}
+function isTabletOrMobile(){return window.innerWidth<=900}
+
+// ── FLOATING PILL ─────────────────────────────────────────────
+function showPill(label,sub){
+  if(!isTabletOrMobile())return;
+  document.getElementById('pillSub').textContent=sub||'TAP TO PREVIEW';
+  document.getElementById('floatPill').classList.add('visible');
+}
+function dismissPill(e){
+  if(e) e.stopPropagation();
+  document.getElementById('floatPill').classList.remove('visible');
+}
+
+// ── BOTTOM SHEET ──────────────────────────────────────────────
+let sheetOpen=false;
+let sheetCurrentTab='preview';
+let sheetStartY=0,sheetStartTranslate=0,sheetDragging=false;
+
+function openBottomSheet(mode){
+  const sheet=document.getElementById('bottomSheet');
+  const backdrop=document.getElementById('sheetBackdrop');
+  // Show correct content
+  document.getElementById('sheetPreview').style.display=mode==='preview'?'flex':'none';
+  document.getElementById('sheetGuide').style.display=mode==='guide'?'flex':'none';
+  // Load content
+  if(mode==='preview'&&currentBuildHTML){
+    switchSheetTab(sheetCurrentTab);
+  }
+  if(mode==='guide'&&activeGuide){
+    renderSheetGuideSteps();
+    document.getElementById('sheetUrlText').textContent=guideCurrentUrl;
+    document.getElementById('sheetGuideTitle').textContent='🌐 '+(GUIDES[activeGuide]?.name||'GUIDE').toUpperCase();
+  }
+  sheet.classList.add('open');
+  backdrop.classList.add('open');
+  sheetOpen=true;
+  document.body.style.overflow='hidden';
+}
+
+function closeBottomSheet(){
+  document.getElementById('bottomSheet').classList.remove('open');
+  document.getElementById('sheetBackdrop').classList.remove('open');
+  sheetOpen=false;
+  document.body.style.overflow='';
+  // Clear iframe to stop any running content
+  // don't clear — user may reopen
+}
+
+// Switch tabs inside sheet
+function switchSheetTab(tab){
+  sheetCurrentTab=tab;
+  document.getElementById('sheetTabPreview').classList.toggle('active',tab==='preview');
+  document.getElementById('sheetTabCode').classList.toggle('active',tab==='code');
+  const iframe=document.getElementById('sheetIframe');
+  const code=document.getElementById('sheetCode');
+  if(tab==='preview'){
+    iframe.style.display='block';code.style.display='none';
+    if(currentBuildHTML) iframe.srcdoc=currentBuildHTML;
+  } else {
+    iframe.style.display='none';code.style.display='block';
+    code.textContent=currentBuildHTML||'';
+  }
+}
+
+// Render guide steps in sheet
+function renderSheetGuideSteps(){
+  const list=document.getElementById('sheetGuideSteps');
+  if(!list||!guideSteps.length)return;
+  list.innerHTML='';
+  guideSteps.forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.className='sheet-guide-step'+(i===guideCurrentStep?' active':i<guideCurrentStep?' done':'');
+    div.innerHTML=`<div class="sgn">${i<guideCurrentStep?'✓':String(i+1).padStart(2,'0')}</div><div class="sgt">${s.text}</div>`;
+    div.onclick=()=>{guideCurrentStep=i;renderSheetGuideSteps();renderGuideSteps()};
+    list.appendChild(div);
+  });
+  // Scroll active into view
+  setTimeout(()=>{
+    const active=list.querySelector('.active');
+    if(active) active.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },100);
+}
+
+// Swipe-to-dismiss sheet handle
+(function(){
+  const handleArea=document.getElementById('sheetHandleArea');
+  const sheet=document.getElementById('bottomSheet');
+  if(!handleArea)return;
+  handleArea.addEventListener('touchstart',e=>{
+    sheetStartY=e.touches[0].clientY;
+    sheetDragging=true;
+    sheet.style.transition='none';
+  },{passive:true});
+  document.addEventListener('touchmove',e=>{
+    if(!sheetDragging)return;
+    const dy=e.touches[0].clientY-sheetStartY;
+    if(dy>0) sheet.style.transform=`translateY(${dy}px)`;
+  },{passive:true});
+  document.addEventListener('touchend',e=>{
+    if(!sheetDragging)return;
+    sheetDragging=false;
+    sheet.style.transition='';
+    const dy=e.changedTouches[0].clientY-sheetStartY;
+    if(dy>100){ closeBottomSheet(); } else { sheet.style.transform=''; }
+  });
+})();
+
+// Resize: restore desktop panel if window expands
+window.addEventListener('resize',()=>{
+  if(!isTabletOrMobile()&&rightPanelMode){
+    document.getElementById('rightPanel').style.display='';
+  }
+});
 </script>
 </body>
 </html>
