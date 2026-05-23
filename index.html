@@ -17,7 +17,7 @@
   --text3:        #5a5048;
   --amber:        #d4905a;
   --amber2:       #e8a870;
-  --red-dot:      #c0392b; 
+  --red-dot:      #c0392b;
   --green:        #4aaa77;
   --blue:         #4a90c0;
   --purple:       #9a70c0;
@@ -181,10 +181,11 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .conn-input::placeholder{color:var(--text3)}
 
 /* ── MESSAGES ─────────────────────────────────────────────── */
-.messages{flex:1;overflow-y:auto;padding:20px 20px 12px;display:flex;flex-direction:column;gap:18px;scrollbar-width:thin;scrollbar-color:rgba(212,144,90,0.2) transparent}
+.messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:18px;scrollbar-width:thin;scrollbar-color:rgba(212,144,90,0.2) transparent}
+.messages.has-msgs::before{content:'';flex:1}
 .messages::-webkit-scrollbar{width:3px}
 .messages::-webkit-scrollbar-thumb{background:rgba(212,144,90,0.2)}
-.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-height:0;text-align:center;padding:20px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;text-align:center;padding:20px}
 .welcome-title{font-family:var(--serif);font-size:clamp(32px,7vw,68px);font-weight:300;font-style:italic;color:var(--text);letter-spacing:-1px;line-height:1.1;margin-bottom:10px;text-shadow:0 2px 20px rgba(212,144,90,0.3)}
 .welcome-title span{color:var(--amber);font-style:normal}
 .welcome-sub{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-bottom:32px}
@@ -197,7 +198,6 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .starter-tag{font-size:9px;color:var(--text3);display:block;margin-top:3px;letter-spacing:1px}
 
 /* Messages */
-.msg-spacer{flex:1;min-height:20px}
 .msg{display:flex;flex-direction:column;gap:5px;animation:msgIn 0.3s ease both}
 @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .msg-header{font-size:10px;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
@@ -634,7 +634,6 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
   <div class="main-content">
     <div class="chat-panel" id="chatPanel">
       <div class="messages" id="messages">
-        <div class="msg-spacer" id="msgSpacer"></div>
         <div class="welcome" id="welcome">
           <div class="welcome-title">Build anything.<br><span>Own everything.</span></div>
           <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
@@ -1047,7 +1046,7 @@ function loadPreview(html){
     else{code.style.display='none';iframe.style.display='block';iframe.srcdoc=html;}
   }
   document.getElementById('previewStatusText').textContent=`BUILD LOADED · ${kb}KB · ${currentDevice.toUpperCase()} VIEW`;
-  if(rightPanelMode!=='preview')toggleRightPanel('preview');
+  if(rightPanelMode!=='preview') setTimeout(()=>toggleRightPanel('preview'),50);
 }
 
 function openInNewTab(){
@@ -1113,15 +1112,7 @@ function useStarter(btn){
 function quickPrompt(text){document.getElementById('chatInput').value=text;autoResize(document.getElementById('chatInput'));document.getElementById('chatInput').focus();}
 
 // ── MESSAGES ──────────────────────────────────────────────────
-function removeWelcome(){
-  const w=document.getElementById('welcome');if(w)w.remove();
-  // Ensure spacer exists so messages fill from bottom
-  const msgs=document.getElementById('messages');
-  if(!document.getElementById('msgSpacer')){
-    const sp=document.createElement('div');sp.id='msgSpacer';sp.className='msg-spacer';
-    msgs.insertBefore(sp,msgs.firstChild);
-  }
-}
+function removeWelcome(){const w=document.getElementById('welcome');if(w){w.remove();document.getElementById('messages').classList.add('has-msgs');}}
 
 function addMsg(role,text){
   removeWelcome();
@@ -1210,14 +1201,7 @@ function showTyping(userText){
 
 function removeTyping(){clearInterval(buildInterval);const t=document.getElementById('typing');if(t)t.remove();}
 
-function updateMemoryIndicator(){
-  // Memory count shown in status bar only — no floating indicator
-  const turns=Math.floor(conversationHistory.length/2);
-  const st=document.getElementById('statusText');
-  if(st && !isThinking){
-    st.textContent = turns>0 ? `${turns} TURN${turns===1?'':'S'} IN CTX` : 'SONNET 4.6';
-  }
-}
+function updateMemoryIndicator(){} // no-op — memory is silent
 
 function addRetryButtons(){
   const msgs=document.getElementById('messages');
@@ -1239,11 +1223,11 @@ function retryLast(){
 
 function newSession(){
   currentBuildHTML='';conversationHistory=[];
+  document.getElementById('messages').classList.remove('has-msgs');
   // Reset status
   const st=document.getElementById('statusText');if(st)st.textContent='SONNET 4.6';
   closeRightPanel();
   document.getElementById('messages').innerHTML=`
-    <div class="msg-spacer" id="msgSpacer"></div>
     <div class="welcome" id="welcome" style="opacity:1">
       <div class="welcome-title">Build anything.<br><span>Own everything.</span></div>
       <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
@@ -1466,7 +1450,6 @@ async function sendMessage(){
 
   isThinking=false;
   document.getElementById('sendBtn').disabled=false;
-  updateMemoryIndicator();
   input.focus();
 }
 
