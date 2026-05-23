@@ -13,7 +13,7 @@
   --horizon:      #c4734a;
   --dawn:         #e8955a;
   --text:         #e8e0d0;
-  --text2:        #a09080; 
+  --text2:        #a09080;
   --text3:        #5a5048;
   --amber:        #d4905a;
   --amber2:       #e8a870;
@@ -1379,16 +1379,19 @@ function addMsg(role,text){
   msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
 }
 
-function addBuildBanner(html){
+function addBuildBanner(html, truncated=false){
   const msgs=document.getElementById('messages');
   const div=document.createElement('div');div.className='msg ai';
   const kb=(new Blob([html]).size/1024).toFixed(1);
   const previewAction=isTabletOrMobile()?`onclick="openBottomSheet('preview')"`:` onclick="toggleRightPanel('preview')"`;
-  div.innerHTML=`<div class="build-banner">
-    <div><div class="build-banner-label">◈ BUILD READY · ${kb}KB</div><div style="font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:1px">HTML · SELF-CONTAINED · DEPLOY-READY</div></div>
-    <button class="bb-btn"${previewAction}>⬜ PREVIEW</button>
-    <button class="bb-btn" onclick="openInNewTab()">⬡ OPEN</button>
-    <button class="bb-btn primary" onclick="downloadCurrentBuild()">⬇ DOWNLOAD</button>
+  const tw=truncated?`<div style="width:100%;margin-top:6px;padding:6px 8px;background:rgba(212,144,90,0.08);border-left:2px solid var(--amber);font-size:10px;color:var(--amber2);letter-spacing:1px">⚠ BUILD INCOMPLETE — say <strong style="color:var(--amber)">"continue the build"</strong> to finish it.</div>`:'';
+  div.innerHTML=`<div class="build-banner" style="flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%">
+      <div style="flex:1"><div class="build-banner-label">◈ BUILD READY · ${kb}KB</div><div style="font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:1px">HTML · SELF-CONTAINED · DEPLOY-READY</div></div>
+      <button class="bb-btn"${previewAction}>⬜ PREVIEW</button>
+      <button class="bb-btn" onclick="openInNewTab()">⬡ OPEN</button>
+      <button class="bb-btn primary" onclick="downloadCurrentBuild()">⬇ DOWNLOAD</button>
+    </div>${tw}
   </div>`;
   msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
 }
@@ -1530,12 +1533,14 @@ You have full context of the conversation. When a user says "make the button red
 Ask ONE question maximum before helping. If you have enough — START. Build first, refine after. Never ask a list of questions before helping.
 
 ━━━ WHEN BUILDING WEBSITES ━━━
-- Always output complete, self-contained HTML in a \`\`\`html code block
-- The file must work when opened directly in a browser — no external dependencies that would fail
-- Use CDN links for fonts and icons if needed
-- Make it genuinely beautiful, not generic
-- Mobile responsive by default
-- Include a clear CTA that matches the user's goal
+CRITICAL: Always output COMPLETE HTML. Never stop mid-build. The closing </html> tag MUST be in your response.
+- Output in a single \`\`\`html code block — start with <!DOCTYPE html>, end with </html>
+- Self-contained: no external dependencies that require a server. CDN links for fonts/icons are fine.
+- Write efficient CSS — use variables, avoid bloat. Combine selectors. No unnecessary animations.
+- Make it genuinely beautiful, not generic. But keep the code tight.
+- Mobile responsive by default. Use a single stylesheet, not separate media-query files.
+- Include a clear CTA matching the user's goal.
+- If the user says "continue the build" — output the remaining HTML from where you left off, wrapped in \`\`\`html.
 
 ━━━ WHEN GUIDING DEPLOYMENT ━━━
 - Give numbered steps, clear and specific
@@ -1551,11 +1556,51 @@ Calm. Deep. Like the ocean. Honest, even when it's hard. Warm but direct. Never 
 ━━━ FORMATTING ━━━
 Plain text, terminal feel. Code in triple backticks with language tag. Sections with ━━━ TITLE ━━━. End with ONE clear next step. For builds: output the full HTML, then one sentence on how to deploy it.`;
 
+// ── BUILD EXTRACTION ──────────────────────────────────────────
+// Handles: complete ```html blocks, truncated blocks, raw HTML in reply
+function extractBuildHtml(text){
+  if(!text) return null;
+
+  // 1. Try greedy match for complete ```html ... ``` block
+  //    Greedy so it captures the LAST closing fence (handles nested backticks in code)
+  const fenced = text.match(/```(?:html)?\s*\n([\s\S]*?)```/i);
+  if(fenced && fenced[1].trim().length > 100){
+    return fenced[1].trim();
+  }
+
+  // 2. Truncated response — opening fence exists but no closing fence
+  //    Claude hit max_tokens mid-stream; we still have a valid (incomplete) HTML file
+  const truncated = text.match(/```(?:html)?\s*\n([\s\S]+)$/i);
+  if(truncated){
+    let html = truncated[1].trim();
+    // Try to close any open tags gracefully so browser can render
+    if(!html.includes('</html>')){
+      // Close common open structures
+      if(!html.includes('</body>')) html += '\n</body>';
+      html += '\n</html>';
+    }
+    if(html.length > 200) return html;
+  }
+
+  // 3. Raw HTML in reply (no fences) — starts with <!DOCTYPE or <html
+  if(text.trimStart().startsWith('<!DOCTYPE') || text.trimStart().startsWith('<html')){
+    return text.trim();
+  }
+
+  // 4. Reply contains a large HTML block mid-text
+  const rawBlock = text.match(/(<!DOCTYPE[\s\S]+)/i) || text.match(/(<html[\s\S]+)/i);
+  if(rawBlock && rawBlock[1].length > 200){
+    let html = rawBlock[1];
+    if(!html.includes('</html>')) html += '\n</html>';
+    return html;
+  }
+
+  return null;
+}
+
 // ── CONFIRM NEW SESSION ────────────────────────────────────────
 function confirmNewSession(){
-  // If no conversation yet, just reset silently
   if(conversationHistory.length===0){ newSession(); return; }
-  // Show inline confirm toast instead of browser dialog
   const existing=document.getElementById('newSessionToast');
   if(existing){ existing.remove(); return; }
   const toast=document.createElement('div');
@@ -1577,7 +1622,6 @@ function confirmNewSession(){
         padding:7px;cursor:pointer;letter-spacing:1px">⟳ CLEAR</button>
     </div>`;
   document.body.appendChild(toast);
-  // Auto-dismiss after 6s
   setTimeout(()=>{ const t=document.getElementById('newSessionToast'); if(t)t.remove(); },6000);
 }
 
@@ -1601,16 +1645,25 @@ async function sendMessage(){
 
   // Push user message to history FIRST, then build the send window
   conversationHistory.push({role:'user',content:text});
-  // Keep full history in memory (capped at 40 turns), send last 12 to API
   if(conversationHistory.length>40) conversationHistory=conversationHistory.slice(-40);
   const historyToSend=conversationHistory.slice(-12);
+
+  // 90-second timeout — builds take time
+  const controller = new AbortController();
+  const timeoutId = setTimeout(()=>controller.abort(), 90000);
 
   try{
     const res=await fetch('https://dmemzljerldzeiwqfxzp.supabase.co/functions/v1/fluentra-chat',{
       method:'POST',
+      signal: controller.signal,
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({system:SYSTEM,messages:historyToSend,userMessage:text})
     });
+    clearTimeout(timeoutId);
+
+    if(!res.ok){
+      throw new Error(`HTTP ${res.status}`);
+    }
     const data=await res.json();
 
     // ── STOP thinking UX ──
@@ -1621,14 +1674,17 @@ async function sendMessage(){
     if(data.text){
       playPing();
       const reply=data.text;
-      // Push assistant reply to history
       conversationHistory.push({role:'assistant',content:reply});
       addMsg('ai',reply);
       updateMemoryIndicator();
-      const htmlMatch=reply.match(/```(?:html)?\n?([\s\S]*?)```/i);
-      const rawHtml=reply.includes('<!DOCTYPE')||reply.includes('<html');
-      const buildHtml=htmlMatch?htmlMatch[1].trim():rawHtml?reply.trim():null;
-      if(buildHtml){currentBuildHTML=buildHtml;addBuildBanner(buildHtml);loadPreview(buildHtml);}
+      const buildHtml = extractBuildHtml(reply);
+      if(buildHtml){
+        currentBuildHTML=buildHtml;
+        // Warn if output looks truncated (no closing </html>)
+        const isTruncated = !reply.includes('</html>') && !reply.includes('</HTML>');
+        addBuildBanner(buildHtml, isTruncated);
+        loadPreview(buildHtml);
+      }
       const lower=reply.toLowerCase();
       if(!activeGuide){
         if(lower.includes('cloudflare pages')&&lower.includes('step'))startGuide('cloudflare');
@@ -1640,10 +1696,14 @@ async function sendMessage(){
       addRetryButtons();
     }
   }catch(e){
+    clearTimeout(timeoutId);
     removeTyping();
     stopThinkingSound();
     stopViz();
-    addMsg('ai','> Connection interrupted. Check your signal and retry.');
+    const msg = e.name==='AbortError'
+      ? '> Build timed out (90s). Try asking for a simpler version first, then say "add more detail".'
+      : '> Connection interrupted — '+e.message+'. Check your signal and retry.';
+    addMsg('ai', msg);
     addRetryButtons();
   }
 
