@@ -49,8 +49,6 @@ html, body { height: 100%; font-family: var(--mono); background: var(--ocean-dee
 body::after{content:'';position:fixed;inset:0;z-index:10;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px)}
 body::before{content:'';position:fixed;inset:0;z-index:10;pointer-events:none;background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.5) 100%)}
 
-
-
 /* ── LAYOUT ───────────────────────────────────────────────── */
 .app{position:relative;z-index:20;display:flex;flex-direction:column;height:100vh}
 .main-content{flex:1;display:flex;overflow:hidden;position:relative}
@@ -85,12 +83,6 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .hdr-btn.active-btn{color:var(--amber);border-color:rgba(212,144,90,0.5);background:rgba(212,144,90,0.08)}
 .status-line{font-size:10px;color:var(--text3);letter-spacing:1px;display:flex;align-items:center;gap:6px}
 .status-ok{width:6px;height:6px;border-radius:50%;background:#4a9;animation:logoBlink 2s infinite}
-.status-ok.thinking{background:var(--amber);animation:thinkPulse 0.6s ease-in-out infinite}
-@keyframes thinkPulse{0%,100%{transform:scale(1);opacity:0.6}50%{transform:scale(1.6);opacity:1}}
-
-
-  50%{transform:scaleY(1);opacity:1}
-}
 
 /* ── CHAT PANEL ───────────────────────────────────────────── */
 .chat-panel{display:flex;flex-direction:column;flex:1;min-width:0;transition:flex 0.4s cubic-bezier(0.16,1,0.3,1)}
@@ -140,7 +132,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .guide-blocked-text{font-size:11px;color:var(--text3);line-height:1.8;max-width:280px}
 .guide-steps{flex-shrink:0;border-top:1px solid var(--panel-border);background:rgba(8,16,28,0.95);max-height:220px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(212,144,90,0.15) transparent}
 .guide-steps-header{padding:8px 12px;font-size:9px;color:var(--amber);letter-spacing:3px;border-bottom:1px solid var(--panel-border);display:flex;align-items:center;justify-content:space-between}
-.guide-step{display:flex;gap:10px;padding:8px 12px;border-bottom:1px solid rgba(212,144,90,0.05);transition:background 0.15s;cursor:pointer}
+.guide-step{display:flex;gap:10px;padding:8px 12px;border-bottom:1px solid rgba(212,144,90,0.05);transition:background 0.15s}
 .guide-step.active{background:rgba(212,144,90,0.06)}
 .guide-step.done{opacity:0.4}
 .guide-step-num{font-size:10px;color:var(--amber);flex-shrink:0;min-width:18px}
@@ -182,10 +174,9 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 
 /* ── MESSAGES ─────────────────────────────────────────────── */
 .messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:18px;scrollbar-width:thin;scrollbar-color:rgba(212,144,90,0.2) transparent}
-.messages.has-msgs::before{content:'';flex:1}
 .messages::-webkit-scrollbar{width:3px}
 .messages::-webkit-scrollbar-thumb{background:rgba(212,144,90,0.2)}
-.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;text-align:center;padding:20px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:20px}
 .welcome-title{font-family:var(--serif);font-size:clamp(32px,7vw,68px);font-weight:300;font-style:italic;color:var(--text);letter-spacing:-1px;line-height:1.1;margin-bottom:10px;text-shadow:0 2px 20px rgba(212,144,90,0.3)}
 .welcome-title span{color:var(--amber);font-style:normal}
 .welcome-sub{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-bottom:32px}
@@ -203,7 +194,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .msg-header{font-size:10px;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
 .msg.user .msg-header{color:var(--text3);justify-content:flex-end}
 .msg.ai .msg-header{color:var(--amber)}
-.msg-bubble{font-family:var(--mono);font-size:13px;line-height:1.8;padding:13px 15px;max-width:92%;backdrop-filter:blur(8px)}
+.msg-bubble{font-family:var(--mono);font-size:13px;line-height:1.8;padding:13px 15px;max-width:85%;backdrop-filter:blur(8px)}
 .msg.user .msg-bubble{background:rgba(212,144,90,0.06);border:1px solid rgba(212,144,90,0.15);color:var(--text2);align-self:flex-end;border-right:2px solid var(--amber)}
 .msg.ai .msg-bubble{background:rgba(8,16,28,0.7);border:1px solid rgba(212,144,90,0.12);color:var(--text);border-left:2px solid var(--amber)}
 
@@ -220,7 +211,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .gb-btn{font-family:var(--mono);font-size:10px;color:#7ab8e0;background:transparent;border:1px solid rgba(74,144,192,0.25);padding:4px 9px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all 0.15s;white-space:nowrap}
 .gb-btn:hover{background:rgba(74,144,192,0.12);border-color:var(--blue)}
 
-/* Typing / thinking indicator */
+/* Typing */
 .typing-dots{display:flex;gap:6px;align-items:center;padding:13px 15px;background:rgba(8,16,28,0.7);border:1px solid rgba(212,144,90,0.12);border-left:2px solid var(--amber);max-width:80px}
 .td{width:5px;height:5px;border-radius:50%;background:var(--amber);opacity:0.3;animation:tdPulse 1.2s ease infinite}
 .td:nth-child(2){animation-delay:0.2s}.td:nth-child(3){animation-delay:0.4s}
@@ -322,12 +313,14 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 }
 .bottom-sheet.open{transform:translateY(0)}
 
+/* Sheet drag handle */
 .sheet-handle-area{
   padding:12px 0 4px;display:flex;justify-content:center;flex-shrink:0;cursor:grab;
 }
 .sheet-handle-area:active{cursor:grabbing}
 .sheet-handle{width:40px;height:4px;border-radius:2px;background:rgba(212,144,90,0.3)}
 
+/* Sheet header */
 .sheet-header{
   display:flex;align-items:center;justify-content:space-between;
   padding:8px 16px 12px;flex-shrink:0;
@@ -341,6 +334,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 }
 .sheet-close:hover{color:var(--amber);border-color:var(--amber)}
 
+/* Sheet tabs */
 .sheet-tabs{display:flex;border-bottom:1px solid rgba(212,144,90,0.12);flex-shrink:0}
 .sheet-tab{
   flex:1;font-family:var(--mono);font-size:10px;letter-spacing:2px;
@@ -350,6 +344,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 }
 .sheet-tab.active{color:var(--amber);border-bottom-color:var(--amber)}
 
+/* Sheet body */
 .sheet-body{flex:1;overflow:hidden;position:relative;min-height:0}
 .sheet-iframe{width:100%;height:100%;border:none;background:white}
 .sheet-code{
@@ -358,6 +353,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
   line-height:1.7;white-space:pre-wrap;word-break:break-all;
 }
 
+/* Sheet actions bar */
 .sheet-actions{
   display:flex;gap:8px;padding:12px 16px;
   border-top:1px solid rgba(212,144,90,0.1);
@@ -372,6 +368,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .sheet-action-btn:hover,.sheet-action-btn:active{color:var(--amber);border-color:rgba(212,144,90,0.4);background:rgba(212,144,90,0.08)}
 .sheet-action-btn.primary{background:rgba(212,144,90,0.12);border-color:rgba(212,144,90,0.35);color:var(--amber2)}
 
+/* Guide sheet */
 .sheet-guide-steps{flex:1;overflow-y:auto;padding:0}
 .sheet-guide-step{
   display:flex;gap:12px;padding:14px 16px;
@@ -395,70 +392,46 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 }
 .sheet-url-text{flex:1;font-size:10px;color:var(--text3);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 
-/* ── NEW SESSION FLOATING BTN (mobile/tablet always-visible) ── */
-#newSessionFab {
-  display: none;
-  position: fixed;
-  bottom: 88px;
-  right: 16px;
-  z-index: 160;
-  width: 44px; height: 44px;
-  background: rgba(212,144,90,0.18);
-  border: 1px solid rgba(212,144,90,0.5);
-  color: var(--amber);
-  font-size: 18px;
-  cursor: pointer;
-  border-radius: 50%;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 2px 16px rgba(0,0,0,0.4);
-  transition: background 0.2s;
-}
-#newSessionFab:active { background: rgba(212,144,90,0.35); }
-
 /* ── MOBILE OVERRIDES (≤640px) ────────────────────────────── */
 @media(max-width:640px){
-  /* Header: show only menu + logo + NEW */
-  #splitBtn,#guideBtn,#themeLbl,.status-line,
-  #connBtn,#themeBtn { display:none !important }
-  /* NEW button stays visible, compact */
-  header { padding:8px 12px; }
-  .logo { font-size:13px; letter-spacing:2px; }
-  .logo > div:last-child { display:none; } /* hide tagline */
-  .hdr-btn { padding:4px 8px; font-size:10px; }
-  .header-right { gap:4px; }
-  /* Content */
-  .starters { grid-template-columns:1fr; }
-  .starter-tag { display:none; }
-  .msg-bubble { max-width:96%; }
-  .conn-grid { grid-template-columns:1fr; }
-  .right-panel,.resize-handle { display:none !important; }
-  .float-pill { display:block; }
-  .starter { padding:14px; }
-  .input-area { padding:8px 12px 12px; }
-  .welcome-title { font-size:clamp(28px,10vw,52px); }
-  .boot-text { font-size:11px; }
-  /* Show FAB */
-  #newSessionFab { display:flex; }
+  /* Hide desktop split controls */
+  #splitBtn,#guideBtn,#themeLbl,.status-line{display:none !important}
+  /* Compact header */
+  header{padding:8px 12px}
+  .logo{font-size:14px;letter-spacing:3px}
+  .hdr-btn{padding:4px 8px;font-size:10px}
+  /* Single column starters */
+  .starters{grid-template-columns:1fr}
+  .starter-tag{display:none}
+  /* Full-width message bubbles */
+  .msg-bubble{max-width:94%}
+  /* Connections single column */
+  .conn-grid{grid-template-columns:1fr}
+  /* Hide desktop right panel entirely */
+  .right-panel,.resize-handle{display:none !important}
+  /* Show float pill */
+  .float-pill{display:block}
+  /* Larger tap targets for messages */
+  .starter{padding:14px}
+  /* Input area */
+  .input-area{padding:8px 12px 12px}
+  /* Welcome title smaller on tiny screens */
+  .welcome-title{font-size:clamp(28px,10vw,52px)}
+  /* Boot text smaller */
+  .boot-text{font-size:11px}
 }
 
-/* ── TABLET (641–900px) ───────────────────────────────────── */
+/* Tablet: hide split, use bottom sheet, keep header full */
 @media(min-width:641px) and (max-width:900px){
-  /* Header: tablet — keep NEW + theme + connect */
-  #splitBtn,#guideBtn,#themeLbl,.status-line { display:none !important }
-  .right-panel,.resize-handle { display:none !important; }
-  .float-pill { display:block; }
-  .starters { grid-template-columns:1fr 1fr; }
-  header { padding:8px 14px; }
-  .logo > div:last-child { display:none; }
-  /* Show FAB */
-  #newSessionFab { display:flex; }
+  #splitBtn,#guideBtn{display:none !important}
+  .right-panel,.resize-handle{display:none !important}
+  .float-pill{display:block}
+  .starters{grid-template-columns:1fr 1fr}
 }
 
 @media(min-width:901px){
-  .float-pill,.sheet-backdrop,.bottom-sheet { display:none !important; }
-  #newSessionFab { display:none !important; }
+  /* Desktop: hide bottom sheet system, use split */
+  .float-pill,.sheet-backdrop,.bottom-sheet{display:none !important}
 }
 </style>
 </head>
@@ -470,8 +443,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 <div class="red-dot"></div>
 <div class="stars" id="stars"></div>
 
-
-      <!-- INTRO -->
+<!-- INTRO -->
 <div id="introScreen">
   <div id="bootPhase">
     <div class="boot-text">
@@ -499,14 +471,14 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
 <!-- SLIDE MENU -->
-<nav class="menu" id="menu" aria-label="Navigation menu">
+<nav class="menu" id="menu">
   <div class="menu-head">
     <div class="menu-logo">FLUENTRA</div>
-    <button class="menu-close" onclick="closeMenu()" aria-label="Close menu">✕</button>
+    <button class="menu-close" onclick="closeMenu()">✕</button>
   </div>
   <div class="menu-section">
     <div class="menu-label">Mission</div>
-    <div class="menu-item active" onclick="confirmNewSession();closeMenu()"><span class="mi-icon">⟫</span> New session</div>
+    <div class="menu-item active" onclick="newSession();closeMenu()"><span class="mi-icon">⟫</span> New session</div>
     <div class="menu-item" onclick="openPage('builds');closeMenu()"><span class="mi-icon">◈</span> Featured builds</div>
     <div class="menu-item" onclick="toggleConnections();closeMenu()"><span class="mi-icon">⬡</span> Connections</div>
   </div>
@@ -542,10 +514,12 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 <!-- CONNECTIONS PANEL -->
 <div class="conn-panel" id="connPanel">
   <div class="conn-panel-head">
-    <div class="conn-panel-title">⬡ CONNECTION HUB — YOUR TOOLS, YOUR RULES</div>
+    <div class="conn-panel-title">in CONNECTION HUB — LINKEDIN LIVE · MORE COMING SOON</div>
     <button class="hdr-btn" onclick="toggleConnections()">✕ CLOSE</button>
   </div>
-  <div class="conn-grid" id="connGrid"></div>
+  <div class="conn-grid" id="connGrid">
+    <!-- Populated by JS -->
+  </div>
 </div>
 
 <!-- FLOATING PILL (mobile) -->
@@ -557,11 +531,8 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
       <div class="float-pill-sub" id="pillSub">TAP TO PREVIEW</div>
     </div>
   </div>
-  <span class="float-pill-close" onclick="dismissPill(event)" aria-label="Dismiss">✕</span>
+  <span class="float-pill-close" onclick="dismissPill(event)">✕</span>
 </div>
-
-<!-- NEW SESSION FAB (mobile/tablet) -->
-<button id="newSessionFab" onclick="confirmNewSession()" aria-label="New session" title="New session">⟳</button>
 
 <!-- SHEET BACKDROP -->
 <div class="sheet-backdrop" id="sheetBackdrop" onclick="closeBottomSheet()"></div>
@@ -572,17 +543,18 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
     <div class="sheet-handle"></div>
   </div>
 
+  <!-- Preview sheet content -->
   <div id="sheetPreview" style="display:flex;flex-direction:column;flex:1;min-height:0">
     <div class="sheet-header">
       <div class="sheet-title" id="sheetPreviewTitle">◈ BUILD PREVIEW</div>
-      <button class="sheet-close" onclick="closeBottomSheet()" aria-label="Close">✕</button>
+      <button class="sheet-close" onclick="closeBottomSheet()">✕</button>
     </div>
     <div class="sheet-tabs">
       <button class="sheet-tab active" id="sheetTabPreview" onclick="switchSheetTab('preview')">PREVIEW</button>
       <button class="sheet-tab" id="sheetTabCode" onclick="switchSheetTab('code')">CODE</button>
     </div>
     <div class="sheet-body" id="sheetBody">
-      <iframe class="sheet-iframe" id="sheetIframe" sandbox="allow-scripts allow-same-origin" title="Build preview"></iframe>
+      <iframe class="sheet-iframe" id="sheetIframe" sandbox="allow-scripts allow-same-origin"></iframe>
       <div class="sheet-code" id="sheetCode" style="display:none"></div>
     </div>
     <div class="sheet-actions">
@@ -592,10 +564,11 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
     </div>
   </div>
 
+  <!-- Guide sheet content -->
   <div id="sheetGuide" style="display:none;flex-direction:column;flex:1;min-height:0">
     <div class="sheet-header">
       <div class="sheet-title" id="sheetGuideTitle">🌐 GUIDE</div>
-      <button class="sheet-close" onclick="closeBottomSheet()" aria-label="Close">✕</button>
+      <button class="sheet-close" onclick="closeBottomSheet()">✕</button>
     </div>
     <div class="sheet-url-row">
       <span class="sheet-url-text" id="sheetUrlText">—</span>
@@ -613,7 +586,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 <div class="app">
   <header>
     <div style="display:flex;align-items:center;gap:12px">
-      <button class="hdr-btn" onclick="openMenu()" aria-label="Open menu" style="padding:4px 8px;font-size:15px;letter-spacing:0">☰</button>
+      <button class="hdr-btn" onclick="openMenu()" style="padding:4px 8px;font-size:15px;letter-spacing:0">☰</button>
       <div class="logo">
         <div class="logo-dot"></div>
         FLUENTRA
@@ -621,17 +594,19 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
       </div>
     </div>
     <div class="header-right">
-      <div class="status-line" id="statusLine"><div class="status-ok" id="statusDot"></div><span id="statusText">SONNET 4.6</span></div>
-      <button class="hdr-btn" onclick="toggleConnections()" id="connBtn" aria-label="Open connections">⬡ CONNECT</button>
-      <button class="hdr-btn" id="splitBtn" onclick="toggleRightPanel('preview')" aria-label="Toggle preview panel">⬜ PREVIEW</button>
-      <button class="hdr-btn" id="guideBtn" onclick="toggleRightPanel('guide')" aria-label="Toggle guide panel">🌐 GUIDE</button>
-      <button class="hdr-btn" onclick="cycleTheme()" id="themeBtn" style="font-size:13px;letter-spacing:0;padding:4px 7px" aria-label="Cycle theme">🌙</button>
+      <div class="status-line"><div class="status-ok"></div><span>SONNET 4.6</span></div>
+      <button class="hdr-btn" onclick="toggleConnections()" id="connBtn" title="Connections">⬡ CONNECT</button>
+      <button class="hdr-btn" id="splitBtn" onclick="toggleRightPanel('preview')" title="Toggle build preview">⬜ PREVIEW</button>
+      <button class="hdr-btn" id="guideBtn" onclick="toggleRightPanel('guide')" title="Browser guidance">🌐 GUIDE</button>
+      <button class="hdr-btn" onclick="toggleMute()" id="muteBtn" style="font-size:13px;letter-spacing:0;padding:4px 7px" title="Sound">🔊</button>
+      <button class="hdr-btn" onclick="cycleTheme()" id="themeBtn" style="font-size:13px;letter-spacing:0;padding:4px 7px">🌙</button>
       <span id="themeLbl" style="font-size:9px;color:var(--text3);letter-spacing:2px">NIGHT</span>
-      <button class="hdr-btn" onclick="confirmNewSession()" style="border-color:rgba(212,144,90,0.35);color:var(--amber2)" aria-label="New session">⟳ NEW</button>
+      <button class="hdr-btn" onclick="newSession()">NEW</button>
     </div>
   </header>
 
   <div class="main-content">
+    <!-- Chat -->
     <div class="chat-panel" id="chatPanel">
       <div class="messages" id="messages">
         <div class="welcome" id="welcome">
@@ -644,35 +619,35 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
           </div>
           <div class="starters" id="startersGrid">
             <button class="starter" onclick="useStarter(this)">
-              <span class="starter-prefix">01 ></span>Build a SaaS landing page with pricing &amp; waitlist
+              <span class="starter-prefix">01 ></span> Build a SaaS landing page with pricing &amp; waitlist
               <span class="starter-tag">BUILD · HTML · DEPLOY-READY</span>
             </button>
             <button class="starter" onclick="useStarter(this)">
-              <span class="starter-prefix">02 ></span>Deploy my site to Cloudflare Pages for free
+              <span class="starter-prefix">02 ></span> Deploy my site to Cloudflare Pages for free
               <span class="starter-tag">GUIDE · STEP-BY-STEP · FREE HOSTING</span>
             </button>
             <button class="starter" onclick="useStarter(this)">
-              <span class="starter-prefix">03 ></span>Form an LLC — what do I actually need?
+              <span class="starter-prefix">03 ></span> Form an LLC — what do I actually need?
               <span class="starter-tag">LEGAL · BUSINESS · STATE-SPECIFIC</span>
             </button>
             <button class="starter" onclick="useStarter(this)">
-              <span class="starter-prefix">04 ></span>Find 10 domain names for my brand idea
+              <span class="starter-prefix">04 ></span> Find 10 domain names for my brand idea
               <span class="starter-tag">DOMAINS · BRANDABLE · AVAILABLE</span>
             </button>
             <button class="starter" onclick="useStarter(this)">
-              <span class="starter-prefix">05 ></span>Push my code to GitHub and go live
+              <span class="starter-prefix">05 ></span> Push my code to GitHub and go live
               <span class="starter-tag">GUIDE · GIT · VERSION CONTROL</span>
             </button>
             <button class="starter" onclick="useStarter(this)">
-              <span class="starter-prefix">06 ></span>Write a demand letter for unpaid work
+              <span class="starter-prefix">06 ></span> Write a demand letter for unpaid work
               <span class="starter-tag">LEGAL · DOCUMENT · SEND-READY</span>
             </button>
             <button class="starter" onclick="useStarter(this)">
-              <span class="starter-prefix">07 ></span>Build a full e-commerce store with cart &amp; checkout
+              <span class="starter-prefix">07 ></span> Build a full e-commerce store with cart &amp; checkout
               <span class="starter-tag">BUILD · STRIPE · FULL-STACK</span>
             </button>
             <button class="starter" onclick="useStarter(this)">
-              <span class="starter-prefix">08 ></span>Set up Stripe payments on my website
+              <span class="starter-prefix">08 ></span> Set up Stripe payments on my website
               <span class="starter-tag">GUIDE · PAYMENTS · MONETIZE</span>
             </button>
           </div>
@@ -686,8 +661,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
             placeholder="describe what you want to build or do..."
             rows="1"
             onkeydown="handleKey(event)"
-            oninput="autoResize(this)"
-            aria-label="Chat input"></textarea>
+            oninput="autoResize(this)"></textarea>
           <button class="send-btn" id="sendBtn" onclick="sendMessage()">SEND</button>
         </div>
         <div class="input-footer">
@@ -697,9 +671,13 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
       </div>
     </div>
 
+    <!-- Resize handle -->
     <div class="resize-handle" id="resizeHandle"></div>
 
+    <!-- Right panel -->
     <div class="right-panel" id="rightPanel">
+
+      <!-- Preview mode -->
       <div id="previewMode" style="display:flex;flex-direction:column;height:100%">
         <div class="panel-header">
           <div class="panel-tabs">
@@ -710,7 +688,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
             <button class="panel-btn" id="deviceBtn" onclick="cycleDevice()">🖥 DESKTOP</button>
             <button class="panel-btn accent" onclick="downloadCurrentBuild()">⬇ DOWNLOAD</button>
             <button class="panel-btn" onclick="openInNewTab()">⬡ OPEN</button>
-            <button class="panel-close" onclick="closeRightPanel()" aria-label="Close panel">✕</button>
+            <button class="panel-close" onclick="closeRightPanel()">✕</button>
           </div>
         </div>
         <div class="panel-body" id="previewBody">
@@ -719,7 +697,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
             <div class="panel-empty-text">No build yet</div>
             <div style="font-size:10px;color:var(--text3);letter-spacing:1px;margin-top:4px">Ask Fluentra to build something</div>
           </div>
-          <iframe class="panel-iframe" id="previewIframe" style="display:none" sandbox="allow-scripts allow-same-origin" title="Preview"></iframe>
+          <iframe class="panel-iframe" id="previewIframe" style="display:none" sandbox="allow-scripts allow-same-origin"></iframe>
           <div class="panel-code" id="previewCode" style="display:none"></div>
         </div>
         <div class="panel-statusbar">
@@ -732,6 +710,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
         </div>
       </div>
 
+      <!-- Guide mode -->
       <div id="guideMode" style="display:none;flex-direction:column;height:100%">
         <div class="panel-header">
           <div class="panel-tabs">
@@ -740,7 +719,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
           <div class="panel-actions">
             <button class="panel-btn" id="guidePrevBtn" onclick="guideStepNav(-1)">← PREV</button>
             <button class="panel-btn accent" id="guideNextBtn" onclick="guideStepNav(1)">NEXT →</button>
-            <button class="panel-close" onclick="closeRightPanel()" aria-label="Close panel">✕</button>
+            <button class="panel-close" onclick="closeRightPanel()">✕</button>
           </div>
         </div>
         <div class="guide-panel" id="guidePanel">
@@ -750,11 +729,11 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
           </div>
           <div class="guide-content">
             <div class="guide-iframe-wrap" id="guideIframeWrap">
-              <iframe class="guide-iframe" id="guideIframe" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" title="Guide site"></iframe>
+              <iframe class="guide-iframe" id="guideIframe" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
               <div class="guide-blocked" id="guideBlocked">
                 <div class="guide-blocked-icon">🔒</div>
                 <div class="guide-blocked-title">SITE BLOCKS EMBEDDING</div>
-                <div class="guide-blocked-text" id="guideBlockedText">This site uses security headers that prevent embedding. Use the button above to open it in a new tab.</div>
+                <div class="guide-blocked-text" id="guideBlockedText">This site uses security headers that prevent embedding. Use the button above to open it in a new tab — then follow the steps below.</div>
                 <button class="guide-open-btn" onclick="openGuideExternal()" style="margin-top:4px">↗ OPEN SITE IN TAB</button>
               </div>
             </div>
@@ -777,7 +756,8 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
           </div>
         </div>
       </div>
-    </div>
+
+    </div><!-- end right-panel -->
   </div>
 </div>
 
@@ -813,22 +793,22 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
       <h3>Built with Fluentra</h3>
       <p style="color:var(--text3);font-size:11px;letter-spacing:1px;margin-bottom:18px">REAL PRODUCTS · REAL PEOPLE · DIGITALLY INSANE</p>
       <div style="display:flex;flex-direction:column;gap:9px">
-        <a href="https://thejudgy.com" target="_blank" rel="noopener" style="text-decoration:none">
+        <a href="https://thejudgy.com" target="_blank" style="text-decoration:none">
           <div style="display:flex;align-items:center;gap:12px;padding:13px;border:1px solid rgba(212,144,90,0.2);transition:all 0.15s" onmouseover="this.style.borderColor='rgba(212,144,90,0.5)'" onmouseout="this.style.borderColor='rgba(212,144,90,0.2)'">
             <span style="font-size:18px">⚖️</span><div><div style="font-size:12px;color:var(--amber2);letter-spacing:1px">THEJUDGY.COM</div><div style="font-size:11px;color:var(--text3);margin-top:2px">AI advice court · Brutally honest</div></div>
           </div>
         </a>
-        <a href="https://postpilots.xyz" target="_blank" rel="noopener" style="text-decoration:none">
+        <a href="https://postpilots.xyz" target="_blank" style="text-decoration:none">
           <div style="display:flex;align-items:center;gap:12px;padding:13px;border:1px solid rgba(212,144,90,0.2);transition:all 0.15s" onmouseover="this.style.borderColor='rgba(212,144,90,0.5)'" onmouseout="this.style.borderColor='rgba(212,144,90,0.2)'">
             <span style="font-size:18px">📱</span><div><div style="font-size:12px;color:var(--amber2);letter-spacing:1px">POSTPILOTS.XYZ</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Social media autopilot · AI captions</div></div>
           </div>
         </a>
-        <a href="https://dropvault.live" target="_blank" rel="noopener" style="text-decoration:none">
+        <a href="https://dropvault.live" target="_blank" style="text-decoration:none">
           <div style="display:flex;align-items:center;gap:12px;padding:13px;border:1px solid rgba(212,144,90,0.2);transition:all 0.15s" onmouseover="this.style.borderColor='rgba(212,144,90,0.5)'" onmouseout="this.style.borderColor='rgba(212,144,90,0.2)'">
             <span style="font-size:18px">🛒</span><div><div style="font-size:12px;color:var(--amber2);letter-spacing:1px">DROPVAULT.LIVE</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Digital product store · Instant delivery</div></div>
           </div>
         </a>
-        <a href="https://ecrenta.space" target="_blank" rel="noopener" style="text-decoration:none">
+        <a href="https://ecrenta.space" target="_blank" style="text-decoration:none">
           <div style="display:flex;align-items:center;gap:12px;padding:13px;border:1px solid rgba(212,144,90,0.2);transition:all 0.15s" onmouseover="this.style.borderColor='rgba(212,144,90,0.5)'" onmouseout="this.style.borderColor='rgba(212,144,90,0.2)'">
             <span style="font-size:18px">🏠</span><div><div style="font-size:12px;color:var(--amber2);letter-spacing:1px">ECRENTA.SPACE</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Rental platform · List · Find · Connect</div></div>
           </div>
@@ -850,92 +830,241 @@ for(let i=0;i<60;i++){
 
 // ── STATE ──────────────────────────────────────────────────────
 let isThinking=false, currentBuildHTML='', lastMessage='';
-let rightPanelMode=null;
+let rightPanelMode=null; // null | 'preview' | 'guide'
 let currentTab='preview', currentDevice='desktop';
 let conversationHistory=[];
 let guideCurrentStep=0, guideSteps=[], guideCurrentUrl='';
 let connectionsOpen=false;
 
-
-// ── CONNECTIONS DATA ───────────────────────────────────────────
-const CONNECTIONS = [
-  {id:'github',name:'GitHub',icon:'◎',color:'#6e8eb8',desc:'Push code, create repos, version control your builds.',fields:[{id:'gh_token',label:'Personal Access Token',placeholder:'ghp_xxxxxxxxxxxx',type:'password'}],guide:'github',docsUrl:'https://github.com/settings/tokens'},
-  {id:'cloudflare',name:'Cloudflare Pages',icon:'☁',color:'#f6821f',desc:'Deploy sites live in seconds. Free hosting, global CDN.',fields:[{id:'cf_token',label:'API Token',placeholder:'xxxxxxxxxxxxxxxxxxxxxxxx',type:'password'},{id:'cf_account',label:'Account ID',placeholder:'32-char hex string',type:'text'}],guide:'cloudflare',docsUrl:'https://dash.cloudflare.com/profile/api-tokens'},
-  {id:'stripe',name:'Stripe',icon:'◈',color:'#635bff',desc:'Accept payments. Connect once, get paid everywhere.',fields:[{id:'stripe_pk',label:'Publishable Key',placeholder:'pk_live_xxxxxxxxxxxx',type:'text'},{id:'stripe_sk',label:'Secret Key (stored encrypted)',placeholder:'sk_live_xxxxxxxxxxxx',type:'password'}],guide:'stripe',docsUrl:'https://dashboard.stripe.com/apikeys'},
-  {id:'anthropic',name:'Anthropic API',icon:'◇',color:'#d4905a',desc:'Bring your own API key for higher limits or custom models.',fields:[{id:'anth_key',label:'API Key',placeholder:'sk-ant-xxxxxxxxxxxx',type:'password'}],guide:null,docsUrl:'https://console.anthropic.com/settings/keys'},
-  {id:'namecheap',name:'Namecheap',icon:'◉',color:'#de3723',desc:'Search and register domains without leaving Fluentra.',fields:[{id:'nc_user',label:'Username',placeholder:'your-username',type:'text'},{id:'nc_key',label:'API Key',placeholder:'xxxxxxxxxxxxxxxxxxxx',type:'password'}],guide:'namecheap',docsUrl:'https://ap.www.namecheap.com/settings/tools/apiaccess'},
-  {id:'supabase',name:'Supabase',icon:'⬡',color:'#3ecf8e',desc:'Your own database. Auth, storage, realtime — free tier.',fields:[{id:'sb_url',label:'Project URL',placeholder:'https://xxx.supabase.co',type:'text'},{id:'sb_anon',label:'Anon Key',placeholder:'eyJxxxxxxxx',type:'password'}],guide:null,docsUrl:'https://supabase.com/dashboard'}
-];
+// ── CONNECTIONS STATE ──────────────────────────────────────────
+// LinkedIn OAuth token is set by your Supabase auth callback
+// and injected here after the OAuth round-trip completes.
+// connState.linkedin = { accessToken, name, headline, profileUrl }
 const connState = {};
+
+// Coming-soon connectors — shown as locked cards
+const COMING_SOON = [
+  { id:'github',     name:'GitHub',          icon:'◎', color:'#6e8eb8', desc:'Push builds directly to repos. Auto-deploy on every change.' },
+  { id:'cloudflare', name:'Cloudflare Pages',icon:'☁', color:'#f6821f', desc:'One-click deploy. Live URL in under 10 seconds.' },
+  { id:'stripe',     name:'Stripe',          icon:'◈', color:'#635bff', desc:'Accept payments. Inject your keys into any build.' },
+  { id:'namecheap',  name:'Namecheap',       icon:'◉', color:'#de3723', desc:'Search and register domains without leaving Fluentra.' },
+];
 
 function renderConnections(){
   const grid=document.getElementById('connGrid');
   grid.innerHTML='';
-  CONNECTIONS.forEach(c=>{
-    const saved=connState[c.id];
-    const connected=saved&&Object.values(saved).some(v=>v&&v.length>0);
+
+  // ── LINKEDIN — LIVE ──────────────────────────────────────────
+  const li=connState.linkedin;
+  const liConnected=!!(li&&li.accessToken);
+  const liCard=document.createElement('div');
+  liCard.className='conn-card'+(liConnected?' connected':'');
+  liCard.innerHTML=`
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
+      <div class="conn-icon" style="color:#0a66c2;font-size:26px">in</div>
+      ${liConnected?`<span style="font-size:9px;color:var(--green);letter-spacing:1px;padding:3px 7px;border:1px solid rgba(74,170,119,0.3);background:rgba(74,170,119,0.08)">● CONNECTED</span>`:''}
+    </div>
+    <div class="conn-name">LinkedIn</div>
+    <div class="conn-desc">${liConnected
+      ? `Signed in as <strong style="color:var(--amber2)">${li.name||'you'}</strong>${li.headline?`<br><span style="color:var(--text3);font-size:10px">${li.headline}</span>`:''}.<br>Post content &amp; pull profile data.`
+      : 'Sign in with LinkedIn to post content directly and personalise Fluentra with your profile.'
+    }</div>
+    <div class="conn-actions" style="margin-top:12px">
+      ${liConnected
+        ? `<button class="conn-btn primary" onclick="linkedinPost()">✎ POST NOW</button>
+           <button class="conn-btn" onclick="linkedinDisconnect()">DISCONNECT</button>`
+        : `<button class="conn-btn primary" onclick="linkedinOAuth()" style="width:100%;justify-content:center;gap:8px;display:flex;align-items:center">
+             <span style="font-size:14px">in</span> SIGN IN WITH LINKEDIN
+           </button>`
+      }
+    </div>
+    ${liConnected&&li.profileUrl?`<div style="margin-top:8px;font-size:10px;color:var(--text3)"><a href="${li.profileUrl}" target="_blank" style="color:var(--amber);text-decoration:none">↗ View profile</a></div>`:''}`;
+  grid.appendChild(liCard);
+
+  // ── COMING SOON ───────────────────────────────────────────────
+  COMING_SOON.forEach(c=>{
     const card=document.createElement('div');
-    card.className='conn-card'+(connected?' connected':'');
+    card.className='conn-card';
+    card.style.cssText='opacity:0.45;cursor:default';
     card.innerHTML=`
-      <div class="conn-icon" style="color:${c.color}">${c.icon}</div>
-      <div class="conn-name">${c.name}</div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
+        <div class="conn-icon" style="color:${c.color}">${c.icon}</div>
+        <span style="font-size:9px;color:var(--text3);letter-spacing:1px;padding:3px 7px;border:1px solid rgba(90,80,72,0.3)">COMING SOON</span>
+      </div>
+      <div class="conn-name" style="color:var(--text3)">${c.name}</div>
       <div class="conn-desc">${c.desc}</div>
-      ${c.fields.map(f=>`
-        <input class="conn-input" id="ci_${f.id}" type="${f.type}" placeholder="${f.placeholder}"
-          value="${(saved&&saved[f.id])||''}" aria-label="${f.label}"
-          oninput="connState['${c.id}']=connState['${c.id}']||{};connState['${c.id}']['${f.id}']=this.value">
-      `).join('')}
-      <div class="conn-actions">
-        <button class="conn-btn primary" onclick="saveConn('${c.id}')">${connected?'UPDATE':'CONNECT'}</button>
-        ${c.guide?`<button class="conn-btn" onclick="startGuide('${c.guide}');toggleConnections()">GUIDE</button>`:''}
-        <button class="conn-btn" onclick="window.open('${c.docsUrl}','_blank','noopener')">DOCS ↗</button>
+      <div class="conn-actions" style="margin-top:10px">
+        <button class="conn-btn" style="opacity:0.4;cursor:not-allowed;width:100%" disabled>CONNECT</button>
       </div>`;
     grid.appendChild(card);
   });
 }
 
-function saveConn(id){
-  const c=CONNECTIONS.find(x=>x.id===id);
-  if(!c)return;
-  connState[id]=connState[id]||{};
-  c.fields.forEach(f=>{const el=document.getElementById('ci_'+f.id);if(el)connState[id][f.id]=el.value;});
+// ── LINKEDIN OAUTH ─────────────────────────────────────────────
+// Your Supabase project handles the OAuth redirect.
+// Replace SUPABASE_URL with your actual project URL.
+const SUPABASE_URL='https://dmemzljerldzeiwqfxzp.supabase.co';
+
+function linkedinOAuth(){
+  // Trigger Supabase LinkedIn OAuth — opens popup
+  const authUrl=`${SUPABASE_URL}/auth/v1/authorize?provider=linkedin_oidc&redirect_to=${encodeURIComponent(window.location.href)}`;
+  const popup=window.open(authUrl,'linkedin-auth','width=600,height=700,left=200,top=100');
+
+  // Listen for the OAuth callback message from the popup
+  const handler=e=>{
+    if(e.origin!==window.location.origin)return;
+    if(e.data&&e.data.type==='LINKEDIN_AUTH_SUCCESS'){
+      window.removeEventListener('message',handler);
+      if(popup&&!popup.closed) popup.close();
+      connState.linkedin={
+        accessToken: e.data.accessToken,
+        name:        e.data.name||'',
+        headline:    e.data.headline||'',
+        profileUrl:  e.data.profileUrl||''
+      };
+      renderConnections();
+      addMsg('ai',`> LinkedIn connected — welcome, ${e.data.name||'friend'}.\n\nFluentra can now:\n**Post content** — ask me to "write and post a LinkedIn update about X"\n**Personalise advice** — I'll tailor suggestions to your role and industry.\n\n> What would you like to share today?`);
+    }
+  };
+  window.addEventListener('message',handler);
+
+  // Fallback: if user manually closes popup without completing
+  const checkClosed=setInterval(()=>{
+    if(popup&&popup.closed){
+      clearInterval(checkClosed);
+      window.removeEventListener('message',handler);
+    }
+  },1000);
+}
+
+function linkedinDisconnect(){
+  delete connState.linkedin;
   renderConnections();
-  addMsg('ai',`> ${c.name} credentials saved locally.\n\n━━━ IMPORTANT ━━━\nThese are stored in-memory only for this session. In production, save them via Supabase so they persist. Never paste secret keys into untrusted tools.`);
+  addMsg('ai','> LinkedIn disconnected. Your session data has been cleared.');
+}
+
+function linkedinPost(){
   toggleConnections();
+  // Pre-fill the input so the user can immediately write a post
+  const input=document.getElementById('chatInput');
+  input.value='Write a LinkedIn post about ';
+  autoResize(input);
+  input.focus();
+  // Move cursor to end
+  input.setSelectionRange(input.value.length,input.value.length);
 }
 
 function toggleConnections(){
   connectionsOpen=!connectionsOpen;
   const panel=document.getElementById('connPanel');
-  if(connectionsOpen){renderConnections();panel.classList.add('open');}
-  else panel.classList.remove('open');
+  if(connectionsOpen){
+    renderConnections();
+    panel.classList.add('open');
+  } else {
+    panel.classList.remove('open');
+  }
 }
 
 // ── GUIDE DEFINITIONS ─────────────────────────────────────────
 const GUIDES = {
-  cloudflare:{name:'Deploy to Cloudflare Pages',url:'https://pages.cloudflare.com',embeddable:false,blockedMsg:'Cloudflare dashboard blocks embedding (security policy). Open it in a tab using the button above — the steps below guide every click.',steps:[{text:'Go to pages.cloudflare.com and sign in (or create a free account — no card needed)'},{text:'Click "Create a project" → then choose "Direct Upload" (no Git needed)'},{text:'Give your project a name — this becomes your subdomain: yourname.pages.dev'},{text:'Click "Create project" — you\'ll see an upload screen'},{text:'Drag and drop your downloaded HTML file onto the upload area'},{text:'Click "Deploy site" — Cloudflare builds and deploys in under 10 seconds'},{text:'Your live URL appears at the top: yourname.pages.dev — copy it and share it'},{text:'For a custom domain: go to Custom Domains tab → Add domain → follow DNS steps'}]},
-  github:{name:'Push Code to GitHub',url:'https://github.com/new',embeddable:false,blockedMsg:'GitHub blocks iframe embedding. Open it in a new tab and follow the steps below side by side.',steps:[{text:'Go to github.com/new to create a new repository'},{text:'Name your repo (e.g. "my-landing-page"), set it to Public, click "Create repository"'},{text:'On your machine: open a terminal in your project folder'},{text:'Run: git init — initializes a new Git repo'},{text:'Run: git add . — stages all files'},{text:'Run: git commit -m "Initial commit" — saves a snapshot'},{text:'Copy the remote URL from GitHub (looks like: git@github.com:you/repo.git)'},{text:'Run: git remote add origin <your-url>'},{text:'Run: git push -u origin main — your code is now live on GitHub'},{text:'Next step: connect this GitHub repo to Cloudflare Pages for auto-deploy'}]},
-  namecheap:{name:'Buy a Domain on Namecheap',url:'https://www.namecheap.com',embeddable:true,steps:[{text:'Go to namecheap.com — use the search bar to check if your domain is available'},{text:'Type your desired domain name and press Enter'},{text:'Look for .com first — if taken, .co, .io, .app, and .dev are strong alternatives'},{text:'Click "Add to cart" on your chosen domain'},{text:'SKIP the privacy protection upsell — it\'s included free with Namecheap now'},{text:'Proceed to checkout — create an account if you don\'t have one'},{text:'Pay — .com domains run about $10–13/year on Namecheap'},{text:'After purchase: go to Domain List → Manage → Advanced DNS to point it to your host'}]},
-  stripe:{name:'Set Up Stripe Payments',url:'https://dashboard.stripe.com/register',embeddable:false,blockedMsg:'Stripe blocks embedding for security. Open it in a new tab and follow the steps here.',steps:[{text:'Go to stripe.com and click "Start now" — creating an account is free'},{text:'Enter your email, full name, and a strong password'},{text:'Verify your email — check your inbox for a confirmation link'},{text:'You\'re now in test mode — no real money yet, safe to experiment'},{text:'Go to Developers → API Keys — copy your Publishable Key (starts with pk_test_)'},{text:'Add your key to the Connections Hub in Fluentra — then ask to "inject Stripe into my build"'},{text:'To go live: complete the account activation (business info, bank account)'},{text:'Switch from test to live mode — swap pk_test_ keys for pk_live_ keys in your code'}]}
+  cloudflare:{
+    name:'Deploy to Cloudflare Pages',
+    url:'https://pages.cloudflare.com',
+    embeddable:false,
+    blockedMsg:'Cloudflare dashboard blocks embedding (security policy). Open it in a tab using the button above — the steps below guide every click.',
+    steps:[
+      {text:'Go to pages.cloudflare.com and sign in (or create a free account — no card needed)'},
+      {text:'Click "Create a project" → then choose "Direct Upload" (no Git needed)'},
+      {text:'Give your project a name — this becomes your subdomain: yourname.pages.dev'},
+      {text:'Click "Create project" — you\'ll see an upload screen'},
+      {text:'Drag and drop your downloaded HTML file onto the upload area'},
+      {text:'Click "Deploy site" — Cloudflare builds and deploys in under 10 seconds'},
+      {text:'Your live URL appears at the top: yourname.pages.dev — copy it and share it'},
+      {text:'For a custom domain: go to Custom Domains tab → Add domain → follow DNS steps'},
+    ]
+  },
+  github:{
+    name:'Push Code to GitHub',
+    url:'https://github.com/new',
+    embeddable:false,
+    blockedMsg:'GitHub blocks iframe embedding. Open it in a new tab and follow the steps below side by side.',
+    steps:[
+      {text:'Go to github.com/new to create a new repository'},
+      {text:'Name your repo (e.g. "my-landing-page"), set it to Public, click "Create repository"'},
+      {text:'On your machine: open a terminal in your project folder'},
+      {text:'Run: git init — initializes a new Git repo'},
+      {text:'Run: git add . — stages all files'},
+      {text:'Run: git commit -m "Initial commit" — saves a snapshot'},
+      {text:'Copy the remote URL from GitHub (looks like: git@github.com:you/repo.git)'},
+      {text:'Run: git remote add origin <your-url>'},
+      {text:'Run: git push -u origin main — your code is now live on GitHub'},
+      {text:'Next step: connect this GitHub repo to Cloudflare Pages for auto-deploy'},
+    ]
+  },
+  namecheap:{
+    name:'Buy a Domain on Namecheap',
+    url:'https://www.namecheap.com',
+    embeddable:true,
+    steps:[
+      {text:'Go to namecheap.com — use the search bar to check if your domain is available'},
+      {text:'Type your desired domain name and press Enter'},
+      {text:'Look for .com first — if taken, .co, .io, .app, and .dev are strong alternatives'},
+      {text:'Click "Add to cart" on your chosen domain'},
+      {text:'SKIP the privacy protection upsell — it\'s included free with Namecheap now'},
+      {text:'Proceed to checkout — create an account if you don\'t have one'},
+      {text:'Pay — .com domains run about $10–13/year on Namecheap'},
+      {text:'After purchase: go to Domain List → Manage → Advanced DNS to point it to your host'},
+    ]
+  },
+  stripe:{
+    name:'Set Up Stripe Payments',
+    url:'https://dashboard.stripe.com/register',
+    embeddable:false,
+    blockedMsg:'Stripe blocks embedding for security. Open it in a new tab and follow the steps here.',
+    steps:[
+      {text:'Go to stripe.com and click "Start now" — creating an account is free'},
+      {text:'Enter your email, full name, and a strong password'},
+      {text:'Verify your email — check your inbox for a confirmation link'},
+      {text:'You\'re now in test mode — no real money yet, safe to experiment'},
+      {text:'Go to Developers → API Keys — copy your Publishable Key (starts with pk_test_)'},
+      {text:'Add your key to the Connections Hub in Fluentra — then ask to "inject Stripe into my build"'},
+      {text:'To go live: complete the account activation (business info, bank account)'},
+      {text:'Switch from test to live mode — swap pk_test_ keys for pk_live_ keys in your code'},
+    ]
+  }
 };
 
 let activeGuide=null;
 
 function startGuide(id){
-  const g=GUIDES[id];if(!g)return;
-  activeGuide=id;guideSteps=g.steps;guideCurrentStep=0;guideCurrentUrl=g.url;
+  const g=GUIDES[id];
+  if(!g)return;
+  activeGuide=id;
+  guideSteps=g.steps;
+  guideCurrentStep=0;
+  guideCurrentUrl=g.url;
+
   if(isTabletOrMobile()){
-    renderGuideSteps();
-    setTimeout(()=>{openBottomSheet('guide');dismissPill();},100);
+    // ── MOBILE: open bottom sheet ──
+    renderGuideSteps(); // keep desktop steps in sync too
+    setTimeout(()=>{ openBottomSheet('guide'); dismissPill(); },100);
   } else {
+    // ── DESKTOP: open right panel ──
     toggleRightPanel('guide');
     document.getElementById('guideUrlDisplay').textContent=g.url;
-    const iframe=document.getElementById('guideIframe'),blocked=document.getElementById('guideBlocked');
-    if(g.embeddable){iframe.style.display='block';blocked.style.display='none';iframe.src=g.url;}
-    else{iframe.style.display='none';blocked.style.display='flex';if(g.blockedMsg)document.getElementById('guideBlockedText').textContent=g.blockedMsg;}
+    const iframe=document.getElementById('guideIframe');
+    const blocked=document.getElementById('guideBlocked');
+    if(g.embeddable){
+      iframe.style.display='block'; blocked.style.display='none'; iframe.src=g.url;
+    } else {
+      iframe.style.display='none'; blocked.style.display='flex';
+      if(g.blockedMsg) document.getElementById('guideBlockedText').textContent=g.blockedMsg;
+    }
     renderGuideSteps();
     document.getElementById('guideStatusText').textContent=g.name.toUpperCase();
   }
+
+  // Chat message and banner (both platforms)
   const panelWord=isTabletOrMobile()?'bottom panel':'right panel';
   addMsg('ai',`━━━ ${g.name.toUpperCase()} ━━━\n\nI've opened the guide in the ${panelWord}. Follow the steps — I'll walk you through every click.\n\n> Step 1: ${g.steps[0].text}\n\nAsk me anything along the way.`);
   addGuideBanner(g);
@@ -953,24 +1082,52 @@ function renderGuideSteps(){
     list.appendChild(div);
   });
   document.getElementById('guideProgress').textContent=`${guideCurrentStep+1} / ${guideSteps.length}`;
-  setTimeout(()=>{const el=document.getElementById('gstep_'+guideCurrentStep);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});},100);
+
+  // Scroll active step into view
+  setTimeout(()=>{
+    const el=document.getElementById('gstep_'+guideCurrentStep);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },100);
 }
 
-function guideStepNav(dir){const n=guideCurrentStep+dir;if(n<0||n>=guideSteps.length)return;jumpGuideStep(n);}
-function jumpGuideStep(i){guideCurrentStep=i;renderGuideSteps();renderSheetGuideSteps();}
-function openGuideExternal(){if(guideCurrentUrl)window.open(guideCurrentUrl,'_blank','noopener');}
+function guideStepNav(dir){
+  const newStep=guideCurrentStep+dir;
+  if(newStep<0||newStep>=guideSteps.length)return;
+  jumpGuideStep(newStep);
+}
+
+function jumpGuideStep(i){
+  guideCurrentStep=i;
+  renderGuideSteps();
+  renderSheetGuideSteps(); // sync mobile sheet
+}
+
+function openGuideExternal(){
+  if(guideCurrentUrl) window.open(guideCurrentUrl,'_blank');
+}
 
 function addGuideBanner(g){
   const msgs=document.getElementById('messages');
-  const div=document.createElement('div');div.className='msg ai';
-  const guideAction=isTabletOrMobile()?`onclick="openBottomSheet('guide')"`:` onclick="toggleRightPanel('guide')"`;
-  div.innerHTML=`<div class="guide-banner"><div class="guide-banner-label">🌐 ${g.name.toUpperCase()} · ${g.steps.length} STEPS</div><button class="gb-btn"${guideAction}>OPEN GUIDE</button><button class="gb-btn" onclick="window.open('${g.url}','_blank','noopener')">↗ OPEN SITE</button></div>`;
-  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+  const div=document.createElement('div');
+  div.className='msg ai';
+  const guideAction=isTabletOrMobile()
+    ? `onclick="openBottomSheet('guide')"`
+    : `onclick="toggleRightPanel('guide')"`;
+  div.innerHTML=`
+    <div class="guide-banner">
+      <div class="guide-banner-label">🌐 ${g.name.toUpperCase()} · ${g.steps.length} STEPS</div>
+      <button class="gb-btn" ${guideAction}>OPEN GUIDE</button>
+      <button class="gb-btn" onclick="window.open('${g.url}','_blank')">↗ OPEN SITE</button>
+    </div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
 }
 
 // ── PANEL MANAGEMENT ──────────────────────────────────────────
 function toggleRightPanel(mode){
-  if(rightPanelMode===mode){closeRightPanel();return;}
+  if(rightPanelMode===mode){
+    closeRightPanel(); return;
+  }
   rightPanelMode=mode;
   document.getElementById('rightPanel').classList.add('open');
   document.getElementById('previewMode').style.display=mode==='preview'?'flex':'none';
@@ -985,36 +1142,48 @@ function closeRightPanel(){
   document.getElementById('rightPanel').classList.remove('open');
   document.getElementById('splitBtn').classList.remove('active-btn');
   document.getElementById('guideBtn').classList.remove('active-btn');
+  // Reset panel widths
   document.getElementById('chatPanel').style.flex='1';
   document.getElementById('chatPanel').style.width='';
   document.getElementById('rightPanel').style.flex='';
   document.getElementById('rightPanel').style.width='';
 }
 
+// ── PREVIEW TABS ───────────────────────────────────────────────
 function switchTab(tab){
   currentTab=tab;
   document.getElementById('tabPreview').classList.toggle('active',tab==='preview');
   document.getElementById('tabCode').classList.toggle('active',tab==='code');
-  const iframe=document.getElementById('previewIframe'),code=document.getElementById('previewCode'),empty=document.getElementById('previewEmpty');
-  if(!currentBuildHTML){empty.style.display='flex';iframe.style.display='none';code.style.display='none';return;}
-  if(tab==='preview'){empty.style.display='none';iframe.style.display='block';code.style.display='none';}
-  else{empty.style.display='none';iframe.style.display='none';code.style.display='block';code.textContent=currentBuildHTML;}
+  const iframe=document.getElementById('previewIframe');
+  const code=document.getElementById('previewCode');
+  const empty=document.getElementById('previewEmpty');
+  if(!currentBuildHTML){empty.style.display='flex';iframe.style.display='none';code.style.display='none';return}
+  if(tab==='preview'){empty.style.display='none';iframe.style.display='block';code.style.display='none'}
+  else{empty.style.display='none';iframe.style.display='none';code.style.display='block';code.textContent=currentBuildHTML}
 }
 
+// ── DEVICE ────────────────────────────────────────────────────
 const deviceLabels={desktop:'🖥 DESKTOP',tablet:'⬛ TABLET',mobile:'📱 MOBILE'};
-function cycleDevice(){const order=['desktop','tablet','mobile'];setDevice(order[(order.indexOf(currentDevice)+1)%3]);}
+
+function cycleDevice(){
+  const order=['desktop','tablet','mobile'];
+  setDevice(order[(order.indexOf(currentDevice)+1)%3]);
+}
+
 function setDevice(d){
   currentDevice=d;
   document.getElementById('deviceBtn').textContent=deviceLabels[d];
   ['Desktop','Tablet','Mobile'].forEach(x=>document.getElementById('size'+x)?.classList.toggle('active',x.toLowerCase()===d));
-  const iframe=document.getElementById('previewIframe'),body=document.getElementById('previewBody');
-  const existing=body.querySelector('.mobile-frame');if(existing)existing.remove();
+  const iframe=document.getElementById('previewIframe');
+  const body=document.getElementById('previewBody');
+  const existing=body.querySelector('.mobile-frame');
+  if(existing) existing.remove();
   if(d==='mobile'){
     iframe.style.display='none';
     const frame=document.createElement('div');frame.className='mobile-frame';
     const inner=document.createElement('div');inner.className='mobile-frame-inner';
-    const mi=document.createElement('iframe');mi.id='mobileIframe';mi.sandbox='allow-scripts allow-same-origin';mi.title='Mobile preview';
-    if(currentBuildHTML)mi.srcdoc=currentBuildHTML;
+    const mi=document.createElement('iframe');mi.id='mobileIframe';mi.sandbox='allow-scripts allow-same-origin';
+    if(currentBuildHTML) mi.srcdoc=currentBuildHTML;
     inner.appendChild(mi);frame.appendChild(inner);body.appendChild(frame);
     document.getElementById('previewStatusText').textContent='375px · MOBILE VIEW';
   } else if(d==='tablet'){
@@ -1026,98 +1195,109 @@ function setDevice(d){
   }
 }
 
+// ── LOAD PREVIEW ──────────────────────────────────────────────
 function loadPreview(html){
   currentBuildHTML=html;
   const kb=(new Blob([html]).size/1024).toFixed(1);
+
   if(isTabletOrMobile()){
+    // ── MOBILE: feed sheet iframe directly, show pill ──
     const sheetIframe=document.getElementById('sheetIframe');
     const sheetCode=document.getElementById('sheetCode');
-    if(sheetIframe)sheetIframe.srcdoc=html;
-    if(sheetCode)sheetCode.textContent=html;
+    if(sheetIframe) sheetIframe.srcdoc=html;
+    if(sheetCode) sheetCode.textContent=html;
     showPill('BUILD READY · '+kb+'KB','TAP TO PREVIEW');
     return;
   }
-  const empty=document.getElementById('previewEmpty'),iframe=document.getElementById('previewIframe'),code=document.getElementById('previewCode');
+
+  // ── DESKTOP: feed split-panel iframe ──
+  const empty=document.getElementById('previewEmpty');
+  const iframe=document.getElementById('previewIframe');
+  const code=document.getElementById('previewCode');
   empty.style.display='none';
-  if(currentTab==='code'){iframe.style.display='none';code.style.display='block';code.textContent=html;}
-  else{
+  if(currentTab==='code'){
+    iframe.style.display='none';code.style.display='block';code.textContent=html;
+  } else {
     const mi=document.getElementById('mobileIframe');
-    if(mi){mi.srcdoc=html;}
-    else{code.style.display='none';iframe.style.display='block';iframe.srcdoc=html;}
+    if(mi){mi.srcdoc=html}
+    else{code.style.display='none';iframe.style.display='block';iframe.srcdoc=html}
   }
   document.getElementById('previewStatusText').textContent=`BUILD LOADED · ${kb}KB · ${currentDevice.toUpperCase()} VIEW`;
-  if(rightPanelMode!=='preview') setTimeout(()=>toggleRightPanel('preview'),50);
+  if(rightPanelMode!=='preview') toggleRightPanel('preview');
 }
 
 function openInNewTab(){
   if(!currentBuildHTML)return;
   const blob=new Blob([currentBuildHTML],{type:'text/html'});
   const url=URL.createObjectURL(blob);
-  window.open(url,'_blank','noopener');
+  window.open(url,'_blank');
   setTimeout(()=>URL.revokeObjectURL(url),10000);
 }
+
 function downloadCurrentBuild(){
   if(!currentBuildHTML)return;
   const blob=new Blob([currentBuildHTML],{type:'text/html'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fluentra-build.html';
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='fluentra-build.html';
   document.body.appendChild(a);a.click();document.body.removeChild(a);
   setTimeout(()=>URL.revokeObjectURL(a.href),10000);
 }
 
-// ── RESIZE HANDLE ─────────────────────────────────────────────
+// ── RESIZE ────────────────────────────────────────────────────
 (function(){
-  const handle=document.getElementById('resizeHandle'),chat=document.getElementById('chatPanel'),right=document.getElementById('rightPanel');
+  const handle=document.getElementById('resizeHandle');
+  const chat=document.getElementById('chatPanel');
+  const right=document.getElementById('rightPanel');
   let drag=false,sx=0,scw=0,srw=0;
   handle.addEventListener('mousedown',e=>{
     if(!rightPanelMode)return;
-    drag=true;sx=e.clientX;scw=chat.getBoundingClientRect().width;srw=right.getBoundingClientRect().width;
-    handle.classList.add('dragging');document.body.style.cursor='col-resize';document.body.style.userSelect='none';
+    drag=true;sx=e.clientX;
+    scw=chat.getBoundingClientRect().width;
+    srw=right.getBoundingClientRect().width;
+    handle.classList.add('dragging');
+    document.body.style.cursor='col-resize';
+    document.body.style.userSelect='none';
   });
   document.addEventListener('mousemove',e=>{
     if(!drag)return;
-    const dx=e.clientX-sx,total=scw+srw,nc=Math.max(280,Math.min(total-250,scw+dx));
-    chat.style.flex='none';chat.style.width=nc+'px';right.style.flex='none';right.style.width=(total-nc)+'px';
+    const dx=e.clientX-sx,total=scw+srw;
+    const nc=Math.max(280,Math.min(total-250,scw+dx));
+    chat.style.flex='none';chat.style.width=nc+'px';
+    right.style.flex='none';right.style.width=(total-nc)+'px';
   });
   document.addEventListener('mouseup',()=>{
-    if(!drag)return;drag=false;handle.classList.remove('dragging');document.body.style.cursor='';document.body.style.userSelect='';
+    if(!drag)return;drag=false;
+    handle.classList.remove('dragging');
+    document.body.style.cursor='';document.body.style.userSelect='';
   });
 })();
 
 // ── MENU / PAGES ──────────────────────────────────────────────
-function openMenu(){document.getElementById('menu').classList.add('open');document.getElementById('menuOverlay').classList.add('open');}
-function closeMenu(){document.getElementById('menu').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');}
-function openPage(id){document.getElementById('page-'+id).classList.add('open');}
-function closePage(id){document.getElementById('page-'+id).classList.remove('open');}
+function openMenu(){playSwoosh();document.getElementById('menu').classList.add('open');document.getElementById('menuOverlay').classList.add('open')}
+function closeMenu(){playSwoosh();document.getElementById('menu').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open')}
+function openPage(id){document.getElementById('page-'+id).classList.add('open')}
+function closePage(id){document.getElementById('page-'+id).classList.remove('open')}
 
 // ── INPUT ─────────────────────────────────────────────────────
-function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';document.getElementById('charCt').textContent=el.value.length+'/2000';}
-function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}}
-
-// FIX: Extract only the message text from starter buttons (strip prefix and tag)
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';document.getElementById('charCt').textContent=el.value.length+'/2000'}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}}
 function useStarter(btn){
-  // Clone to safely extract text without the span elements
-  const clone = btn.cloneNode(true);
-  // Remove prefix span
-  const prefix = clone.querySelector('.starter-prefix');
-  if(prefix) prefix.remove();
-  // Remove tag span
-  const tag = clone.querySelector('.starter-tag');
-  if(tag) tag.remove();
-  const text = clone.textContent.trim();
+  const text=btn.textContent.replace(/^\d+ > /,'').replace(/[A-Z · ]+$/,'').trim();
   document.getElementById('chatInput').value=text;
   autoResize(document.getElementById('chatInput'));
   sendMessage();
 }
-
-function quickPrompt(text){document.getElementById('chatInput').value=text;autoResize(document.getElementById('chatInput'));document.getElementById('chatInput').focus();}
+function quickPrompt(text){document.getElementById('chatInput').value=text;autoResize(document.getElementById('chatInput'));document.getElementById('chatInput').focus()}
 
 // ── MESSAGES ──────────────────────────────────────────────────
-function removeWelcome(){const w=document.getElementById('welcome');if(w){w.remove();document.getElementById('messages').classList.add('has-msgs');}}
+function removeWelcome(){const w=document.getElementById('welcome');if(w)w.remove()}
 
 function addMsg(role,text){
   removeWelcome();
   const msgs=document.getElementById('messages');
-  const div=document.createElement('div');div.className=`msg ${role}`;
+  const div=document.createElement('div');
+  div.className=`msg ${role}`;
   const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
   if(role==='ai'){
     const fmt=text
@@ -1128,28 +1308,28 @@ function addMsg(role,text){
       .replace(/\n/g,'<br>');
     div.innerHTML=`<div class="msg-header"><span style="color:var(--amber)">FLUENTRA</span><span style="color:var(--text3)">·</span><span>${time}</span></div><div class="msg-bubble">${fmt}</div>`;
   } else {
-    div.innerHTML=`<div class="msg-header" style="justify-content:flex-end"><span>${time}</span><span style="color:var(--text3)">·</span><span style="color:var(--text3)">YOU</span></div><div class="msg-bubble">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}</div>`;
+    div.innerHTML=`<div class="msg-header" style="justify-content:flex-end"><span>${time}</span><span style="color:var(--text3)">·</span><span style="color:var(--text3)">YOU</span></div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
   }
   msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
 }
 
-function addBuildBanner(html, truncated=false){
+function addBuildBanner(html){
   const msgs=document.getElementById('messages');
   const div=document.createElement('div');div.className='msg ai';
   const kb=(new Blob([html]).size/1024).toFixed(1);
-  const previewAction=isTabletOrMobile()?`onclick="openBottomSheet('preview')"`:` onclick="toggleRightPanel('preview')"`;
-  const tw=truncated?`<div style="width:100%;margin-top:6px;padding:6px 8px;background:rgba(212,144,90,0.08);border-left:2px solid var(--amber);font-size:10px;color:var(--amber2);letter-spacing:1px">⚠ BUILD INCOMPLETE — say <strong style="color:var(--amber)">"continue the build"</strong> to finish it.</div>`:'';
-  div.innerHTML=`<div class="build-banner" style="flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%">
-      <div style="flex:1"><div class="build-banner-label">◈ BUILD READY · ${kb}KB</div><div style="font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:1px">HTML · SELF-CONTAINED · DEPLOY-READY</div></div>
-      <button class="bb-btn"${previewAction}>⬜ PREVIEW</button>
-      <button class="bb-btn" onclick="openInNewTab()">⬡ OPEN</button>
-      <button class="bb-btn primary" onclick="downloadCurrentBuild()">⬇ DOWNLOAD</button>
-    </div>${tw}
+  const previewAction=isTabletOrMobile()
+    ? `onclick="openBottomSheet('preview')"`
+    : `onclick="toggleRightPanel('preview')"`;
+  div.innerHTML=`<div class="build-banner">
+    <div><div class="build-banner-label">◈ BUILD READY · ${kb}KB</div><div style="font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:1px">HTML · SELF-CONTAINED · DEPLOY-READY</div></div>
+    <button class="bb-btn" ${previewAction}>⬜ PREVIEW</button>
+    <button class="bb-btn" onclick="openInNewTab()">⬡ OPEN</button>
+    <button class="bb-btn primary" onclick="downloadCurrentBuild()">⬇ DOWNLOAD</button>
   </div>`;
   msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
 }
 
+// Build log messages
 function getBuildMsgs(text){
   const l=text.toLowerCase();
   if(l.includes('landing')||l.includes('website')||l.includes('build')||l.includes('page')||l.includes('site'))
@@ -1174,58 +1354,41 @@ function showTyping(userText){
   const msgs=document.getElementById('messages');
   const div=document.createElement('div');div.className='msg ai';div.id='typing';
   div.innerHTML=`<div class="msg-header"><span style="color:var(--amber)">FLUENTRA</span><span style="color:var(--text3)">· PROCESSING</span></div>
-    <div class="msg-bubble" id="buildLog" style="font-size:11px;line-height:2;min-width:220px"></div>`;
+    <div class="msg-bubble" id="buildLog" style="font-size:11px;line-height:2;min-width:220px">
+      <span style="color:var(--amber)">></span> INITIALIZING...<span class="blink">_</span>
+    </div>`;
   msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
-
-  // Add first line immediately
   const bm=getBuildMsgs(userText||'');let idx=0;
-  const log=document.getElementById('buildLog');
-  const firstLine=document.createElement('div');firstLine.className='build-step';
-  firstLine.style.cssText='color:var(--amber2)';
-  firstLine.innerHTML=`<span style="color:var(--amber)">></span> INITIALIZING...`;
-  log.appendChild(firstLine);
-
   buildInterval=setInterval(()=>{
     const log=document.getElementById('buildLog');
-    if(!log){clearInterval(buildInterval);return;}
+    if(!log){clearInterval(buildInterval);return}
     if(idx<bm.length){
-      // Dim previous lines
-      log.querySelectorAll('.build-step').forEach(p=>{p.style.color='var(--text3)';p.querySelector&&p.querySelector('.blink-cur')&&p.querySelector('.blink-cur').remove();});
+      log.querySelectorAll('.build-step').forEach(p=>p.style.color='var(--text3)');
       const line=document.createElement('div');line.className='build-step';
       line.style.cssText='color:var(--amber2);animation:msgIn 0.2s ease both';
-      line.innerHTML=`<span style="color:var(--amber)">></span> ${bm[idx]}`;
+      line.innerHTML=`<span style="color:var(--amber)">></span> ${bm[idx]}<span class="blink">_</span>`;
       log.appendChild(line);msgs.scrollTop=msgs.scrollHeight;idx++;
     }
-  },900);
+  },800);
 }
 
-function removeTyping(){clearInterval(buildInterval);const t=document.getElementById('typing');if(t)t.remove();}
+function removeTyping(){clearInterval(buildInterval);const t=document.getElementById('typing');if(t)t.remove()}
 
-function updateMemoryIndicator(){} // no-op — memory is silent
-
+// ── NEW SESSION ────────────────────────────────────────────────
 function addRetryButtons(){
   const msgs=document.getElementById('messages');
   const div=document.createElement('div');div.className='msg ai';
   div.innerHTML=`<div style="display:flex;gap:8px;margin-top:4px">
     <button onclick="retryLast()" class="hdr-btn" style="font-size:10px;padding:4px 12px">↩ RETRY</button>
-    <button onclick="confirmNewSession()" class="hdr-btn" style="font-size:10px;padding:4px 12px">⟫ NEW SESSION</button>
+    <button onclick="newSession()" class="hdr-btn" style="font-size:10px;padding:4px 12px">⟫ NEW SESSION</button>
   </div>`;
   msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
 }
 
-function retryLast(){
-  if(!lastMessage)return;
-  const toast=document.getElementById('newSessionToast');if(toast)toast.remove();
-  document.getElementById('chatInput').value=lastMessage;
-  autoResize(document.getElementById('chatInput'));
-  sendMessage();
-}
+function retryLast(){if(!lastMessage)return;document.getElementById('chatInput').value=lastMessage;autoResize(document.getElementById('chatInput'));sendMessage()}
 
 function newSession(){
   currentBuildHTML='';conversationHistory=[];
-  document.getElementById('messages').classList.remove('has-msgs');
-  // Reset status
-  const st=document.getElementById('statusText');if(st)st.textContent='SONNET 4.6';
   closeRightPanel();
   document.getElementById('messages').innerHTML=`
     <div class="welcome" id="welcome" style="opacity:1">
@@ -1233,14 +1396,15 @@ function newSession(){
       <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
       <div class="prompt-line"><span style="color:var(--amber)">></span><span>What are we shipping today?</span><span class="blink">_</span></div>
       <div class="starters" id="startersGrid">
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">01 ></span>Build a SaaS landing page with pricing &amp; waitlist<span class="starter-tag">BUILD · HTML · DEPLOY-READY</span></button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">02 ></span>Deploy my site to Cloudflare Pages for free<span class="starter-tag">GUIDE · STEP-BY-STEP · FREE HOSTING</span></button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">03 ></span>Form an LLC — what do I actually need?<span class="starter-tag">LEGAL · BUSINESS · STATE-SPECIFIC</span></button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">04 ></span>Find 10 domain names for my brand idea<span class="starter-tag">DOMAINS · BRANDABLE · AVAILABLE</span></button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">05 ></span>Push my code to GitHub and go live<span class="starter-tag">GUIDE · GIT · VERSION CONTROL</span></button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">06 ></span>Write a demand letter for unpaid work<span class="starter-tag">LEGAL · DOCUMENT · SEND-READY</span></button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">07 ></span>Build a full e-commerce store with cart &amp; checkout<span class="starter-tag">BUILD · STRIPE · FULL-STACK</span></button>
-        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">08 ></span>Set up Stripe payments on my website<span class="starter-tag">GUIDE · PAYMENTS · MONETIZE</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">01 ></span> Build a SaaS landing page with pricing &amp; waitlist<span class="starter-tag">BUILD · HTML · DEPLOY-READY</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">02 ></span> Deploy my site to Cloudflare Pages for free<span class="starter-tag">GUIDE · STEP-BY-STEP · FREE HOSTING</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">03 ></span> Form an LLC — what do I actually need?<span class="starter-tag">LEGAL · BUSINESS · STATE-SPECIFIC</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">04 ></span> Find 10 domain names for my brand idea<span class="starter-tag">DOMAINS · BRANDABLE · AVAILABLE</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">05 ></span> Push my code to GitHub and go live<span class="starter-tag">GUIDE · GIT · VERSION CONTROL</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">06 ></span> Write a demand letter for unpaid work<span class="starter-tag">LEGAL · DOCUMENT · SEND-READY</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">07 ></span> Build a full e-commerce store with cart &amp; checkout<span class="starter-tag">BUILD · STRIPE · FULL-STACK</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">08 ></span> Set up Stripe payments on my website<span class="starter-tag">GUIDE · PAYMENTS · MONETIZE</span></button>
+        <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">09 ></span> Write a LinkedIn post about my latest build<span class="starter-tag">LINKEDIN · CONTENT · GROW AUDIENCE</span></button>
       </div>
     </div>`;
   document.getElementById('previewIframe').srcdoc='';
@@ -1269,21 +1433,26 @@ The old car on the racing track. Simple outside. Infinite inside. You don't ask 
 8. TAX — Self-employed, small business, quarterly. Always recommend a CPA for their specific situation.
 9. DEPLOY GUIDANCE — Step-by-step for Cloudflare Pages, GitHub, Namecheap, Stripe.
 
-━━━ CONVERSATION MEMORY ━━━
+━━━ LINKEDIN INTEGRATION ━━━
+When the user has connected LinkedIn (you'll know because they mention it or ask to post):
+- Help them write high-performing LinkedIn posts: hook in line 1, short paragraphs, no hashtag spam, one clear insight or story
+- Ask: what's the goal? (grow audience, announce something, share a win, attract clients)
+- Formats that work: a short story with a lesson, a contrarian take, a numbered list of hard truths, a behind-the-scenes build update
+- Always write in first person, their voice — ask one question about tone if you're not sure
+- End posts with a question to drive comments
+- When they're happy with the draft, remind them to use the "POST NOW" button in the Connection Hub
 You have full context of the conversation. When a user says "make the button red" or "change the hero" — you know what they're referring to. Always build on the previous response. Never lose context.
 
 ━━━ QUESTION RULE — CRITICAL ━━━
 Ask ONE question maximum before helping. If you have enough — START. Build first, refine after. Never ask a list of questions before helping.
 
 ━━━ WHEN BUILDING WEBSITES ━━━
-CRITICAL: Always output COMPLETE HTML. Never stop mid-build. The closing </html> tag MUST be in your response.
-- Output in a single \`\`\`html code block — start with <!DOCTYPE html>, end with </html>
-- Self-contained: no external dependencies that require a server. CDN links for fonts/icons are fine.
-- Write efficient CSS — use variables, avoid bloat. Combine selectors. No unnecessary animations.
-- Make it genuinely beautiful, not generic. But keep the code tight.
-- Mobile responsive by default. Use a single stylesheet, not separate media-query files.
-- Include a clear CTA matching the user's goal.
-- If the user says "continue the build" — output the remaining HTML from where you left off, wrapped in \`\`\`html.
+- Always output complete, self-contained HTML in a \`\`\`html code block
+- The file must work when opened directly in a browser — no external dependencies that would fail
+- Use CDN links for fonts and icons if needed
+- Make it genuinely beautiful, not generic
+- Mobile responsive by default
+- Include a clear CTA that matches the user's goal
 
 ━━━ WHEN GUIDING DEPLOYMENT ━━━
 - Give numbered steps, clear and specific
@@ -1299,155 +1468,59 @@ Calm. Deep. Like the ocean. Honest, even when it's hard. Warm but direct. Never 
 ━━━ FORMATTING ━━━
 Plain text, terminal feel. Code in triple backticks with language tag. Sections with ━━━ TITLE ━━━. End with ONE clear next step. For builds: output the full HTML, then one sentence on how to deploy it.`;
 
-// ── BUILD EXTRACTION ──────────────────────────────────────────
-// Handles: complete ```html blocks, truncated blocks, raw HTML in reply
-function extractBuildHtml(text){
-  if(!text) return null;
-
-  // 1. Try greedy match for complete ```html ... ``` block
-  //    Greedy so it captures the LAST closing fence (handles nested backticks in code)
-  const fenced = text.match(/```(?:html)?\s*\n([\s\S]*?)```/i);
-  if(fenced && fenced[1].trim().length > 100){
-    return fenced[1].trim();
-  }
-
-  // 2. Truncated response — opening fence exists but no closing fence
-  //    Claude hit max_tokens mid-stream; we still have a valid (incomplete) HTML file
-  const truncated = text.match(/```(?:html)?\s*\n([\s\S]+)$/i);
-  if(truncated){
-    let html = truncated[1].trim();
-    // Try to close any open tags gracefully so browser can render
-    if(!html.includes('</html>')){
-      // Close common open structures
-      if(!html.includes('</body>')) html += '\n</body>';
-      html += '\n</html>';
-    }
-    if(html.length > 200) return html;
-  }
-
-  // 3. Raw HTML in reply (no fences) — starts with <!DOCTYPE or <html
-  if(text.trimStart().startsWith('<!DOCTYPE') || text.trimStart().startsWith('<html')){
-    return text.trim();
-  }
-
-  // 4. Reply contains a large HTML block mid-text
-  const rawBlock = text.match(/(<!DOCTYPE[\s\S]+)/i) || text.match(/(<html[\s\S]+)/i);
-  if(rawBlock && rawBlock[1].length > 200){
-    let html = rawBlock[1];
-    if(!html.includes('</html>')) html += '\n</html>';
-    return html;
-  }
-
-  return null;
-}
-
-// ── CONFIRM NEW SESSION ────────────────────────────────────────
-function confirmNewSession(){
-  if(conversationHistory.length===0){ newSession(); return; }
-  const existing=document.getElementById('newSessionToast');
-  if(existing){ existing.remove(); return; }
-  const toast=document.createElement('div');
-  toast.id='newSessionToast';
-  toast.style.cssText=`position:fixed;bottom:140px;left:50%;transform:translateX(-50%);z-index:500;
-    background:rgba(8,16,28,0.97);border:1px solid rgba(212,144,90,0.4);
-    padding:14px 18px;display:flex;flex-direction:column;gap:10px;align-items:center;
-    backdrop-filter:blur(16px);min-width:240px;box-shadow:0 4px 32px rgba(0,0,0,0.6)`;
-  toast.innerHTML=`
-    <div style="font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:2px">START NEW SESSION?</div>
-    <div style="font-size:10px;color:var(--text3);letter-spacing:1px">This will clear the conversation</div>
-    <div style="display:flex;gap:8px;width:100%">
-      <button onclick="document.getElementById('newSessionToast').remove()"
-        style="flex:1;font-family:var(--mono);font-size:10px;color:var(--text2);background:transparent;
-        border:1px solid rgba(212,144,90,0.2);padding:7px;cursor:pointer;letter-spacing:1px">CANCEL</button>
-      <button onclick="document.getElementById('newSessionToast').remove();newSession()"
-        style="flex:1;font-family:var(--mono);font-size:10px;color:var(--amber2);
-        background:rgba(212,144,90,0.12);border:1px solid rgba(212,144,90,0.4);
-        padding:7px;cursor:pointer;letter-spacing:1px">⟳ CLEAR</button>
-    </div>`;
-  document.body.appendChild(toast);
-  setTimeout(()=>{ const t=document.getElementById('newSessionToast'); if(t)t.remove(); },6000);
-}
-
 // ── SEND ──────────────────────────────────────────────────────
 async function sendMessage(){
   const input=document.getElementById('chatInput');
   const text=input.value.trim();
   if(!text||isThinking)return;
-  // Dismiss any open toast
-  const toast=document.getElementById('newSessionToast');if(toast)toast.remove();
   input.value='';autoResize(input);
   lastMessage=text;
   addMsg('user',text);
   isThinking=true;
   document.getElementById('sendBtn').disabled=true;
-
-  // ── START thinking UX ──
   showTyping(text);
-  document.getElementById('statusDot').classList.add('thinking');
-  document.getElementById('statusText').textContent='THINKING...';
+  playDeepHum();
 
-  // Push user message to history FIRST, then build the send window
+  // Build conversation history for memory
   conversationHistory.push({role:'user',content:text});
-  if(conversationHistory.length>40) conversationHistory=conversationHistory.slice(-40);
-  const historyToSend=conversationHistory.slice(-12);
-
-  // 90-second timeout — builds take time
-  const controller = new AbortController();
-  const timeoutId = setTimeout(()=>controller.abort(), 90000);
+  // Keep last 10 turns to avoid token overflow
+  const historyToSend=conversationHistory.slice(-10);
 
   try{
     const res=await fetch('https://dmemzljerldzeiwqfxzp.supabase.co/functions/v1/fluentra-chat',{
       method:'POST',
-      signal: controller.signal,
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({system:SYSTEM,messages:historyToSend,userMessage:text})
     });
-    clearTimeout(timeoutId);
-
-    if(!res.ok){
-      throw new Error(`HTTP ${res.status}`);
-    }
     const data=await res.json();
-
-    // ── STOP thinking UX ──
-    removeTyping();
-    document.getElementById('statusDot').classList.remove('thinking');
-    document.getElementById('statusText').textContent='SONNET 4.6';
-
+    removeTyping();stopDeepHum();
     if(data.text){
+      playPing();
       const reply=data.text;
+      // Add to history
       conversationHistory.push({role:'assistant',content:reply});
       addMsg('ai',reply);
-      const buildHtml = extractBuildHtml(reply);
-      if(buildHtml){
-        currentBuildHTML=buildHtml;
-        // Warn if output looks truncated (no closing </html>)
-        const isTruncated = !reply.includes('</html>') && !reply.includes('</HTML>');
-        addBuildBanner(buildHtml, isTruncated);
-        loadPreview(buildHtml);
-      }
+      // Detect build
+      const htmlMatch=reply.match(/```(?:html)?\n?([\s\S]*?)```/i);
+      const rawHtml=reply.includes('<!DOCTYPE')||reply.includes('<html');
+      const buildHtml=htmlMatch?htmlMatch[1].trim():rawHtml?reply.trim():null;
+      if(buildHtml){currentBuildHTML=buildHtml;addBuildBanner(buildHtml);loadPreview(buildHtml)}
+      // Detect guide triggers
       const lower=reply.toLowerCase();
       if(!activeGuide){
-        if(lower.includes('cloudflare pages')&&lower.includes('step'))startGuide('cloudflare');
-        else if(lower.includes('github')&&lower.includes('push')&&lower.includes('step'))startGuide('github');
-        else if(lower.includes('stripe')&&lower.includes('step')&&lower.includes('register'))startGuide('stripe');
+        if(lower.includes('cloudflare pages')&&lower.includes('step')) startGuide('cloudflare');
+        else if(lower.includes('github')&&lower.includes('push')&&lower.includes('step')) startGuide('github');
+        else if(lower.includes('stripe')&&lower.includes('step')&&lower.includes('register')) startGuide('stripe');
       }
     } else {
       addMsg('ai','> Signal lost. '+(data.error||'Retry transmission.'));
       addRetryButtons();
     }
   }catch(e){
-    clearTimeout(timeoutId);
-    removeTyping();
-    document.getElementById('statusDot').classList.remove('thinking');
-    document.getElementById('statusText').textContent='SONNET 4.6';
-    const msg = e.name==='AbortError'
-      ? '> Build timed out (90s). Try asking for a simpler version first, then say "add more detail".'
-      : '> Connection interrupted — '+e.message+'. Check your signal and retry.';
-    addMsg('ai', msg);
+    removeTyping();stopDeepHum();
+    addMsg('ai','> Connection interrupted. Check your signal and retry.');
     addRetryButtons();
   }
-
   isThinking=false;
   document.getElementById('sendBtn').disabled=false;
   input.focus();
@@ -1460,7 +1533,7 @@ async function sendMessage(){
   const canvas=document.getElementById('dissolveCanvas'),pure=document.getElementById('pureOcean'),pureDot=document.getElementById('pureRedDot');
   const welcome=document.getElementById('welcome');
   const ctx=canvas.getContext('2d');
-  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
   resize();window.addEventListener('resize',resize);
   let particles=[];
   function createParticles(){
@@ -1475,7 +1548,7 @@ async function sendMessage(){
     particles=[];const step=4;
     for(let y=0;y<canvas.height;y+=step)for(let x=0;x<canvas.width;x+=step){
       const i=(y*canvas.width+x)*4;
-      if(id[i+3]>60)particles.push({x,y,ox:x,oy:y,r:id[i],g:id[i+1],b:id[i+2],a:id[i+3]/255,
+      if(id[i+3]>60) particles.push({x,y,ox:x,oy:y,r:id[i],g:id[i+1],b:id[i+2],a:id[i+3]/255,
         vx:(Math.random()-.5)*.8,vy:-(Math.random()*2.5+.5),isComet:Math.random()<.08,
         size:Math.random()*1.5+.5,life:1,decay:Math.random()*.008+.004,twinkle:Math.random()<.3});
     }
@@ -1498,25 +1571,58 @@ async function sendMessage(){
         ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fillStyle=`rgba(${p.r},${p.g},${p.b},${ta})`;ctx.fill();
       }
     }
-    if(!allDead){requestAnimationFrame(animDissolve);}
+    if(!allDead){requestAnimationFrame(animDissolve)}
     else{
       ctx.clearRect(0,0,canvas.width,canvas.height);canvas.style.opacity='0';
       pure.style.opacity='1';pureDot.style.opacity='1';
       setTimeout(()=>{
         intro.style.transition='opacity 1.5s ease';intro.style.opacity='0';
-        if(welcome){welcome.style.opacity='1';}
-        setTimeout(()=>{intro.style.display='none';intro.style.pointerEvents='none';},1600);
+        if(welcome){welcome.style.opacity='1';setTimeout(()=>playPing(),500)}
+        setTimeout(()=>{intro.style.display='none';intro.style.pointerEvents='none'},1600);
       },2000);
     }
   }
   setTimeout(()=>{
+    document.querySelectorAll('.boot-line').forEach((_,i)=>setTimeout(()=>playTypewriterClick(),i*280+100));
     boot.style.opacity='0';setTimeout(()=>boot.style.display='none',800);
     words.style.opacity='1';
-    setTimeout(()=>{line1.style.opacity='1';line1.style.transform='translateY(0)';},200);
-    setTimeout(()=>{line2.style.opacity='1';line2.style.transform='translateY(0)';},900);
-    setTimeout(()=>{words.style.opacity='0';createParticles();requestAnimationFrame(animDissolve);},2800);
+    setTimeout(()=>{line1.style.opacity='1';line1.style.transform='translateY(0)'},200);
+    setTimeout(()=>{line2.style.opacity='1';line2.style.transform='translateY(0)'},900);
+    setTimeout(()=>{playSparkle();words.style.opacity='0';createParticles();requestAnimationFrame(animDissolve)},2800);
   },2500);
+  setTimeout(()=>{
+    const b=document.getElementById('bootPhase');if(!b)return;
+    const tap=document.createElement('div');
+    tap.style.cssText='position:absolute;bottom:40px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:3px;text-transform:uppercase;animation:logoBlink 1.5s infinite;cursor:pointer';
+    tap.textContent='> TAP ANYWHERE TO BEGIN';tap.onclick=()=>{initAudio();tap.remove()};b.appendChild(tap);
+  },100);
 })();
+
+// ── AUDIO ──────────────────────────────────────────────────────
+let audioCtx=null,oceanGain=null,audioStarted=false;
+function initAudio(){
+  if(audioStarted)return;audioStarted=true;
+  try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();startOceanAmbience()}catch(e){}
+}
+function startOceanAmbience(){
+  if(!audioCtx)return;
+  const bs=audioCtx.sampleRate*4,buf=audioCtx.createBuffer(2,bs,audioCtx.sampleRate);
+  for(let c=0;c<2;c++){const d=buf.getChannelData(c);for(let i=0;i<bs;i++)d[i]=Math.random()*2-1}
+  const noise=audioCtx.createBufferSource();noise.buffer=buf;noise.loop=true;
+  const lp=audioCtx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=400;
+  const hp=audioCtx.createBiquadFilter();hp.type='highpass';hp.frequency.value=80;
+  const lfo=audioCtx.createOscillator();lfo.frequency.value=0.15;
+  const lg=audioCtx.createGain();lg.gain.value=0.3;lfo.connect(lg);
+  oceanGain=audioCtx.createGain();oceanGain.gain.value=0;
+  noise.connect(lp);lp.connect(hp);hp.connect(oceanGain);lg.connect(oceanGain.gain);oceanGain.connect(audioCtx.destination);
+  noise.start();lfo.start();oceanGain.gain.setTargetAtTime(0.08,audioCtx.currentTime,3);
+}
+function playTypewriterClick(){if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='square';o.frequency.value=800+Math.random()*400;g.gain.setValueAtTime(.04,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.04);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.04)}catch(e){}}
+function playSwoosh(){if(!audioCtx)return;try{const bs=audioCtx.sampleRate*.3,buf=audioCtx.createBuffer(1,bs,audioCtx.sampleRate),d=buf.getChannelData(0);for(let i=0;i<bs;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/bs,1.5);const s=audioCtx.createBufferSource();s.buffer=buf;const f=audioCtx.createBiquadFilter();f.type='bandpass';f.frequency.value=600;f.frequency.linearRampToValueAtTime(200,audioCtx.currentTime+.3);const g=audioCtx.createGain();g.gain.setValueAtTime(.15,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.3);s.connect(f);f.connect(g);g.connect(audioCtx.destination);s.start()}catch(e){}}
+function playSparkle(){if(!audioCtx)return;for(let i=0;i<6;i++)setTimeout(()=>{try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=1200+Math.random()*1800;g.gain.setValueAtTime(.06,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.4);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.4)}catch(e){}},i*80)}
+function playPing(){if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=528;o.frequency.setTargetAtTime(440,audioCtx.currentTime,.3);g.gain.setValueAtTime(.12,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+1.2);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+1.2)}catch(e){}}
+function playDeepHum(){if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=55;g.gain.setValueAtTime(0,audioCtx.currentTime);g.gain.linearRampToValueAtTime(.06,audioCtx.currentTime+.5);o.connect(g);g.connect(audioCtx.destination);o.start();window._humNode=o;window._humGain=g}catch(e){}}
+function stopDeepHum(){if(!audioCtx||!window._humGain)return;try{window._humGain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.5);setTimeout(()=>{try{window._humNode.stop()}catch(e){}},600)}catch(e){}}
 
 // ── THEMES ────────────────────────────────────────────────────
 const themes={
@@ -1524,19 +1630,24 @@ const themes={
   dawn:{bg:'linear-gradient(180deg,#2a1a40 0%,#4a2060 8%,#e87040 28%,#f09050 32%,#e87040 36%,#5a4080 45%,#3a2860 60%,#1a1030 75%,#0a0818 100%)',icon:'🌅',label:'DUSK',horizon:'#e87040'},
   day:{bg:'linear-gradient(180deg,#1a4060 0%,#2a6080 8%,#60a0c0 28%,#80c0d8 32%,#60a0c0 36%,#2a7090 45%,#1a5070 60%,#0d3050 75%,#081828 100%)',icon:'☀️',label:'DAY',horizon:'#60c0d8'}
 };
-let currentTheme='night';const themeOrder=['night','dawn','day'];
-function cycleTheme(){const i=themeOrder.indexOf(currentTheme);currentTheme=themeOrder[(i+1)%3];applyTheme(currentTheme);}
+let currentTheme='night';const themeOrder=['night','dawn','day'];let isMuted=false;
+function toggleMute(){isMuted=!isMuted;if(oceanGain&&audioCtx)oceanGain.gain.setTargetAtTime(isMuted?0:.08,audioCtx.currentTime,.5);document.getElementById('muteBtn').textContent=isMuted?'🔇':'🔊'}
+function cycleTheme(){playSwoosh();const i=themeOrder.indexOf(currentTheme);currentTheme=themeOrder[(i+1)%3];applyTheme(currentTheme)}
 function applyTheme(n){
   const t=themes[n];
   document.querySelector('.ocean-bg').style.background=t.bg;
   document.querySelector('.horizon-glow').style.background=`linear-gradient(90deg,transparent 0%,${t.horizon} 20%,${t.horizon} 50%,${t.horizon} 80%,transparent 100%)`;
   document.getElementById('themeBtn').textContent=t.icon;
   document.getElementById('themeLbl').textContent=t.label;
+  if(oceanGain&&audioCtx){const v=n==='night'?.08:n==='dawn'?.12:.05;oceanGain.gain.setTargetAtTime(v,audioCtx.currentTime,1)}
 }
+document.addEventListener('click',initAudio,{once:true});
+document.addEventListener('keydown',initAudio,{once:true});
+document.addEventListener('touchstart',initAudio,{once:true});
 
 // ── MOBILE DETECTION ──────────────────────────────────────────
-function isMobile(){return window.innerWidth<=640;}
-function isTabletOrMobile(){return window.innerWidth<=900;}
+function isMobile(){return window.innerWidth<=640}
+function isTabletOrMobile(){return window.innerWidth<=900}
 
 // ── FLOATING PILL ─────────────────────────────────────────────
 function showPill(label,sub){
@@ -1545,43 +1656,62 @@ function showPill(label,sub){
   document.getElementById('floatPill').classList.add('visible');
 }
 function dismissPill(e){
-  if(e)e.stopPropagation();
+  if(e) e.stopPropagation();
   document.getElementById('floatPill').classList.remove('visible');
 }
 
 // ── BOTTOM SHEET ──────────────────────────────────────────────
-let sheetOpen=false,sheetCurrentTab='preview';
-let sheetStartY=0,sheetDragging=false;
+let sheetOpen=false;
+let sheetCurrentTab='preview';
+let sheetStartY=0,sheetStartTranslate=0,sheetDragging=false;
 
 function openBottomSheet(mode){
-  const sheet=document.getElementById('bottomSheet'),backdrop=document.getElementById('sheetBackdrop');
+  const sheet=document.getElementById('bottomSheet');
+  const backdrop=document.getElementById('sheetBackdrop');
+  // Show correct content
   document.getElementById('sheetPreview').style.display=mode==='preview'?'flex':'none';
   document.getElementById('sheetGuide').style.display=mode==='guide'?'flex':'none';
-  if(mode==='preview'&&currentBuildHTML) switchSheetTab(sheetCurrentTab);
+  // Load content
+  if(mode==='preview'&&currentBuildHTML){
+    switchSheetTab(sheetCurrentTab);
+  }
   if(mode==='guide'&&activeGuide){
     renderSheetGuideSteps();
     document.getElementById('sheetUrlText').textContent=guideCurrentUrl;
     document.getElementById('sheetGuideTitle').textContent='🌐 '+(GUIDES[activeGuide]?.name||'GUIDE').toUpperCase();
   }
-  sheet.classList.add('open');backdrop.classList.add('open');
-  sheetOpen=true;document.body.style.overflow='hidden';
+  sheet.classList.add('open');
+  backdrop.classList.add('open');
+  sheetOpen=true;
+  document.body.style.overflow='hidden';
 }
 
 function closeBottomSheet(){
   document.getElementById('bottomSheet').classList.remove('open');
   document.getElementById('sheetBackdrop').classList.remove('open');
-  sheetOpen=false;document.body.style.overflow='';
+  sheetOpen=false;
+  document.body.style.overflow='';
+  // Clear iframe to stop any running content
+  // don't clear — user may reopen
 }
 
+// Switch tabs inside sheet
 function switchSheetTab(tab){
   sheetCurrentTab=tab;
   document.getElementById('sheetTabPreview').classList.toggle('active',tab==='preview');
   document.getElementById('sheetTabCode').classList.toggle('active',tab==='code');
-  const iframe=document.getElementById('sheetIframe'),code=document.getElementById('sheetCode');
-  if(tab==='preview'){iframe.style.display='block';code.style.display='none';if(currentBuildHTML)iframe.srcdoc=currentBuildHTML;}
-  else{iframe.style.display='none';code.style.display='block';code.textContent=currentBuildHTML||'';}
+  const iframe=document.getElementById('sheetIframe');
+  const code=document.getElementById('sheetCode');
+  if(tab==='preview'){
+    iframe.style.display='block';code.style.display='none';
+    if(currentBuildHTML) iframe.srcdoc=currentBuildHTML;
+  } else {
+    iframe.style.display='none';code.style.display='block';
+    code.textContent=currentBuildHTML||'';
+  }
 }
 
+// Render guide steps in sheet
 function renderSheetGuideSteps(){
   const list=document.getElementById('sheetGuideSteps');
   if(!list||!guideSteps.length)return;
@@ -1590,31 +1720,45 @@ function renderSheetGuideSteps(){
     const div=document.createElement('div');
     div.className='sheet-guide-step'+(i===guideCurrentStep?' active':i<guideCurrentStep?' done':'');
     div.innerHTML=`<div class="sgn">${i<guideCurrentStep?'✓':String(i+1).padStart(2,'0')}</div><div class="sgt">${s.text}</div>`;
-    div.onclick=()=>{guideCurrentStep=i;renderSheetGuideSteps();renderGuideSteps();};
+    div.onclick=()=>{guideCurrentStep=i;renderSheetGuideSteps();renderGuideSteps()};
     list.appendChild(div);
   });
-  setTimeout(()=>{const a=list.querySelector('.active');if(a)a.scrollIntoView({behavior:'smooth',block:'nearest'});},100);
+  // Scroll active into view
+  setTimeout(()=>{
+    const active=list.querySelector('.active');
+    if(active) active.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },100);
 }
 
-// Swipe-to-dismiss
+// Swipe-to-dismiss sheet handle
 (function(){
-  const handleArea=document.getElementById('sheetHandleArea'),sheet=document.getElementById('bottomSheet');
+  const handleArea=document.getElementById('sheetHandleArea');
+  const sheet=document.getElementById('bottomSheet');
   if(!handleArea)return;
   handleArea.addEventListener('touchstart',e=>{
-    sheetStartY=e.touches[0].clientY;sheetDragging=true;sheet.style.transition='none';
+    sheetStartY=e.touches[0].clientY;
+    sheetDragging=true;
+    sheet.style.transition='none';
   },{passive:true});
   document.addEventListener('touchmove',e=>{
-    if(!sheetDragging)return;const dy=e.touches[0].clientY-sheetStartY;if(dy>0)sheet.style.transform=`translateY(${dy}px)`;
+    if(!sheetDragging)return;
+    const dy=e.touches[0].clientY-sheetStartY;
+    if(dy>0) sheet.style.transform=`translateY(${dy}px)`;
   },{passive:true});
   document.addEventListener('touchend',e=>{
-    if(!sheetDragging)return;sheetDragging=false;sheet.style.transition='';
+    if(!sheetDragging)return;
+    sheetDragging=false;
+    sheet.style.transition='';
     const dy=e.changedTouches[0].clientY-sheetStartY;
-    if(dy>140){closeBottomSheet();}else{sheet.style.transform='';}
+    if(dy>100){ closeBottomSheet(); } else { sheet.style.transform=''; }
   });
 })();
 
+// Resize: restore desktop panel if window expands
 window.addEventListener('resize',()=>{
-  if(!isTabletOrMobile()&&rightPanelMode) document.getElementById('rightPanel').style.display='';
+  if(!isTabletOrMobile()&&rightPanelMode){
+    document.getElementById('rightPanel').style.display='';
+  }
 });
 </script>
 </body>
