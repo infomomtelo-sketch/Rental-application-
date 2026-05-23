@@ -49,14 +49,7 @@ html, body { height: 100%; font-family: var(--mono); background: var(--ocean-dee
 body::after{content:'';position:fixed;inset:0;z-index:10;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px)}
 body::before{content:'';position:fixed;inset:0;z-index:10;pointer-events:none;background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.5) 100%)}
 
-/* ── THINKING VISUALIZER ─────────────────────────────────── */
-#thinkingViz {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 15;
-  height: 36px; pointer-events: none;
-  opacity: 0; transition: opacity 0.6s ease;
-}
-#thinkingViz.active { opacity: 1; }
-#thinkingViz canvas { display: block; width: 100%; height: 100%; }
+
 
 /* ── LAYOUT ───────────────────────────────────────────────── */
 .app{position:relative;z-index:20;display:flex;flex-direction:column;height:100vh}
@@ -92,24 +85,10 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .hdr-btn.active-btn{color:var(--amber);border-color:rgba(212,144,90,0.5);background:rgba(212,144,90,0.08)}
 .status-line{font-size:10px;color:var(--text3);letter-spacing:1px;display:flex;align-items:center;gap:6px}
 .status-ok{width:6px;height:6px;border-radius:50%;background:#4a9;animation:logoBlink 2s infinite}
+.status-ok.thinking{background:var(--amber);animation:thinkPulse 0.6s ease-in-out infinite}
+@keyframes thinkPulse{0%,100%{transform:scale(1);opacity:0.6}50%{transform:scale(1.6);opacity:1}}
 
-/* ── SOUND INDICATOR (thinking mode) ─────────────────────── */
-#soundIndicator {
-  display:flex;align-items:center;gap:4px;opacity:0;
-  transition:opacity 0.4s ease;pointer-events:none;
-}
-#soundIndicator.active{opacity:1}
-.sound-bar {
-  width:2px;background:var(--amber);border-radius:1px;
-  animation:soundPulse 0.8s ease-in-out infinite;
-}
-.sound-bar:nth-child(1){height:6px;animation-delay:0s}
-.sound-bar:nth-child(2){height:12px;animation-delay:0.15s}
-.sound-bar:nth-child(3){height:8px;animation-delay:0.3s}
-.sound-bar:nth-child(4){height:14px;animation-delay:0.1s}
-.sound-bar:nth-child(5){height:5px;animation-delay:0.25s}
-@keyframes soundPulse{
-  0%,100%{transform:scaleY(0.3);opacity:0.4}
+
   50%{transform:scaleY(1);opacity:1}
 }
 
@@ -441,7 +420,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 @media(max-width:640px){
   /* Header: show only menu + logo + NEW */
   #splitBtn,#guideBtn,#themeLbl,.status-line,
-  #connBtn,#muteBtn,#themeBtn,#soundIndicator { display:none !important }
+  #connBtn,#themeBtn { display:none !important }
   /* NEW button stays visible, compact */
   header { padding:8px 12px; }
   .logo { font-size:13px; letter-spacing:2px; }
@@ -465,8 +444,8 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 
 /* ── TABLET (641–900px) ───────────────────────────────────── */
 @media(min-width:641px) and (max-width:900px){
-  /* Header: hide split/guide/theme label/status, keep NEW + mute + theme + connect visible */
-  #splitBtn,#guideBtn,#themeLbl,.status-line,#soundIndicator { display:none !important }
+  /* Header: tablet — keep NEW + theme + connect */
+  #splitBtn,#guideBtn,#themeLbl,.status-line { display:none !important }
   .right-panel,.resize-handle { display:none !important; }
   .float-pill { display:block; }
   .starters { grid-template-columns:1fr 1fr; }
@@ -490,12 +469,8 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 <div class="red-dot"></div>
 <div class="stars" id="stars"></div>
 
-<!-- THINKING WAVEFORM VISUALIZER -->
-<div id="thinkingViz">
-  <canvas id="vizCanvas"></canvas>
-</div>
 
-<!-- INTRO -->
+      <!-- INTRO -->
 <div id="introScreen">
   <div id="bootPhase">
     <div class="boot-text">
@@ -645,19 +620,10 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
       </div>
     </div>
     <div class="header-right">
-      <div class="status-line"><div class="status-ok"></div><span>SONNET 4.6</span></div>
-      <!-- Sound indicator — visible only while AI is thinking -->
-      <div id="soundIndicator" aria-hidden="true">
-        <div class="sound-bar"></div>
-        <div class="sound-bar"></div>
-        <div class="sound-bar"></div>
-        <div class="sound-bar"></div>
-        <div class="sound-bar"></div>
-      </div>
+      <div class="status-line" id="statusLine"><div class="status-ok" id="statusDot"></div><span id="statusText">SONNET 4.6</span></div>
       <button class="hdr-btn" onclick="toggleConnections()" id="connBtn" aria-label="Open connections">⬡ CONNECT</button>
       <button class="hdr-btn" id="splitBtn" onclick="toggleRightPanel('preview')" aria-label="Toggle preview panel">⬜ PREVIEW</button>
       <button class="hdr-btn" id="guideBtn" onclick="toggleRightPanel('guide')" aria-label="Toggle guide panel">🌐 GUIDE</button>
-      <button class="hdr-btn" onclick="toggleMute()" id="muteBtn" style="font-size:13px;letter-spacing:0;padding:4px 7px" aria-label="Toggle sound">🔈</button>
       <button class="hdr-btn" onclick="cycleTheme()" id="themeBtn" style="font-size:13px;letter-spacing:0;padding:4px 7px" aria-label="Cycle theme">🌙</button>
       <span id="themeLbl" style="font-size:9px;color:var(--text3);letter-spacing:2px">NIGHT</span>
       <button class="hdr-btn" onclick="confirmNewSession()" style="border-color:rgba(212,144,90,0.35);color:var(--amber2)" aria-label="New session">⟳ NEW</button>
@@ -888,220 +854,7 @@ let currentTab='preview', currentDevice='desktop';
 let conversationHistory=[];
 let guideCurrentStep=0, guideSteps=[], guideCurrentUrl='';
 let connectionsOpen=false;
-let isMuted=false;
 
-// ── WAVEFORM VISUALIZER ────────────────────────────────────────
-const vizEl = document.getElementById('thinkingViz');
-const vizCanvas = document.getElementById('vizCanvas');
-const vizCtx = vizCanvas.getContext('2d');
-let vizAnimId = null;
-let vizPhase = 0;
-
-function resizeViz(){
-  vizCanvas.width = vizEl.offsetWidth;
-  vizCanvas.height = vizEl.offsetHeight;
-}
-resizeViz();
-window.addEventListener('resize', resizeViz);
-
-function drawViz(){
-  const w = vizCanvas.width, h = vizCanvas.height;
-  vizCtx.clearRect(0,0,w,h);
-  vizPhase += 0.06;
-  const grad = vizCtx.createLinearGradient(0,0,w,0);
-  grad.addColorStop(0,'rgba(212,144,90,0)');
-  grad.addColorStop(0.2,'rgba(212,144,90,0.6)');
-  grad.addColorStop(0.5,'rgba(232,168,112,0.9)');
-  grad.addColorStop(0.8,'rgba(212,144,90,0.6)');
-  grad.addColorStop(1,'rgba(212,144,90,0)');
-  vizCtx.beginPath();
-  vizCtx.strokeStyle = grad;
-  vizCtx.lineWidth = 1.5;
-  for(let x=0;x<=w;x+=2){
-    const t = x/w;
-    const freq1 = Math.sin(t*Math.PI*8 + vizPhase) * 10;
-    const freq2 = Math.sin(t*Math.PI*3 + vizPhase*0.7) * 6;
-    const freq3 = Math.sin(t*Math.PI*15 + vizPhase*1.3) * 3;
-    const envelope = Math.sin(t*Math.PI); // fade at edges
-    const y = h/2 + (freq1+freq2+freq3)*envelope;
-    x===0 ? vizCtx.moveTo(x,y) : vizCtx.lineTo(x,y);
-  }
-  vizCtx.stroke();
-  // Soft glow line
-  vizCtx.beginPath();
-  vizCtx.strokeStyle = 'rgba(212,144,90,0.15)';
-  vizCtx.lineWidth = 4;
-  for(let x=0;x<=w;x+=2){
-    const t = x/w;
-    const freq1 = Math.sin(t*Math.PI*8 + vizPhase) * 10;
-    const freq2 = Math.sin(t*Math.PI*3 + vizPhase*0.7) * 6;
-    const freq3 = Math.sin(t*Math.PI*15 + vizPhase*1.3) * 3;
-    const envelope = Math.sin(t*Math.PI);
-    const y = h/2 + (freq1+freq2+freq3)*envelope;
-    x===0 ? vizCtx.moveTo(x,y) : vizCtx.lineTo(x,y);
-  }
-  vizCtx.stroke();
-  vizAnimId = requestAnimationFrame(drawViz);
-}
-
-function startViz(){
-  vizEl.classList.add('active');
-  document.getElementById('soundIndicator').classList.add('active');
-  if(!vizAnimId) drawViz();
-}
-
-function stopViz(){
-  vizEl.classList.remove('active');
-  document.getElementById('soundIndicator').classList.remove('active');
-  if(vizAnimId){ cancelAnimationFrame(vizAnimId); vizAnimId=null; }
-  vizCtx.clearRect(0,0,vizCanvas.width,vizCanvas.height);
-}
-
-// ── AUDIO ──────────────────────────────────────────────────────
-// Audio is ONLY initialised and used during AI thinking — never ambient.
-let audioCtx=null, audioReady=false;
-
-function ensureAudio(){
-  if(audioReady) return true;
-  try{
-    audioCtx = new(window.AudioContext||window.webkitAudioContext)();
-    audioReady = true;
-    return true;
-  } catch(e){ return false; }
-}
-
-// Resume suspended context (required after user gesture on some browsers)
-function resumeAudio(){
-  if(audioCtx && audioCtx.state==='suspended') audioCtx.resume();
-}
-
-// One-time user gesture init (so audio works when thinking starts)
-document.addEventListener('click', ()=>{ ensureAudio(); resumeAudio(); }, {once:true});
-document.addEventListener('keydown', ()=>{ ensureAudio(); resumeAudio(); }, {once:true});
-document.addEventListener('touchstart', ()=>{ ensureAudio(); resumeAudio(); }, {once:true});
-
-// Nodes held while thinking
-let thinkHumNode=null, thinkHumGain=null, thinkNoiseNode=null, thinkNoiseGain=null;
-
-function startThinkingSound(){
-  if(isMuted || !ensureAudio()) return;
-  resumeAudio();
-  stopThinkingSound(); // safety
-
-  const now = audioCtx.currentTime;
-
-  // Deep harmonic hum — two oscillators for richness
-  thinkHumGain = audioCtx.createGain();
-  thinkHumGain.gain.setValueAtTime(0, now);
-  thinkHumGain.gain.linearRampToValueAtTime(0.05, now+0.8);
-  thinkHumGain.connect(audioCtx.destination);
-
-  [55, 110].forEach((freq, i) => {
-    const osc = audioCtx.createOscillator();
-    osc.type = i===0 ? 'sine' : 'triangle';
-    osc.frequency.value = freq;
-    // Slow LFO wobble
-    const lfo = audioCtx.createOscillator();
-    const lfoGain = audioCtx.createGain();
-    lfo.frequency.value = 0.3 + i*0.1;
-    lfoGain.gain.value = 1.5;
-    lfo.connect(lfoGain);
-    lfoGain.connect(osc.frequency);
-    lfo.start();
-    osc.connect(thinkHumGain);
-    osc.start();
-    if(i===0) thinkHumNode = osc; // keep ref for first
-  });
-
-  // Filtered ocean noise underlayer
-  const bufSize = audioCtx.sampleRate * 3;
-  const buf = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
-  const data = buf.getChannelData(0);
-  for(let i=0;i<bufSize;i++) data[i] = Math.random()*2-1;
-  thinkNoiseNode = audioCtx.createBufferSource();
-  thinkNoiseNode.buffer = buf;
-  thinkNoiseNode.loop = true;
-  const lpf = audioCtx.createBiquadFilter();
-  lpf.type = 'lowpass'; lpf.frequency.value = 300;
-  thinkNoiseGain = audioCtx.createGain();
-  thinkNoiseGain.gain.setValueAtTime(0, now);
-  thinkNoiseGain.gain.linearRampToValueAtTime(0.04, now+1.2);
-  thinkNoiseNode.connect(lpf);
-  lpf.connect(thinkNoiseGain);
-  thinkNoiseGain.connect(audioCtx.destination);
-  thinkNoiseNode.start();
-}
-
-function stopThinkingSound(){
-  if(!audioCtx) return;
-  const now = audioCtx.currentTime;
-  [thinkHumGain, thinkNoiseGain].forEach(g => {
-    if(!g) return;
-    try{
-      g.gain.cancelScheduledValues(now);
-      g.gain.setValueAtTime(g.gain.value, now);
-      g.gain.exponentialRampToValueAtTime(0.0001, now+0.6);
-    } catch(e){}
-  });
-  setTimeout(()=>{
-    [thinkHumNode, thinkNoiseNode].forEach(n => { try{ if(n) n.stop(); } catch(e){} });
-    thinkHumNode=thinkHumGain=thinkNoiseNode=thinkNoiseGain=null;
-  }, 700);
-}
-
-// One-shot sounds (non-ambient)
-function playTypewriterClick(){
-  if(!audioCtx||isMuted) return;
-  try{
-    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-    o.type='square';o.frequency.value=800+Math.random()*400;
-    g.gain.setValueAtTime(.04,audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.04);
-    o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.04);
-  }catch(e){}
-}
-function playSwoosh(){
-  if(!audioCtx||isMuted) return;
-  try{
-    const bs=audioCtx.sampleRate*.3,buf=audioCtx.createBuffer(1,bs,audioCtx.sampleRate),d=buf.getChannelData(0);
-    for(let i=0;i<bs;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/bs,1.5);
-    const s=audioCtx.createBufferSource();s.buffer=buf;
-    const f=audioCtx.createBiquadFilter();f.type='bandpass';f.frequency.value=600;f.frequency.linearRampToValueAtTime(200,audioCtx.currentTime+.3);
-    const g=audioCtx.createGain();g.gain.setValueAtTime(.15,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.3);
-    s.connect(f);f.connect(g);g.connect(audioCtx.destination);s.start();
-  }catch(e){}
-}
-function playSparkle(){
-  if(!audioCtx||isMuted) return;
-  for(let i=0;i<6;i++)setTimeout(()=>{
-    try{
-      const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-      o.type='sine';o.frequency.value=1200+Math.random()*1800;
-      g.gain.setValueAtTime(.06,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.4);
-      o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.4);
-    }catch(e){}
-  },i*80);
-}
-function playPing(){
-  if(!audioCtx||isMuted) return;
-  try{
-    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-    o.type='sine';o.frequency.value=528;o.frequency.setTargetAtTime(440,audioCtx.currentTime,.3);
-    g.gain.setValueAtTime(.10,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+1.2);
-    o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+1.2);
-  }catch(e){}
-}
-
-// ── MUTE TOGGLE ────────────────────────────────────────────────
-function toggleMute(){
-  isMuted=!isMuted;
-  document.getElementById('muteBtn').textContent=isMuted?'🔇':'🔈';
-  document.getElementById('muteBtn').title=isMuted?'Unmute':'Mute';
-  if(isMuted&&isThinking){
-    // Kill thinking sound immediately if muted mid-think
-    stopThinkingSound();
-  }
-}
 
 // ── CONNECTIONS DATA ───────────────────────────────────────────
 const CONNECTIONS = [
@@ -1330,8 +1083,8 @@ function downloadCurrentBuild(){
 })();
 
 // ── MENU / PAGES ──────────────────────────────────────────────
-function openMenu(){playSwoosh();document.getElementById('menu').classList.add('open');document.getElementById('menuOverlay').classList.add('open');}
-function closeMenu(){playSwoosh();document.getElementById('menu').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');}
+function openMenu(){document.getElementById('menu').classList.add('open');document.getElementById('menuOverlay').classList.add('open');}
+function closeMenu(){document.getElementById('menu').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');}
 function openPage(id){document.getElementById('page-'+id).classList.add('open');}
 function closePage(id){document.getElementById('page-'+id).classList.remove('open');}
 
@@ -1640,8 +1393,8 @@ async function sendMessage(){
 
   // ── START thinking UX ──
   showTyping(text);
-  startThinkingSound();
-  startViz();
+  document.getElementById('statusDot').classList.add('thinking');
+  document.getElementById('statusText').textContent='THINKING...';
 
   // Push user message to history FIRST, then build the send window
   conversationHistory.push({role:'user',content:text});
@@ -1668,11 +1421,10 @@ async function sendMessage(){
 
     // ── STOP thinking UX ──
     removeTyping();
-    stopThinkingSound();
-    stopViz();
+    document.getElementById('statusDot').classList.remove('thinking');
+    document.getElementById('statusText').textContent='SONNET 4.6';
 
     if(data.text){
-      playPing();
       const reply=data.text;
       conversationHistory.push({role:'assistant',content:reply});
       addMsg('ai',reply);
@@ -1698,8 +1450,8 @@ async function sendMessage(){
   }catch(e){
     clearTimeout(timeoutId);
     removeTyping();
-    stopThinkingSound();
-    stopViz();
+    document.getElementById('statusDot').classList.remove('thinking');
+    document.getElementById('statusText').textContent='SONNET 4.6';
     const msg = e.name==='AbortError'
       ? '> Build timed out (90s). Try asking for a simpler version first, then say "add more detail".'
       : '> Connection interrupted — '+e.message+'. Check your signal and retry.';
@@ -1784,7 +1536,7 @@ const themes={
   day:{bg:'linear-gradient(180deg,#1a4060 0%,#2a6080 8%,#60a0c0 28%,#80c0d8 32%,#60a0c0 36%,#2a7090 45%,#1a5070 60%,#0d3050 75%,#081828 100%)',icon:'☀️',label:'DAY',horizon:'#60c0d8'}
 };
 let currentTheme='night';const themeOrder=['night','dawn','day'];
-function cycleTheme(){playSwoosh();const i=themeOrder.indexOf(currentTheme);currentTheme=themeOrder[(i+1)%3];applyTheme(currentTheme);}
+function cycleTheme(){const i=themeOrder.indexOf(currentTheme);currentTheme=themeOrder[(i+1)%3];applyTheme(currentTheme);}
 function applyTheme(n){
   const t=themes[n];
   document.querySelector('.ocean-bg').style.background=t.bg;
@@ -1873,9 +1625,9 @@ function renderSheetGuideSteps(){
 })();
 
 window.addEventListener('resize',()=>{
-  resizeViz();
   if(!isTabletOrMobile()&&rightPanelMode) document.getElementById('rightPanel').style.display='';
 });
 </script>
 </body>
 </html>
+
