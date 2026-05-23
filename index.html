@@ -181,10 +181,10 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .conn-input::placeholder{color:var(--text3)}
 
 /* ── MESSAGES ─────────────────────────────────────────────── */
-.messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:18px;scrollbar-width:thin;scrollbar-color:rgba(212,144,90,0.2) transparent}
+.messages{flex:1;overflow-y:auto;padding:20px 20px 12px;display:flex;flex-direction:column;gap:18px;scrollbar-width:thin;scrollbar-color:rgba(212,144,90,0.2) transparent}
 .messages::-webkit-scrollbar{width:3px}
 .messages::-webkit-scrollbar-thumb{background:rgba(212,144,90,0.2)}
-.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:20px}
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-height:0;text-align:center;padding:20px}
 .welcome-title{font-family:var(--serif);font-size:clamp(32px,7vw,68px);font-weight:300;font-style:italic;color:var(--text);letter-spacing:-1px;line-height:1.1;margin-bottom:10px;text-shadow:0 2px 20px rgba(212,144,90,0.3)}
 .welcome-title span{color:var(--amber);font-style:normal}
 .welcome-sub{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-bottom:32px}
@@ -197,12 +197,13 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .starter-tag{font-size:9px;color:var(--text3);display:block;margin-top:3px;letter-spacing:1px}
 
 /* Messages */
+.msg-spacer{flex:1;min-height:20px}
 .msg{display:flex;flex-direction:column;gap:5px;animation:msgIn 0.3s ease both}
 @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .msg-header{font-size:10px;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
 .msg.user .msg-header{color:var(--text3);justify-content:flex-end}
 .msg.ai .msg-header{color:var(--amber)}
-.msg-bubble{font-family:var(--mono);font-size:13px;line-height:1.8;padding:13px 15px;max-width:85%;backdrop-filter:blur(8px)}
+.msg-bubble{font-family:var(--mono);font-size:13px;line-height:1.8;padding:13px 15px;max-width:92%;backdrop-filter:blur(8px)}
 .msg.user .msg-bubble{background:rgba(212,144,90,0.06);border:1px solid rgba(212,144,90,0.15);color:var(--text2);align-self:flex-end;border-right:2px solid var(--amber)}
 .msg.ai .msg-bubble{background:rgba(8,16,28,0.7);border:1px solid rgba(212,144,90,0.12);color:var(--text);border-left:2px solid var(--amber)}
 
@@ -633,6 +634,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
   <div class="main-content">
     <div class="chat-panel" id="chatPanel">
       <div class="messages" id="messages">
+        <div class="msg-spacer" id="msgSpacer"></div>
         <div class="welcome" id="welcome">
           <div class="welcome-title">Build anything.<br><span>Own everything.</span></div>
           <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
@@ -1111,7 +1113,15 @@ function useStarter(btn){
 function quickPrompt(text){document.getElementById('chatInput').value=text;autoResize(document.getElementById('chatInput'));document.getElementById('chatInput').focus();}
 
 // ── MESSAGES ──────────────────────────────────────────────────
-function removeWelcome(){const w=document.getElementById('welcome');if(w)w.remove();}
+function removeWelcome(){
+  const w=document.getElementById('welcome');if(w)w.remove();
+  // Ensure spacer exists so messages fill from bottom
+  const msgs=document.getElementById('messages');
+  if(!document.getElementById('msgSpacer')){
+    const sp=document.createElement('div');sp.id='msgSpacer';sp.className='msg-spacer';
+    msgs.insertBefore(sp,msgs.firstChild);
+  }
+}
 
 function addMsg(role,text){
   removeWelcome();
@@ -1201,17 +1211,12 @@ function showTyping(userText){
 function removeTyping(){clearInterval(buildInterval);const t=document.getElementById('typing');if(t)t.remove();}
 
 function updateMemoryIndicator(){
-  let ind=document.getElementById('memoryInd');
+  // Memory count shown in status bar only — no floating indicator
   const turns=Math.floor(conversationHistory.length/2);
-  if(turns===0){ if(ind)ind.remove(); return; }
-  if(!ind){
-    ind=document.createElement('div');ind.id='memoryInd';
-    ind.style.cssText=`font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:2px;
-      text-align:center;padding:4px 0 0;flex-shrink:0;`;
-    const msgs=document.getElementById('messages');
-    msgs.parentNode.insertBefore(ind,msgs);
+  const st=document.getElementById('statusText');
+  if(st && !isThinking){
+    st.textContent = turns>0 ? `${turns} TURN${turns===1?'':'S'} IN CTX` : 'SONNET 4.6';
   }
-  ind.textContent=`◈ ${turns} TURN${turns===1?'':'S'} IN MEMORY · ⟳ NEW to clear`;
 }
 
 function addRetryButtons(){
@@ -1234,10 +1239,11 @@ function retryLast(){
 
 function newSession(){
   currentBuildHTML='';conversationHistory=[];
-  // Clear memory indicator
-  const ind=document.getElementById('memoryInd');if(ind)ind.remove();
+  // Reset status
+  const st=document.getElementById('statusText');if(st)st.textContent='SONNET 4.6';
   closeRightPanel();
   document.getElementById('messages').innerHTML=`
+    <div class="msg-spacer" id="msgSpacer"></div>
     <div class="welcome" id="welcome" style="opacity:1">
       <div class="welcome-title">Build anything.<br><span>Own everything.</span></div>
       <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
@@ -1428,7 +1434,6 @@ async function sendMessage(){
       const reply=data.text;
       conversationHistory.push({role:'assistant',content:reply});
       addMsg('ai',reply);
-      updateMemoryIndicator();
       const buildHtml = extractBuildHtml(reply);
       if(buildHtml){
         currentBuildHTML=buildHtml;
@@ -1461,6 +1466,7 @@ async function sendMessage(){
 
   isThinking=false;
   document.getElementById('sendBtn').disabled=false;
+  updateMemoryIndicator();
   input.focus();
 }
 
@@ -1630,4 +1636,3 @@ window.addEventListener('resize',()=>{
 </script>
 </body>
 </html>
-
