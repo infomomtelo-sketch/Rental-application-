@@ -667,7 +667,6 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .pricing-close:hover{color:var(--amber)}
 
 </style>
-<script>window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtZW16bGplcmxkemVpd3FmeHpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDMxNzgsImV4cCI6MjA5NDIxOTE3OH0.u4FL1mk555dUesVNjF58pXwkQlvvQYQgR5JpcxRtB40'</script>
 </head>
 <body>
 
@@ -2031,8 +2030,8 @@ function switchAuthMode(mode){
   document.getElementById('authName').style.display=mode==='signup'?'block':'none';
   document.getElementById('authSubmitBtn').textContent=mode==='signup'?'CREATE ACCOUNT':'SIGN IN';
   document.getElementById('authSwitch').innerHTML=mode==='signup'
-    ?'Have an account? <a onclick="switchAuthMode('signin')">Sign in</a>'
-    :'No account? <a onclick="switchAuthMode('signup')">Create one free</a>';
+    ?'Have an account? <a onclick="switchAuthMode(&quot;signin&quot;)">Sign in</a>'
+    :'No account? <a onclick="switchAuthMode(&quot;signup&quot;)">Create one free</a>';
   document.getElementById('authError').classList.remove('visible');
 }
 
@@ -2193,7 +2192,7 @@ Upgrade to **Pro** for unlimited — or grab a **$5 token pack** for 50 more mes
 // ── INIT ON LOAD ───────────────────────────────────────────
 // Note: initAuth() requires window.SUPABASE_ANON_KEY to be set.
 // Add this to your Cloudflare Pages environment or inline before this script:
-// <script>window.SUPABASE_ANON_KEY = 'your-anon-key-here'</script>
+// <script>window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtZW16bGplcmxkemVpd3FmeHpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDMxNzgsImV4cCI6MjA5NDIxOTE3OH0.u4FL1mk555dUesVNjF58pXwkQlvvQYQgR5JpcxRtB40'</script>
 // initAuth called in combined DOMContentLoaded below
 
 // ── SEND ──────────────────────────────────────────────────────
