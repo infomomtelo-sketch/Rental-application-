@@ -2030,8 +2030,8 @@ function switchAuthMode(mode){
   document.getElementById('authName').style.display=mode==='signup'?'block':'none';
   document.getElementById('authSubmitBtn').textContent=mode==='signup'?'CREATE ACCOUNT':'SIGN IN';
   document.getElementById('authSwitch').innerHTML=mode==='signup'
-    ?'Have an account? <a onclick="switchAuthMode(&quot;signin&quot;)">Sign in</a>'
-    :'No account? <a onclick="switchAuthMode(&quot;signup&quot;)">Create one free</a>';
+    ?`Have an account? <a onclick="switchAuthMode('signin')">Sign in</a>`
+    :`No account? <a onclick="switchAuthMode('signup')">Create one free</a>`;
   document.getElementById('authError').classList.remove('visible');
 }
 
@@ -2163,9 +2163,7 @@ function checkUsageLimit(){
     const guestCount=parseInt(localStorage.getItem('fl_guest_count')||'0');
     if(guestCount>=3){
       openAuth('signup');
-      addMsg('ai','> You've used your 3 guest messages.
-
-Create a free account to get **10 messages per day** — no card needed.');
+      addMsg('ai',"> You've used your 3 guest messages.\n\nCreate a free account to get **10 messages per day** — no card needed.");
       return false;
     }
     localStorage.setItem('fl_guest_count',guestCount+1);
@@ -2177,9 +2175,7 @@ Create a free account to get **10 messages per day** — no card needed.');
   // Free: check daily limit
   if(currentUser.messagesUsed>=10){
     openPricing();
-    addMsg('ai','> You've reached your 10 daily messages on the free plan.
-
-Upgrade to **Pro** for unlimited — or grab a **$5 token pack** for 50 more messages.');
+    addMsg('ai',"> You've reached your 10 daily messages on the free plan.\n\nUpgrade to **Pro** for unlimited — or grab a **$5 token pack** for 50 more messages.");
     return false;
   }
   currentUser.messagesUsed++;
