@@ -248,6 +248,32 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 .input-footer{display:flex;justify-content:space-between;margin-top:5px;padding:0 2px}
 .input-hint{font-size:10px;color:var(--text3);letter-spacing:1px}
 
+/* ── BUILD ACTION BAR ─────────────────────────────────────── */
+.build-action-bar{
+  display:none;align-items:center;gap:0;margin-bottom:8px;
+  border:1px solid rgba(212,144,90,0.28);background:rgba(10,20,36,0.92);
+  overflow:hidden;animation:barSlideIn 0.35s cubic-bezier(0.16,1,0.3,1) both;
+}
+.build-action-bar.visible{display:flex}
+@keyframes barSlideIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.bar-label{
+  display:flex;align-items:center;gap:7px;padding:10px 12px;
+  font-family:var(--mono);font-size:10px;color:var(--amber);
+  letter-spacing:1px;border-right:1px solid rgba(212,144,90,0.15);
+  white-space:nowrap;flex-shrink:0;
+}
+.bar-dot{width:5px;height:5px;border-radius:50%;background:var(--amber);animation:logoBlink 1.5s infinite;flex-shrink:0}
+.bar-btn{
+  flex:1;font-family:var(--mono);font-size:10px;color:var(--text2);
+  background:transparent;border:none;border-right:1px solid rgba(212,144,90,0.1);
+  padding:10px 6px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;
+  transition:all 0.15s;text-align:center;white-space:nowrap;
+}
+.bar-btn:last-child{border-right:none}
+.bar-btn:hover,.bar-btn:active{color:var(--amber);background:rgba(212,144,90,0.08)}
+.bar-btn.bar-primary{color:var(--amber2);background:rgba(212,144,90,0.07)}
+.bar-btn.bar-primary:hover{background:rgba(212,144,90,0.16)}
+
 /* ── PAGES ────────────────────────────────────────────────── */
 .page{position:fixed;inset:0;z-index:400;background:rgba(8,16,28,0.97);transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);overflow-y:auto;backdrop-filter:blur(20px)}
 .page.open{transform:translateX(0)}
@@ -366,8 +392,282 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
 @media(min-width:901px){
   .float-pill,.sheet-backdrop,.bottom-sheet{display:none !important}
 }
+
+/* ── IMAGE UPLOAD ─────────────────────────────────────────── */
+.attach-btn{
+  padding:11px 11px;background:transparent;border:none;
+  border-left:1px solid rgba(212,144,90,0.12);
+  color:var(--text3);font-size:16px;cursor:pointer;
+  transition:all 0.15s;flex-shrink:0;line-height:1;
+  position:relative;
+}
+.attach-btn:hover{color:var(--amber);background:rgba(212,144,90,0.06)}
+/* Shortcut hint tooltip */
+.attach-btn::after{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100% + 8px);right:0;
+  background:rgba(8,16,28,0.97);border:1px solid rgba(212,144,90,0.25);
+  color:var(--text2);font-family:var(--mono);font-size:9px;
+  letter-spacing:0.5px;line-height:1.7;padding:7px 10px;
+  white-space:pre;pointer-events:none;opacity:0;
+  transition:opacity 0.15s;z-index:99;min-width:200px;text-align:left;
+}
+.attach-btn:hover::after{opacity:1}
+.img-preview-wrap{
+  display:none;align-items:center;gap:8px;
+  padding:7px 10px;border-bottom:1px solid rgba(212,144,90,0.12);
+  background:rgba(0,0,0,0.3);
+}
+.img-preview-wrap.visible{display:flex}
+.img-preview-thumb{
+  width:40px;height:40px;object-fit:cover;
+  border:1px solid rgba(212,144,90,0.25);border-radius:2px;flex-shrink:0;
+}
+.img-preview-name{font-size:10px;color:var(--text2);flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;letter-spacing:0.5px}
+.img-preview-remove{background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;padding:0 4px;transition:color 0.15s;flex-shrink:0}
+.img-preview-remove:hover{color:var(--amber)}
+
+/* ── COPY CODE BUTTON ─────────────────────────────────────── */
+.copy-code-btn{
+  position:absolute;top:8px;right:8px;
+  font-family:var(--mono);font-size:9px;letter-spacing:1px;
+  color:var(--text3);background:rgba(8,16,28,0.8);
+  border:1px solid rgba(212,144,90,0.2);padding:3px 8px;
+  cursor:pointer;text-transform:uppercase;transition:all 0.15s;
+  opacity:0;pointer-events:none;
+}
+.code-block-wrap{position:relative}
+.code-block-wrap:hover .copy-code-btn{opacity:1;pointer-events:all}
+.copy-code-btn:hover{color:var(--amber);border-color:var(--amber)}
+.copy-code-btn.copied{color:var(--green);border-color:var(--green)}
+
+/* Panel copy button */
+.panel-copy-btn{
+  font-family:var(--mono);font-size:10px;color:var(--text3);
+  background:transparent;border:1px solid rgba(212,144,90,0.15);
+  padding:4px 10px;cursor:pointer;letter-spacing:1px;
+  text-transform:uppercase;transition:all 0.15s;
+}
+.panel-copy-btn:hover{color:var(--amber);border-color:rgba(212,144,90,0.4)}
+.panel-copy-btn.copied{color:var(--green);border-color:var(--green)}
+
+/* Sheet copy button */
+.sheet-copy-btn{
+  flex:1;font-family:var(--mono);font-size:11px;color:var(--text2);
+  background:rgba(10,22,40,0.8);border:1px solid rgba(212,144,90,0.15);
+  padding:10px 8px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;
+  transition:all 0.15s;text-align:center;
+}
+.sheet-copy-btn:hover{color:var(--amber);border-color:rgba(212,144,90,0.4);background:rgba(212,144,90,0.08)}
+.sheet-copy-btn.copied{color:var(--green);border-color:var(--green)}
+
+/* ── EDIT LAST MESSAGE ────────────────────────────────────── */
+.msg-edit-btn{
+  font-size:9px;color:var(--text3);background:none;border:none;
+  cursor:pointer;padding:2px 6px;letter-spacing:1px;
+  text-transform:uppercase;transition:color 0.15s;opacity:0;
+}
+.msg.user:hover .msg-edit-btn{opacity:1}
+.msg-edit-btn:hover{color:var(--amber)}
+
+/* ── DOWNLOAD FLASH ───────────────────────────────────────── */
+@keyframes flashGreen{0%,100%{color:var(--amber2);border-color:rgba(212,144,90,0.35)}50%{color:var(--green);border-color:var(--green)}}
+.download-flash{animation:flashGreen 0.8s ease both}
+
+/* ── BUILD HISTORY PANEL ──────────────────────────────────── */
+.history-panel{
+  position:fixed;bottom:0;left:0;right:0;z-index:155;
+  background:rgba(6,12,22,0.98);
+  border-top:1px solid rgba(212,144,90,0.2);
+  backdrop-filter:blur(20px);
+  transform:translateY(100%);
+  transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  max-height:55vh;display:flex;flex-direction:column;
+}
+.history-panel.open{transform:translateY(0)}
+.history-head{
+  padding:12px 16px;border-bottom:1px solid rgba(212,144,90,0.1);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.history-title{font-size:11px;color:var(--amber);letter-spacing:3px;text-transform:uppercase}
+.history-list{overflow-y:auto;flex:1;padding:8px 0;scrollbar-width:thin;scrollbar-color:rgba(212,144,90,0.15) transparent}
+.history-item{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 16px;border-bottom:1px solid rgba(212,144,90,0.05);
+  cursor:pointer;transition:background 0.15s;
+}
+.history-item:hover{background:rgba(212,144,90,0.05)}
+.history-item-info{flex:1;min-width:0}
+.history-item-title{font-size:11px;color:var(--text);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-bottom:2px}
+.history-item-meta{font-size:9px;color:var(--text3);letter-spacing:1px}
+.history-item-actions{display:flex;gap:6px;flex-shrink:0}
+.history-restore-btn{
+  font-family:var(--mono);font-size:9px;color:var(--amber2);
+  background:rgba(212,144,90,0.08);border:1px solid rgba(212,144,90,0.25);
+  padding:4px 8px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;
+  transition:all 0.15s;
+}
+.history-restore-btn:hover{background:rgba(212,144,90,0.18)}
+.history-empty{padding:32px 16px;text-align:center;font-size:11px;color:var(--text3);letter-spacing:2px}
+
+
+/* ── AUTH MODAL ───────────────────────────────────────────── */
+.auth-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s;
+}
+.auth-overlay.open{opacity:1;pointer-events:all}
+.auth-modal{
+  background:rgba(8,16,28,0.99);border:1px solid rgba(212,144,90,0.25);
+  width:100%;max-width:400px;padding:32px 28px;position:relative;
+  animation:msgIn 0.3s ease both;
+}
+.auth-logo{font-family:var(--mono);font-size:13px;color:var(--amber);letter-spacing:4px;text-align:center;margin-bottom:6px}
+.auth-tagline{font-size:10px;color:var(--text3);letter-spacing:2px;text-align:center;margin-bottom:28px;text-transform:uppercase}
+.auth-title{font-family:var(--serif);font-size:26px;font-weight:300;font-style:italic;color:var(--text);text-align:center;margin-bottom:24px;line-height:1.2}
+.auth-social-btn{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--mono);font-size:12px;letter-spacing:1px;
+  padding:12px;border:1px solid rgba(212,144,90,0.2);
+  background:rgba(10,20,36,0.8);color:var(--text2);
+  cursor:pointer;transition:all 0.15s;margin-bottom:10px;
+  text-transform:uppercase;
+}
+.auth-social-btn:hover{border-color:rgba(212,144,90,0.5);color:var(--amber2);background:rgba(212,144,90,0.06)}
+.auth-social-icon{font-size:16px;width:20px;text-align:center}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0}
+.auth-divider-line{flex:1;height:1px;background:rgba(212,144,90,0.1)}
+.auth-divider-text{font-size:10px;color:var(--text3);letter-spacing:2px}
+.auth-input{
+  width:100%;font-family:var(--mono);font-size:12px;
+  background:rgba(0,0,0,0.4);border:1px solid rgba(212,144,90,0.15);
+  color:var(--text);padding:11px 12px;outline:none;
+  transition:border-color 0.2s;margin-bottom:10px;display:block;
+}
+.auth-input:focus{border-color:rgba(212,144,90,0.45)}
+.auth-input::placeholder{color:var(--text3)}
+.auth-submit{
+  width:100%;font-family:var(--mono);font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;padding:13px;
+  background:rgba(212,144,90,0.15);border:1px solid rgba(212,144,90,0.4);
+  color:var(--amber2);cursor:pointer;transition:all 0.2s;margin-top:4px;
+}
+.auth-submit:hover{background:rgba(212,144,90,0.28)}
+.auth-submit:disabled{opacity:0.4;cursor:not-allowed}
+.auth-switch{text-align:center;margin-top:16px;font-size:11px;color:var(--text3)}
+.auth-switch a{color:var(--amber);cursor:pointer;text-decoration:none}
+.auth-switch a:hover{color:var(--amber2)}
+.auth-error{font-size:11px;color:#e05555;letter-spacing:0.5px;margin-bottom:10px;padding:8px 10px;border:1px solid rgba(224,85,85,0.25);background:rgba(224,85,85,0.06);display:none}
+.auth-error.visible{display:block}
+.auth-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer;padding:4px;transition:color 0.15s}
+.auth-close:hover{color:var(--amber)}
+.auth-legal{font-size:9px;color:var(--text3);text-align:center;margin-top:14px;line-height:1.7;letter-spacing:0.3px}
+
+/* ── USER MENU ────────────────────────────────────────────── */
+.user-pill{
+  display:flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:11px;color:var(--text2);
+  background:rgba(10,20,36,0.8);border:1px solid rgba(212,144,90,0.15);
+  padding:4px 10px;cursor:pointer;transition:all 0.15s;
+  position:relative;
+}
+.user-pill:hover{border-color:rgba(212,144,90,0.4);color:var(--amber2)}
+.user-avatar{width:18px;height:18px;border-radius:50%;background:rgba(212,144,90,0.2);border:1px solid rgba(212,144,90,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--amber);flex-shrink:0}
+.user-dropdown{
+  position:absolute;top:calc(100% + 6px);right:0;min-width:200px;
+  background:rgba(8,16,28,0.99);border:1px solid rgba(212,144,90,0.2);
+  z-index:600;display:none;flex-direction:column;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+}
+.user-dropdown.open{display:flex}
+.user-dropdown-head{padding:12px 14px;border-bottom:1px solid rgba(212,144,90,0.1)}
+.user-dropdown-name{font-size:12px;color:var(--text);margin-bottom:2px}
+.user-dropdown-plan{font-size:9px;letter-spacing:2px;text-transform:uppercase}
+.plan-free{color:var(--text3)}
+.plan-pro{color:var(--amber)}
+.user-dropdown-item{
+  display:flex;align-items:center;gap:9px;padding:10px 14px;
+  font-size:11px;color:var(--text2);cursor:pointer;
+  transition:background 0.15s;border:none;background:none;
+  width:100%;text-align:left;font-family:var(--mono);letter-spacing:0.5px;
+}
+.user-dropdown-item:hover{background:rgba(212,144,90,0.06);color:var(--amber2)}
+.user-dropdown-divider{height:1px;background:rgba(212,144,90,0.08);margin:2px 0}
+
+/* ── USAGE BAR ────────────────────────────────────────────── */
+.usage-bar-wrap{
+  display:none;padding:6px 16px;
+  border-bottom:1px solid rgba(212,144,90,0.06);
+  background:rgba(8,16,28,0.5);flex-shrink:0;
+}
+.usage-bar-wrap.visible{display:flex;align-items:center;gap:10px}
+.usage-bar-track{flex:1;height:3px;background:rgba(212,144,90,0.1);border-radius:2px;overflow:hidden}
+.usage-bar-fill{height:100%;background:var(--amber);border-radius:2px;transition:width 0.4s ease}
+.usage-bar-fill.danger{background:#e05555}
+.usage-bar-label{font-size:9px;color:var(--text3);letter-spacing:1px;white-space:nowrap}
+.usage-upgrade-btn{font-family:var(--mono);font-size:9px;color:var(--amber);background:rgba(212,144,90,0.1);border:1px solid rgba(212,144,90,0.25);padding:3px 8px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all 0.15s;white-space:nowrap}
+.usage-upgrade-btn:hover{background:rgba(212,144,90,0.2)}
+
+/* ── PRICING MODAL ────────────────────────────────────────── */
+.pricing-overlay{
+  position:fixed;inset:0;z-index:510;
+  background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s;overflow-y:auto;
+}
+.pricing-overlay.open{opacity:1;pointer-events:all}
+.pricing-modal{
+  background:rgba(8,16,28,0.99);border:1px solid rgba(212,144,90,0.2);
+  width:100%;max-width:580px;padding:32px 24px;
+  animation:msgIn 0.3s ease both;position:relative;
+}
+.pricing-title{font-family:var(--serif);font-size:28px;font-weight:300;font-style:italic;color:var(--text);text-align:center;margin-bottom:6px}
+.pricing-sub{font-size:10px;color:var(--text3);letter-spacing:3px;text-align:center;margin-bottom:28px;text-transform:uppercase}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+@media(max-width:480px){.pricing-grid{grid-template-columns:1fr}}
+.pricing-card{
+  border:1px solid rgba(212,144,90,0.15);padding:20px;
+  position:relative;transition:border-color 0.2s;
+}
+.pricing-card.highlight{border-color:rgba(212,144,90,0.45);background:rgba(212,144,90,0.04)}
+.pricing-badge{position:absolute;top:-1px;right:16px;font-size:8px;color:var(--ocean-deep);background:var(--amber);padding:3px 8px;letter-spacing:2px;text-transform:uppercase;font-family:var(--mono)}
+.pricing-plan{font-size:10px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+.pricing-price{font-family:var(--serif);font-size:36px;font-weight:300;color:var(--text);line-height:1;margin-bottom:4px}
+.pricing-price span{font-family:var(--mono);font-size:12px;color:var(--text3)}
+.pricing-features{list-style:none;margin:14px 0 18px;padding:0}
+.pricing-features li{font-size:11px;color:var(--text2);padding:4px 0;border-bottom:1px solid rgba(212,144,90,0.05);display:flex;align-items:center;gap:7px}
+.pricing-features li::before{content:"›";color:var(--amber);flex-shrink:0}
+.pricing-features li.dim{color:var(--text3)}
+.pricing-features li.dim::before{content:"×";color:var(--text3)}
+.pricing-btn{
+  width:100%;font-family:var(--mono);font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;padding:11px;cursor:pointer;transition:all 0.2s;
+}
+.pricing-btn.outline{background:transparent;border:1px solid rgba(212,144,90,0.2);color:var(--text2)}
+.pricing-btn.outline:hover{border-color:var(--amber);color:var(--amber)}
+.pricing-btn.filled{background:rgba(212,144,90,0.15);border:1px solid rgba(212,144,90,0.45);color:var(--amber2)}
+.pricing-btn.filled:hover{background:rgba(212,144,90,0.28)}
+.pricing-topup{
+  border:1px solid rgba(74,144,192,0.2);padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;
+}
+.pricing-topup-info{flex:1}
+.pricing-topup-title{font-size:12px;color:var(--blue);letter-spacing:1px;margin-bottom:3px}
+.pricing-topup-desc{font-size:10px;color:var(--text3);line-height:1.6}
+.pricing-topup-btn{
+  font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;
+  padding:9px 16px;background:rgba(74,144,192,0.1);border:1px solid rgba(74,144,192,0.3);
+  color:#7ab8e0;cursor:pointer;transition:all 0.15s;white-space:nowrap;
+}
+.pricing-topup-btn:hover{background:rgba(74,144,192,0.2)}
+.pricing-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer;padding:4px;transition:color 0.15s}
+.pricing-close:hover{color:var(--amber)}
+
 </style>
-  <script>window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtZW16bGplcmxkemVpd3FmeHpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDMxNzgsImV4cCI6MjA5NDIxOTE3OH0.u4FL1mk555dUesVNjF58pXwkQlvvQYQgR5JpcxRtB40'</script>
+<script>window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtZW16bGplcmxkemVpd3FmeHpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDMxNzgsImV4cCI6MjA5NDIxOTE3OH0.u4FL1mk555dUesVNjF58pXwkQlvvQYQgR5JpcxRtB40'</script>
 </head>
 <body>
 
@@ -484,6 +784,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
       <div class="sheet-code" id="sheetCode" style="display:none"></div>
     </div>
     <div class="sheet-actions">
+      <button class="sheet-copy-btn" id="sheetCopyBtn" onclick="copyBuildCode()">⎘ COPY</button>
       <button class="sheet-action-btn" onclick="openInNewTab()">⬡ OPEN</button>
       <button class="sheet-action-btn primary" onclick="downloadCurrentBuild()">⬇ DOWNLOAD</button>
       <button class="sheet-action-btn" onclick="closeBottomSheet()">✕ CLOSE</button>
@@ -520,20 +821,50 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
     <div class="header-right">
       <div class="status-line"><div class="status-ok"></div><span>SONNET 4.6</span></div>
       <button class="hdr-btn" onclick="toggleConnections()" id="connBtn" title="Connections">⬡ CONNECT</button>
+      <button class="hdr-btn" id="myBuildsBtn" onclick="openHistory()" title="My previous builds">◈ MY BUILDS</button>
       <button class="hdr-btn" id="splitBtn" onclick="toggleRightPanel('preview')" title="Toggle build preview">⬜ PREVIEW</button>
       <button class="hdr-btn" id="guideBtn" onclick="toggleRightPanel('guide')" title="Browser guidance">🌐 GUIDE</button>
       <button class="hdr-btn" onclick="cycleTheme()" id="themeBtn" style="font-size:13px;letter-spacing:0;padding:4px 7px">🌙</button>
       <span id="themeLbl" style="font-size:9px;color:var(--text3);letter-spacing:2px">NIGHT</span>
       <button class="hdr-btn" onclick="newSession()">NEW</button>
+      <!-- Auth: shown when logged out -->
+      <button class="hdr-btn" id="signInBtn" onclick="openAuth('signin')" style="color:var(--amber2);border-color:rgba(212,144,90,0.35)">SIGN IN</button>
+      <!-- User pill: shown when logged in -->
+      <div class="user-pill" id="userPill" style="display:none" onclick="toggleUserMenu()">
+        <div class="user-avatar" id="userAvatar">?</div>
+        <span id="userPillName">You</span>
+        <span style="font-size:9px;color:var(--text3)">▾</span>
+        <div class="user-dropdown" id="userDropdown">
+          <div class="user-dropdown-head">
+            <div class="user-dropdown-name" id="dropdownName">—</div>
+            <div class="user-dropdown-plan plan-free" id="dropdownPlan">FREE PLAN</div>
+          </div>
+          <button class="user-dropdown-item" onclick="openPricing();closeUserMenu()">⬡ Upgrade to Pro</button>
+          <button class="user-dropdown-item" onclick="openPricing();closeUserMenu();document.getElementById('pricingOverlay').scrollTop=999">⬡ Buy token top-up</button>
+          <div class="user-dropdown-divider"></div>
+          <button class="user-dropdown-item" onclick="openHistory();closeUserMenu()">◈ My builds</button>
+          <div class="user-dropdown-divider"></div>
+          <button class="user-dropdown-item" onclick="signOut()" style="color:#e05555">↩ Sign out</button>
+        </div>
+      </div>
     </div>
   </header>
 
   <div class="main-content">
     <div class="chat-panel" id="chatPanel">
+      <!-- USAGE BAR — visible for free users -->
+      <div class="usage-bar-wrap" id="usageBarWrap">
+        <div class="usage-bar-track"><div class="usage-bar-fill" id="usageBarFill" style="width:0%"></div></div>
+        <span class="usage-bar-label" id="usageBarLabel">0 / 10 messages today</span>
+        <button class="usage-upgrade-btn" onclick="openPricing()">UPGRADE</button>
+      </div>
       <div class="messages" id="messages">
         <div class="welcome" id="welcome">
           <div class="welcome-title">Build anything.<br><span>Own everything.</span></div>
           <div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
+          <div id="welcomeBuildsHint" style="display:none;margin-bottom:16px">
+            <button onclick="openHistory()" style="font-family:var(--mono);font-size:11px;color:var(--amber);background:rgba(212,144,90,0.08);border:1px solid rgba(212,144,90,0.25);padding:7px 16px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;transition:all 0.15s" onmouseover="this.style.background='rgba(212,144,90,0.16)'" onmouseout="this.style.background='rgba(212,144,90,0.08)'">◈ CONTINUE A PREVIOUS BUILD →</button>
+          </div>
           <div class="prompt-line"><span style="color:var(--amber)">></span><span>What are we shipping today?</span><span class="blink">_</span></div>
           <div class="starters" id="startersGrid">
             <button class="starter" onclick="useStarter(this)"><span class="starter-prefix">01 ></span> Build a SaaS landing page with pricing &amp; waitlist<span class="starter-tag">BUILD · HTML · DEPLOY-READY</span></button>
@@ -548,9 +879,31 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
         </div>
       </div>
       <div class="input-area">
+        <!-- IMAGE PREVIEW ROW -->
+        <div class="img-preview-wrap" id="imgPreviewWrap">
+          <img class="img-preview-thumb" id="imgPreviewThumb" src="" alt="">
+          <span class="img-preview-name" id="imgPreviewName">screenshot.png</span>
+          <button class="img-preview-remove" onclick="removeAttachment()" title="Remove">✕</button>
+        </div>
+        <!-- BUILD ACTION BAR — visible once a build exists -->
+        <div class="build-action-bar" id="buildActionBar">
+          <div class="bar-label"><div class="bar-dot"></div><span id="barBuildLabel">BUILD</span></div>
+          <button class="bar-btn bar-primary" id="barPreviewBtn" onclick="barPreview()"><span>⬜</span> PREVIEW</button>
+          <button class="bar-btn" onclick="barAddTo()"><span>＋</span> ADD TO BUILD</button>
+          <button class="bar-btn" onclick="barContinue()"><span>↺</span> CONTINUE</button>
+          <button class="bar-btn" onclick="openHistory()"><span>◈</span> HISTORY</button>
+          <button class="bar-btn" onclick="downloadCurrentBuild()"><span>⬇</span> SAVE</button>
+        </div>
         <div class="input-wrap">
           <span class="input-prompt">></span>
           <textarea class="chat-input" id="chatInput" placeholder="describe what you want to build or do..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+          <button class="attach-btn" id="attachBtn" data-tip="📷  ATTACH SCREENSHOT
+
+Win:  Win+Shift+S  →  Ctrl+V
+Mac:  Cmd+Shift+4  →  Cmd+V
+
+Or tap to pick a file" onclick="triggerFileUpload()" title="📷 Attach screenshot&#10;Win: Win+Shift+S then Ctrl+V&#10;Mac: Cmd+Shift+4 then Cmd+V">📷</button>
+          <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFileSelect(event)">
           <button class="send-btn" id="sendBtn" onclick="sendMessage()">SEND</button>
         </div>
         <div class="input-footer">
@@ -571,6 +924,7 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
           </div>
           <div class="panel-actions">
             <button class="panel-btn" id="deviceBtn" onclick="cycleDevice()">🖥 DESKTOP</button>
+            <button class="panel-copy-btn" id="panelCopyBtn" onclick="copyBuildCode()" style="display:none">⎘ COPY</button>
             <button class="panel-btn accent" onclick="downloadCurrentBuild()">⬇ DOWNLOAD</button>
             <button class="panel-btn" onclick="openInNewTab()">⬡ OPEN</button>
             <button class="panel-close" onclick="closeRightPanel()">✕</button>
@@ -664,6 +1018,141 @@ header{padding:10px 16px;display:flex;align-items:center;justify-content:space-b
   </div></div></div>
 </div>
 
+<!-- BUILD HISTORY PANEL -->
+<div class="history-panel" id="historyPanel">
+  <div class="history-head">
+    <div class="history-title">◈ BUILD HISTORY</div>
+    <button class="hdr-btn" onclick="closeHistory()">✕ CLOSE</button>
+  </div>
+  <div class="history-list" id="historyList"></div>
+</div>
+
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-modal">
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+    <div class="auth-logo">FLUENTRA</div>
+    <div class="auth-tagline">Still Waters · Infinite Depth</div>
+    <div class="auth-title" id="authTitle">Welcome back.</div>
+    <div class="auth-error" id="authError"></div>
+
+    <!-- Social buttons -->
+    <button class="auth-social-btn" onclick="authWithGoogle()">
+      <span class="auth-social-icon">G</span> Continue with Google
+    </button>
+    <button class="auth-social-btn" onclick="authWithApple()">
+      <span class="auth-social-icon"> </span> Continue with Apple
+    </button>
+
+    <div class="auth-divider">
+      <div class="auth-divider-line"></div>
+      <div class="auth-divider-text">or</div>
+      <div class="auth-divider-line"></div>
+    </div>
+
+    <!-- Email flow -->
+    <div id="authEmailFlow">
+      <input class="auth-input" id="authEmail" type="email" placeholder="your@email.com" autocomplete="email">
+      <input class="auth-input" id="authPassword" type="password" placeholder="Password" autocomplete="current-password" style="display:none">
+      <input class="auth-input" id="authName" type="text" placeholder="Your name" style="display:none">
+      <button class="auth-submit" id="authSubmitBtn" onclick="handleEmailAuth()">CONTINUE WITH EMAIL</button>
+    </div>
+
+    <div class="auth-switch" id="authSwitch">
+      No account? <a onclick="switchAuthMode('signup')">Create one free</a>
+    </div>
+    <div class="auth-legal">By continuing you agree to Fluentra's Terms &amp; Privacy Policy.<br>No spam. Cancel anytime.</div>
+  </div>
+</div>
+
+<!-- PRICING MODAL -->
+<div class="pricing-overlay" id="pricingOverlay">
+  <div class="pricing-modal">
+    <button class="pricing-close" onclick="closePricing()">✕</button>
+    <div class="pricing-title">Simple pricing.</div>
+    <div class="pricing-sub">Own your builds. Keep your code.</div>
+
+    <div class="pricing-grid">
+      <!-- FREE -->
+      <div class="pricing-card">
+        <div class="pricing-plan">Free</div>
+        <div class="pricing-price">$0 <span>/forever</span></div>
+        <ul class="pricing-features">
+          <li>10 messages per day</li>
+          <li>2 builds saved</li>
+          <li>Preview in browser</li>
+          <li class="dim">Download HTML</li>
+          <li class="dim">Deploy guides</li>
+          <li class="dim">Build history</li>
+          <li class="dim">LinkedIn posting</li>
+        </ul>
+        <button class="pricing-btn outline" onclick="closePricing()">CURRENT PLAN</button>
+      </div>
+      <!-- PRO -->
+      <div class="pricing-card highlight">
+        <div class="pricing-badge">MOST POPULAR</div>
+        <div class="pricing-plan">Pro</div>
+        <div class="pricing-price">$19 <span>/month</span></div>
+        <ul class="pricing-features">
+          <li>Unlimited messages</li>
+          <li>Unlimited builds saved</li>
+          <li>Full build history</li>
+          <li>Download HTML</li>
+          <li>All deploy guides</li>
+          <li>LinkedIn posting</li>
+          <li>Priority responses</li>
+        </ul>
+        <button class="pricing-btn filled" onclick="startCheckout('pro')">GET PRO →</button>
+      </div>
+    </div>
+
+    <!-- TOKEN TOP-UP TIERS -->
+    <div style="margin-bottom:6px">
+      <div style="font-size:9px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;padding:0 2px">⬡ TOKEN TOP-UPS — Never expire · No subscription</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+
+        <div class="pricing-topup" style="flex-direction:column;gap:6px;padding:14px">
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <div style="font-family:var(--serif);font-size:24px;font-weight:300;color:var(--text)">$5</div>
+            <div style="font-size:10px;color:var(--text3)">50 messages</div>
+          </div>
+          <div style="font-size:9px;color:var(--text3);letter-spacing:0.5px">Starter · $0.10/msg</div>
+          <button class="pricing-topup-btn" style="width:100%;text-align:center;margin-top:4px" onclick="startCheckout('topup_5')">GET →</button>
+        </div>
+
+        <div class="pricing-topup" style="flex-direction:column;gap:6px;padding:14px;border-color:rgba(74,144,192,0.35);background:rgba(74,144,192,0.04)">
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <div style="font-family:var(--serif);font-size:24px;font-weight:300;color:var(--text)">$10</div>
+            <div style="font-size:10px;color:var(--text3)">120 messages</div>
+          </div>
+          <div style="font-size:9px;color:var(--amber);letter-spacing:0.5px">Builder · 20% bonus</div>
+          <button class="pricing-topup-btn" style="width:100%;text-align:center;margin-top:4px" onclick="startCheckout('topup_10')">GET →</button>
+        </div>
+
+        <div class="pricing-topup" style="flex-direction:column;gap:6px;padding:14px">
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <div style="font-family:var(--serif);font-size:24px;font-weight:300;color:var(--text)">$25</div>
+            <div style="font-size:10px;color:var(--text3)">350 messages</div>
+          </div>
+          <div style="font-size:9px;color:var(--amber);letter-spacing:0.5px">Pro Pack · 40% bonus</div>
+          <button class="pricing-topup-btn" style="width:100%;text-align:center;margin-top:4px" onclick="startCheckout('topup_25')">GET →</button>
+        </div>
+
+        <div class="pricing-topup" style="flex-direction:column;gap:6px;padding:14px">
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <div style="font-family:var(--serif);font-size:24px;font-weight:300;color:var(--text)">$50</div>
+            <div style="font-size:10px;color:var(--text3)">800 messages</div>
+          </div>
+          <div style="font-size:9px;color:var(--amber);letter-spacing:0.5px">Agency · 60% bonus</div>
+          <button class="pricing-topup-btn" style="width:100%;text-align:center;margin-top:4px" onclick="startCheckout('topup_50')">GET →</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ── STARS ──────────────────────────────────────────────────────
 const starsEl=document.getElementById('stars');
@@ -743,6 +1232,7 @@ function restoreSession(){
   if(currentBuildHTML){
     addBuildBanner(currentBuildHTML);
     showPill('LAST BUILD RESTORED','TAP TO PREVIEW');
+    updateBuildBar();
   }
   // Show restore notice
   const ago=session.savedAt?timeSince(session.savedAt):'';
@@ -755,6 +1245,17 @@ function restoreSession(){
   </div>`;
   msgs.appendChild(notice);
   msgs.scrollTop=msgs.scrollHeight;
+}
+
+function checkForPreviousBuilds(){
+  try{
+    const sessions=JSON.parse(localStorage.getItem('fluentra_sessions')||'[]');
+    const hint=document.getElementById('welcomeBuildsHint');
+    if(hint&&sessions.length>0) hint.style.display='block';
+    // Update MY BUILDS button to show count
+    const btn=document.getElementById('myBuildsBtn');
+    if(btn&&sessions.length>0) btn.textContent='◈ MY BUILDS ('+sessions.length+')';
+  }catch(e){}
 }
 
 function timeSince(ts){
@@ -908,6 +1409,7 @@ function switchTab(tab){
   if(!currentBuildHTML){empty.style.display='flex';iframe.style.display='none';code.style.display='none';return}
   if(tab==='preview'){empty.style.display='none';iframe.style.display='block';code.style.display='none'}
   else{empty.style.display='none';iframe.style.display='none';code.style.display='block';code.textContent=currentBuildHTML}
+  _updateCopyBtn();
 }
 
 // ── DEVICE ────────────────────────────────────────────────────
@@ -968,6 +1470,7 @@ function loadPreview(html){
   }
   document.getElementById('previewStatusText').textContent=`BUILD LOADED · ${kb}KB · ${currentDevice.toUpperCase()} VIEW`;
   if(rightPanelMode!=='preview')toggleRightPanel('preview');
+  updateBuildBar();
 }
 
 function openInNewTab(){
@@ -982,6 +1485,266 @@ function downloadCurrentBuild(){
   a.href=URL.createObjectURL(new Blob([currentBuildHTML],{type:'text/html'}));
   a.download='fluentra-build.html';document.body.appendChild(a);a.click();document.body.removeChild(a);
   setTimeout(()=>URL.revokeObjectURL(a.href),10000);
+}
+
+// ── IMAGE ATTACHMENT ──────────────────────────────────────────
+let attachedImage=null; // {base64, mediaType, name}
+
+function triggerFileUpload(){
+  document.getElementById('fileInput').click();
+}
+
+function handleFileSelect(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  if(!file.type.startsWith('image/')){return;}
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const base64=ev.target.result.split(',')[1];
+    attachedImage={base64, mediaType:file.type, name:file.name};
+    document.getElementById('imgPreviewThumb').src=ev.target.result;
+    document.getElementById('imgPreviewName').textContent=file.name;
+    document.getElementById('imgPreviewWrap').classList.add('visible');
+    document.getElementById('attachBtn').style.color='var(--amber)';
+  };
+  reader.readAsDataURL(file);
+  e.target.value=''; // reset so same file can be re-attached
+}
+
+// Also support paste-to-attach
+document.addEventListener('paste',e=>{
+  const items=e.clipboardData?.items;
+  if(!items)return;
+  for(const item of items){
+    if(item.type.startsWith('image/')){
+      const file=item.getAsFile();
+      if(!file)return;
+      const reader=new FileReader();
+      reader.onload=ev=>{
+        const base64=ev.target.result.split(',')[1];
+        attachedImage={base64, mediaType:item.type, name:'screenshot.png'};
+        document.getElementById('imgPreviewThumb').src=ev.target.result;
+        document.getElementById('imgPreviewName').textContent='Pasted screenshot';
+        document.getElementById('imgPreviewWrap').classList.add('visible');
+        document.getElementById('attachBtn').style.color='var(--amber)';
+      };
+      reader.readAsDataURL(file);
+      break;
+    }
+  }
+});
+
+function removeAttachment(){
+  attachedImage=null;
+  document.getElementById('imgPreviewWrap').classList.remove('visible');
+  document.getElementById('imgPreviewThumb').src='';
+  document.getElementById('attachBtn').style.color='';
+}
+
+// ── COPY CODE ─────────────────────────────────────────────────
+function copyBuildCode(){
+  if(!currentBuildHTML)return;
+  navigator.clipboard.writeText(currentBuildHTML).then(()=>{
+    // Flash panel button
+    const pb=document.getElementById('panelCopyBtn');
+    if(pb){pb.textContent='✓ COPIED';pb.classList.add('copied');setTimeout(()=>{pb.textContent='⎘ COPY';pb.classList.remove('copied')},2000);}
+    // Flash sheet button
+    const sb=document.getElementById('sheetCopyBtn');
+    if(sb){sb.textContent='✓ COPIED';sb.classList.add('copied');setTimeout(()=>{sb.textContent='⎘ COPY';sb.classList.remove('copied')},2000);}
+  }).catch(()=>{
+    // Fallback for older browsers
+    const ta=document.createElement('textarea');ta.value=currentBuildHTML;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+  });
+}
+
+// Show/hide copy button when code tab is active
+function _updateCopyBtn(){
+  const pb=document.getElementById('panelCopyBtn');
+  if(pb) pb.style.display=(currentTab==='code'&&currentBuildHTML)?'inline-block':'none';
+}
+
+// ── EDIT LAST USER MESSAGE ────────────────────────────────────
+function editLastMessage(){
+  if(isThinking)return;
+  // Find last user message bubble
+  const msgs=document.getElementById('messages');
+  const userMsgs=[...msgs.querySelectorAll('.msg.user')];
+  if(!userMsgs.length)return;
+  const last=userMsgs[userMsgs.length-1];
+  const bubble=last.querySelector('.msg-bubble');
+  if(!bubble)return;
+  const originalText=bubble.textContent.trim();
+  // Remove last exchange from history (user + ai pair)
+  if(conversationHistory.length>=2){
+    conversationHistory.splice(-2,2);
+  } else if(conversationHistory.length===1){
+    conversationHistory.splice(-1,1);
+  }
+  saveSession();
+  // Remove last AI message from DOM too
+  const aiMsgs=[...msgs.querySelectorAll('.msg.ai')];
+  if(aiMsgs.length){aiMsgs[aiMsgs.length-1].remove();}
+  last.remove();
+  // Put text back in input
+  const input=document.getElementById('chatInput');
+  input.value=originalText;
+  autoResize(input);
+  input.focus();
+  input.setSelectionRange(input.value.length,input.value.length);
+}
+
+// ── BUILD HISTORY ─────────────────────────────────────────────
+let historyOpen=false;
+
+function openHistory(){
+  historyOpen=true;
+  renderHistory();
+  document.getElementById('historyPanel').classList.add('open');
+}
+function closeHistory(){
+  historyOpen=false;
+  document.getElementById('historyPanel').classList.remove('open');
+  checkForPreviousBuilds();
+}
+
+function renderHistory(){
+  const list=document.getElementById('historyList');
+  let sessions=[];
+  try{sessions=JSON.parse(localStorage.getItem('fluentra_sessions')||'[]');}catch(e){}
+  // Also include current session if it has messages
+  if(conversationHistory.length>0){
+    const firstUser=conversationHistory.find(m=>m.role==='user');
+    sessions=[{
+      title:(firstUser?firstUser.content.slice(0,60):'Current session'),
+      history:conversationHistory,
+      buildHTML:currentBuildHTML,
+      savedAt:Date.now(),
+      isCurrent:true
+    },...sessions];
+  }
+  if(!sessions.length){
+    list.innerHTML='<div class="history-empty">NO SAVED SESSIONS YET<br><span style="font-size:10px;color:var(--text3)">Build something first</span></div>';
+    return;
+  }
+  list.innerHTML='';
+  sessions.forEach((s,i)=>{
+    const kb=s.buildHTML?(new Blob([s.buildHTML]).size/1024).toFixed(1)+'KB · ':'';
+    const msgs=s.history?s.history.length:0;
+    const ago=s.savedAt?timeSince(s.savedAt):'';
+    const div=document.createElement('div');
+    div.className='history-item';
+    div.innerHTML=`
+      <div class="history-item-info">
+        <div class="history-item-title">${s.isCurrent?'<span style="color:var(--amber);margin-right:6px">●</span>':''} ${s.title||'Untitled session'}</div>
+        <div class="history-item-meta">${kb}${msgs} messages${ago?' · '+ago:''}</div>
+      </div>
+      <div class="history-item-actions">
+        ${s.buildHTML?`<button class="history-restore-btn" onclick="previewHistoryBuild(${i},event)">⬜ VIEW</button>`:''}
+        ${!s.isCurrent?`<button class="history-restore-btn" onclick="restoreHistorySession(${i},event)" style="background:rgba(212,144,90,0.12)">↺ RESTORE</button>`:''}
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+function previewHistoryBuild(idx,e){
+  e&&e.stopPropagation();
+  let sessions=[];
+  try{sessions=JSON.parse(localStorage.getItem('fluentra_sessions')||'[]');}catch(e){}
+  // idx 0 = current session
+  const s=conversationHistory.length>0?[{buildHTML:currentBuildHTML},...sessions][idx]:sessions[idx-1];
+  if(!s||!s.buildHTML)return;
+  // Temporarily preview without changing currentBuildHTML
+  const prev=currentBuildHTML;
+  currentBuildHTML=s.buildHTML;
+  if(isTabletOrMobile())openBottomSheet('preview');
+  else{toggleRightPanel('preview');}
+  // Restore after preview loads
+  setTimeout(()=>{ if(!historyOpen) currentBuildHTML=prev; },500);
+}
+
+function restoreHistorySession(idx,e){
+  e&&e.stopPropagation();
+  let sessions=[];
+  try{sessions=JSON.parse(localStorage.getItem('fluentra_sessions')||'[]');}catch(e){}
+  const actualIdx=conversationHistory.length>0?idx-1:idx;
+  const s=sessions[actualIdx];
+  if(!s)return;
+  archiveSession();
+  conversationHistory=s.history||[];
+  currentBuildHTML=s.buildHTML||'';
+  saveSession();
+  closeHistory();
+  // Rebuild UI
+  const msgs=document.getElementById('messages');
+  msgs.innerHTML='';
+  conversationHistory.forEach(m=>addMsg(m.role==='user'?'user':'ai',m.content));
+  if(currentBuildHTML){addBuildBanner(currentBuildHTML);updateBuildBar();}
+  const notice=document.createElement('div');notice.className='msg ai';
+  notice.innerHTML=`<div style="padding:8px 12px;border:1px solid rgba(212,144,90,0.15);border-left:2px solid var(--amber);font-size:10px;color:var(--text3);letter-spacing:1px"><span style="color:var(--amber)">◈</span> SESSION RESTORED · ${conversationHistory.length} messages</div>`;
+  msgs.appendChild(notice);msgs.scrollTop=msgs.scrollHeight;
+}
+
+// ── DOWNLOAD FLASH ────────────────────────────────────────────
+const _origDownload=downloadCurrentBuild;
+function downloadCurrentBuild(){
+  if(!currentBuildHTML)return;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([currentBuildHTML],{type:'text/html'}));
+  a.download='fluentra-build.html';document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(a.href),10000);
+  // Flash all download buttons
+  document.querySelectorAll('.bb-btn.primary,.sheet-action-btn.primary,.bar-btn').forEach(btn=>{
+    if(btn.textContent.includes('SAVE')||btn.textContent.includes('DOWNLOAD')){
+      const orig=btn.textContent;
+      btn.textContent='✓ SAVED';btn.classList.add('download-flash');
+      setTimeout(()=>{btn.textContent=orig;btn.classList.remove('download-flash');},1800);
+    }
+  });
+}
+
+// ── BUILD ACTION BAR LOGIC ────────────────────────────────────
+function updateBuildBar(){
+  const bar=document.getElementById('buildActionBar');
+  if(!bar)return;
+  if(currentBuildHTML){
+    bar.classList.add('visible');
+    const kb=(new Blob([currentBuildHTML]).size/1024).toFixed(1);
+    const label=document.getElementById('barBuildLabel');
+    if(label) label.textContent='BUILD · '+kb+'KB';
+  } else {
+    bar.classList.remove('visible');
+  }
+}
+
+function barPreview(){
+  if(!currentBuildHTML)return;
+  if(isTabletOrMobile()) openBottomSheet('preview');
+  else toggleRightPanel('preview');
+}
+
+function barAddTo(){
+  const input=document.getElementById('chatInput');
+  // Suggest an add-on without wiping their current thought
+  const current=input.value.trim();
+  if(!current){
+    input.value='Add ';
+    input.focus();
+    input.setSelectionRange(4,4);
+  } else {
+    input.focus();
+  }
+  autoResize(input);
+}
+
+function barContinue(){
+  const input=document.getElementById('chatInput');
+  if(!input.value.trim()){
+    input.value='Continue building — ';
+    autoResize(input);
+  }
+  input.focus();
+  input.setSelectionRange(input.value.length,input.value.length);
 }
 
 // ── RESIZE ────────────────────────────────────────────────────
@@ -1019,7 +1782,7 @@ function addMsg(role,text){
       .replace(/\n/g,'<br>');
     div.innerHTML=`<div class="msg-header"><span style="color:var(--amber)">FLUENTRA</span><span style="color:var(--text3)">·</span><span>${time}</span></div><div class="msg-bubble">${fmt}</div>`;
   } else {
-    div.innerHTML=`<div class="msg-header" style="justify-content:flex-end"><span>${time}</span><span style="color:var(--text3)">·</span><span style="color:var(--text3)">YOU</span></div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+    div.innerHTML=`<div class="msg-header" style="justify-content:flex-end"><button class="msg-edit-btn" onclick="editLastMessage()" title="Edit">✎ EDIT</button><span>${time}</span><span style="color:var(--text3)">·</span><span style="color:var(--text3)">YOU</span></div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
   }
   msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
 }
@@ -1075,12 +1838,16 @@ function newSession(){
   currentBuildHTML='';conversationHistory=[];
   if(_previewBlobUrl){URL.revokeObjectURL(_previewBlobUrl);_previewBlobUrl=null;}
   closeRightPanel();
-  document.getElementById('messages').innerHTML=`<div class="welcome" id="welcome" style="opacity:1"><div class="welcome-title">Build anything.<br><span>Own everything.</span></div><div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div><div class="prompt-line"><span style="color:var(--amber)">></span><span>What are we shipping today?</span><span class="blink">_</span></div><div class="starters" id="startersGrid"><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">01 ></span> Build a SaaS landing page with pricing &amp; waitlist<span class="starter-tag">BUILD · HTML · DEPLOY-READY</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">02 ></span> Deploy my site to Cloudflare Pages for free<span class="starter-tag">GUIDE · STEP-BY-STEP · FREE HOSTING</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">03 ></span> Form an LLC — what do I actually need?<span class="starter-tag">LEGAL · BUSINESS · STATE-SPECIFIC</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">04 ></span> Find 10 domain names for my brand idea<span class="starter-tag">DOMAINS · BRANDABLE · AVAILABLE</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">05 ></span> Push my code to GitHub and go live<span class="starter-tag">GUIDE · GIT · VERSION CONTROL</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">06 ></span> Write a demand letter for unpaid work<span class="starter-tag">LEGAL · DOCUMENT · SEND-READY</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">07 ></span> Build a full e-commerce store with cart &amp; checkout<span class="starter-tag">BUILD · STRIPE · FULL-STACK</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">08 ></span> Set up Stripe payments on my website<span class="starter-tag">GUIDE · PAYMENTS · MONETIZE</span></button></div></div>`;
+  document.getElementById('messages').innerHTML=`<div class="welcome" id="welcome" style="opacity:1"><div class="welcome-title">Build anything.<br><span>Own everything.</span></div><div class="welcome-sub">Fluentra · Powered by Claude Sonnet 4.6</div>
+          <div id="welcomeBuildsHint" style="display:none;margin-bottom:16px">
+            <button onclick="openHistory()" style="font-family:var(--mono);font-size:11px;color:var(--amber);background:rgba(212,144,90,0.08);border:1px solid rgba(212,144,90,0.25);padding:7px 16px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;transition:all 0.15s" onmouseover="this.style.background='rgba(212,144,90,0.16)'" onmouseout="this.style.background='rgba(212,144,90,0.08)'">◈ CONTINUE A PREVIOUS BUILD →</button>
+          </div><div class="prompt-line"><span style="color:var(--amber)">></span><span>What are we shipping today?</span><span class="blink">_</span></div><div class="starters" id="startersGrid"><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">01 ></span> Build a SaaS landing page with pricing &amp; waitlist<span class="starter-tag">BUILD · HTML · DEPLOY-READY</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">02 ></span> Deploy my site to Cloudflare Pages for free<span class="starter-tag">GUIDE · STEP-BY-STEP · FREE HOSTING</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">03 ></span> Form an LLC — what do I actually need?<span class="starter-tag">LEGAL · BUSINESS · STATE-SPECIFIC</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">04 ></span> Find 10 domain names for my brand idea<span class="starter-tag">DOMAINS · BRANDABLE · AVAILABLE</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">05 ></span> Push my code to GitHub and go live<span class="starter-tag">GUIDE · GIT · VERSION CONTROL</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">06 ></span> Write a demand letter for unpaid work<span class="starter-tag">LEGAL · DOCUMENT · SEND-READY</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">07 ></span> Build a full e-commerce store with cart &amp; checkout<span class="starter-tag">BUILD · STRIPE · FULL-STACK</span></button><button class="starter" onclick="useStarter(this)"><span class="starter-prefix">08 ></span> Set up Stripe payments on my website<span class="starter-tag">GUIDE · PAYMENTS · MONETIZE</span></button></div></div>`;
   document.getElementById('previewIframe').src='about:blank';
   document.getElementById('previewEmpty').style.display='flex';
   document.getElementById('previewIframe').style.display='none';
   document.getElementById('previewCode').style.display='none';
   document.getElementById('previewStatusText').textContent='— NO BUILD LOADED —';
+  updateBuildBar();
   document.getElementById('chatInput').value='';autoResize(document.getElementById('chatInput'));
 }
 
@@ -1133,14 +1900,319 @@ Calm. Deep. Like the ocean. Honest, even when it's hard. Warm but direct. Never 
 ━━━ FORMATTING ━━━
 Plain text, terminal feel. Code in triple backticks with language tag. Sections with ━━━ TITLE ━━━. End with ONE clear next step.`;
 
+
+// ── AUTH STATE ─────────────────────────────────────────────
+let currentUser = null; // { id, email, name, plan, messagesUsed, tokensLeft }
+let authMode = 'signin'; // 'signin' | 'signup'
+
+const SB = 'https://dmemzljerldzeiwqfxzp.supabase.co';
+let _sbAnonKey = ''; // Set via initSupabase
+
+// Load Supabase JS SDK dynamically
+function loadSupabaseSDK(){
+  return new Promise((resolve)=>{
+    if(window.supabase){resolve();return;}
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+    s.onload=resolve;document.head.appendChild(s);
+  });
+}
+
+// ── INIT AUTH ──────────────────────────────────────────────
+async function initAuth(){
+  await loadSupabaseSDK();
+  // Get anon key from meta tag (set in Supabase dashboard config)
+  // We store it as a data attribute to avoid hardcoding
+  // For now read from window if set, else prompt
+  const anonKey = window.SUPABASE_ANON_KEY || '';
+  if(!anonKey){
+    console.warn('Fluentra: Set window.SUPABASE_ANON_KEY before initAuth');
+    return;
+  }
+  window._sb = window.supabase.createClient(SB, anonKey);
+  // Check existing session
+  const { data:{ session } } = await window._sb.auth.getSession();
+  if(session) await handleAuthSession(session);
+  // Listen for auth changes
+  window._sb.auth.onAuthStateChange(async(_,session)=>{
+    if(session) await handleAuthSession(session);
+    else handleSignOut();
+  });
+}
+
+async function handleAuthSession(session){
+  const user = session.user;
+  // Fetch or create user profile from our users table
+  const profile = await fetchUserProfile(user.id, user.email, user.user_metadata);
+  currentUser = {
+    id: user.id,
+    email: user.email,
+    name: profile.name || user.user_metadata?.full_name || user.email.split('@')[0],
+    plan: profile.plan || 'free',
+    messagesUsed: profile.messages_today || 0,
+    tokensLeft: profile.tokens_left || 0,
+  };
+  updateAuthUI();
+  closeAuth();
+}
+
+async function fetchUserProfile(userId, email, meta){
+  if(!window._sb) return {};
+  try{
+    // Upsert user row
+    const name = meta?.full_name || meta?.name || email.split('@')[0];
+    const { data } = await window._sb
+      .from('users')
+      .upsert({ id:userId, email, name, updated_at: new Date().toISOString() }, { onConflict:'id', ignoreDuplicates:false })
+      .select()
+      .single();
+    return data || {};
+  }catch(e){ return {}; }
+}
+
+function updateAuthUI(){
+  if(!currentUser){ return; }
+  // Show user pill, hide sign in button
+  document.getElementById('signInBtn').style.display='none';
+  const pill=document.getElementById('userPill');
+  pill.style.display='flex';
+  const initial=(currentUser.name||'?')[0].toUpperCase();
+  document.getElementById('userAvatar').textContent=initial;
+  document.getElementById('userPillName').textContent=currentUser.name.split(' ')[0];
+  document.getElementById('dropdownName').textContent=currentUser.name;
+  const planEl=document.getElementById('dropdownPlan');
+  if(currentUser.plan==='pro'){
+    planEl.textContent='PRO PLAN';planEl.className='user-dropdown-plan plan-pro';
+    // Hide upgrade option
+    document.querySelector('.user-dropdown-item').style.display='none';
+  } else {
+    planEl.textContent='FREE PLAN · '+(10-currentUser.messagesUsed)+' messages left today';
+    planEl.className='user-dropdown-plan plan-free';
+  }
+  updateUsageBar();
+}
+
+function updateUsageBar(){
+  if(!currentUser||currentUser.plan==='pro'){
+    document.getElementById('usageBarWrap').classList.remove('visible');
+    return;
+  }
+  const used=currentUser.messagesUsed||0;
+  const limit=10;
+  const pct=Math.min(100,Math.round((used/limit)*100));
+  document.getElementById('usageBarWrap').classList.add('visible');
+  document.getElementById('usageBarLabel').textContent=`${used} / ${limit} messages today`;
+  const fill=document.getElementById('usageBarFill');
+  fill.style.width=pct+'%';
+  fill.className='usage-bar-fill'+(pct>=80?' danger':'');
+}
+
+function handleSignOut(){
+  currentUser=null;
+  document.getElementById('signInBtn').style.display='';
+  document.getElementById('userPill').style.display='none';
+  document.getElementById('usageBarWrap').classList.remove('visible');
+}
+
+// ── OPEN / CLOSE AUTH ──────────────────────────────────────
+function openAuth(mode='signin'){
+  authMode=mode||'signin';
+  switchAuthMode(authMode);
+  document.getElementById('authOverlay').classList.add('open');
+}
+function closeAuth(){
+  document.getElementById('authOverlay').classList.remove('open');
+  document.getElementById('authError').classList.remove('visible');
+}
+function switchAuthMode(mode){
+  authMode=mode;
+  document.getElementById('authTitle').textContent=mode==='signup'?'Create your account.':'Welcome back.';
+  document.getElementById('authPassword').style.display='block';
+  document.getElementById('authName').style.display=mode==='signup'?'block':'none';
+  document.getElementById('authSubmitBtn').textContent=mode==='signup'?'CREATE ACCOUNT':'SIGN IN';
+  document.getElementById('authSwitch').innerHTML=mode==='signup'
+    ?'Have an account? <a onclick="switchAuthMode('signin')">Sign in</a>'
+    :'No account? <a onclick="switchAuthMode('signup')">Create one free</a>';
+  document.getElementById('authError').classList.remove('visible');
+}
+
+// ── SOCIAL AUTH ────────────────────────────────────────────
+async function authWithGoogle(){
+  if(!window._sb){await initAuth();}
+  await window._sb.auth.signInWithOAuth({
+    provider:'google',
+    options:{redirectTo:window.location.href}
+  });
+}
+async function authWithApple(){
+  if(!window._sb){await initAuth();}
+  await window._sb.auth.signInWithOAuth({
+    provider:'apple',
+    options:{redirectTo:window.location.href}
+  });
+}
+
+// ── EMAIL AUTH ─────────────────────────────────────────────
+async function handleEmailAuth(){
+  if(!window._sb){await initAuth();}
+  const email=document.getElementById('authEmail').value.trim();
+  const password=document.getElementById('authPassword').value;
+  const name=document.getElementById('authName').value.trim();
+  const errEl=document.getElementById('authError');
+  const btn=document.getElementById('authSubmitBtn');
+  if(!email){showAuthError('Enter your email address');return;}
+  if(password&&password.length<6){showAuthError('Password must be at least 6 characters');return;}
+  btn.disabled=true;btn.textContent='...';
+  try{
+    let result;
+    if(authMode==='signup'){
+      result=await window._sb.auth.signUp({email,password,options:{data:{full_name:name||email.split('@')[0]}}});
+      if(result.error)throw result.error;
+      if(result.data.user&&!result.data.session){
+        // Email confirmation required
+        showAuthError('Check your inbox — confirmation email sent ✓');
+        btn.disabled=false;btn.textContent='CREATE ACCOUNT';return;
+      }
+    } else {
+      result=await window._sb.auth.signInWithPassword({email,password});
+      if(result.error)throw result.error;
+    }
+  }catch(e){
+    showAuthError(e.message||'Something went wrong. Try again.');
+    btn.disabled=false;btn.textContent=authMode==='signup'?'CREATE ACCOUNT':'SIGN IN';
+  }
+}
+
+function showAuthError(msg){
+  const el=document.getElementById('authError');
+  el.textContent=msg;el.classList.add('visible');
+}
+
+async function signOut(){
+  if(window._sb) await window._sb.auth.signOut();
+  handleSignOut();
+  closeUserMenu();
+  newSession();
+}
+
+// ── USER MENU ──────────────────────────────────────────────
+function toggleUserMenu(){
+  document.getElementById('userDropdown').classList.toggle('open');
+}
+function closeUserMenu(){
+  document.getElementById('userDropdown').classList.remove('open');
+}
+document.addEventListener('click',e=>{
+  const pill=document.getElementById('userPill');
+  if(pill&&!pill.contains(e.target)) closeUserMenu();
+});
+
+// ── PRICING ────────────────────────────────────────────────
+function openPricing(){
+  document.getElementById('pricingOverlay').classList.add('open');
+}
+function closePricing(){
+  document.getElementById('pricingOverlay').classList.remove('open');
+}
+
+// Price IDs from your Stripe account
+const STRIPE_PRICES = {
+  pro:      'price_1Taih480TRdDE8gROVGXwY5y', // $19/mo subscription
+  topup_5:  'price_1TaipH80TRdDE8gRFRAyRJa2', // $5  → 50 msgs
+  topup_10: 'price_1TaiqN80TRdDE8gRiNXYJ0dm', // $10 → 120 msgs
+  topup_25: 'price_1TaiqN80TRdDE8gRZeyaOJTK', // $25 → 350 msgs
+  topup_50: 'price_1TaiqN80TRdDE8gRs8N2iZvb', // $50 → 800 msgs
+};
+
+const TOKEN_AMOUNTS = {
+  topup_5: 50, topup_10: 120, topup_25: 350, topup_50: 800
+};
+
+async function startCheckout(type){
+  if(!currentUser){openAuth('signup');closePricing();return;}
+  const priceId = STRIPE_PRICES[type];
+  if(!priceId){ addMsg('ai','> Unknown plan. Try again.'); return; }
+  try{
+    // Get current auth token
+    const { data:{ session } } = await window._sb.auth.getSession();
+    const token = session?.access_token || '';
+    const res=await fetch(`${SB}/functions/v1/create-checkout`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body:JSON.stringify({
+        type,
+        priceId,
+        userId: currentUser.id,
+        email:  currentUser.email,
+        returnUrl: window.location.href
+      })
+    });
+    const data=await res.json();
+    if(data.url) window.location.href=data.url;
+    else throw new Error(data.error||'Checkout failed');
+  }catch(e){
+    addMsg('ai','> Checkout unavailable right now. '+(e.message||'Try again shortly.'));
+    closePricing();
+  }
+}
+
+// ── USAGE GATING ───────────────────────────────────────────
+// Called before every message send — returns true if allowed
+function checkUsageLimit(){
+  // Not logged in — allow 3 free messages then gate
+  if(!currentUser){
+    const guestCount=parseInt(localStorage.getItem('fl_guest_count')||'0');
+    if(guestCount>=3){
+      openAuth('signup');
+      addMsg('ai','> You've used your 3 guest messages.
+
+Create a free account to get **10 messages per day** — no card needed.');
+      return false;
+    }
+    localStorage.setItem('fl_guest_count',guestCount+1);
+    return true;
+  }
+  // Pro or has tokens — always allow
+  if(currentUser.plan==='pro') return true;
+  if(currentUser.tokensLeft>0){ currentUser.tokensLeft--; return true; }
+  // Free: check daily limit
+  if(currentUser.messagesUsed>=10){
+    openPricing();
+    addMsg('ai','> You've reached your 10 daily messages on the free plan.
+
+Upgrade to **Pro** for unlimited — or grab a **$5 token pack** for 50 more messages.');
+    return false;
+  }
+  currentUser.messagesUsed++;
+  updateUsageBar();
+  // Sync to Supabase in background
+  if(window._sb) window._sb.from('users').update({messages_today:currentUser.messagesUsed,updated_at:new Date().toISOString()}).eq('id',currentUser.id).then(()=>{});
+  return true;
+}
+
+// ── INIT ON LOAD ───────────────────────────────────────────
+// Note: initAuth() requires window.SUPABASE_ANON_KEY to be set.
+// Add this to your Cloudflare Pages environment or inline before this script:
+// <script>window.SUPABASE_ANON_KEY = 'your-anon-key-here'</script>
+// initAuth called in combined DOMContentLoaded below
+
 // ── SEND ──────────────────────────────────────────────────────
 async function sendMessage(){
   const input=document.getElementById('chatInput');
   const text=input.value.trim();
   if(!text||isThinking)return;
+  if(!checkUsageLimit())return;
   input.value='';autoResize(input);
-  lastMessage=text;addMsg('user',text);
+  lastMessage=text;
+  if(attachedImage){
+    const imgTag=`<br><img src="data:${attachedImage.mediaType};base64,${attachedImage.base64}" style="max-width:200px;max-height:120px;margin-top:6px;border:1px solid rgba(212,144,90,0.2);border-radius:2px">`;
+    addMsg('user',text+(text?'<br>':'')+imgTag.replace('<br>',''));
+  } else {
+    addMsg('user',text);
+  }
+  removeAttachment();
   isThinking=true;document.getElementById('sendBtn').disabled=true;
+  document.querySelectorAll('.bar-btn').forEach(b=>b.disabled=true);
   showTyping(text);
   conversationHistory.push({role:'user',content:text});
   saveSession();
@@ -1148,7 +2220,7 @@ async function sendMessage(){
   try{
     const res=await fetch('https://dmemzljerldzeiwqfxzp.supabase.co/functions/v1/fluentra-chat',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({system:SYSTEM,messages:historyToSend,userMessage:text})
+      body:JSON.stringify({system:SYSTEM,messages:historyToSend,userMessage:text,image:attachedImage||null})
     });
     const data=await res.json();
     removeTyping();
@@ -1174,7 +2246,7 @@ async function sendMessage(){
     removeTyping();
     addMsg('ai','> Connection interrupted. Check your signal and retry.');addRetryButtons();
   }
-  isThinking=false;document.getElementById('sendBtn').disabled=false;input.focus();
+  isThinking=false;document.getElementById('sendBtn').disabled=false;document.querySelectorAll('.bar-btn').forEach(b=>b.disabled=false);input.focus();
 }
 
 // ── CINEMATIC INTRO ────────────────────────────────────────────
@@ -1332,8 +2404,10 @@ window.addEventListener('resize',()=>{if(!isTabletOrMobile()&&rightPanelMode)doc
 // ── RESTORE SESSION ON LOAD ────────────────────────────────────
 // Runs after DOM and all functions are ready
 window.addEventListener('DOMContentLoaded',()=>{
-  // Small delay so intro animation doesn't clash with restore
-  setTimeout(restoreSession, 3200);
+  // Init Supabase auth immediately
+  initAuth().catch(console.warn);
+  // Restore session after intro animation
+  setTimeout(()=>{restoreSession();checkForPreviousBuilds();}, 3200);
 });
 </script>
 </body>
