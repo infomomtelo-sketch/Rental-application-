@@ -2193,19 +2193,23 @@ function checkUsageLimit(){
 
 // ── SEND ──────────────────────────────────────────────────────
 async function sendMessage(){
-  const input=document.getElementById('chatInput');
-  const text=input.value.trim();
-  if(!text||isThinking)return;
-  if(!checkUsageLimit())return;
-  input.value='';autoResize(input);
-  lastMessage=text;
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text || isThinking) return;
+  if(!checkUsageLimit()) return;
+  input.value = '';
+  autoResize(input);
+  lastMessage = text;
   if(attachedImage){
-    const imgTag=`<br><img src="data:${attachedImage.mediaType};base64,${attachedImage.base64}" style="max-width:200px;max-height:120px;margin-top:6px;border:1px solid rgba(212,144,90,0.2);border-radius:2px">`;
-    addMsg('user',text+(text?'<br>':'')+imgTag.replace('<br>',''));
+      const imgTag = `<br><img src="data:${attachedImage.mediaType};base64,${attachedImage.base64}" style="max-width:200px;border-radius:8px;">`;
+
+    addMsg('user', text + (text ? '<br>' : '') + imgTag.replace('<br>',''));
   } else {
-    addMsg('user',text);
+    addMsg('user', text);
   }
   removeAttachment();
+}
+
   isThinking=true;document.getElementById('sendBtn').disabled=true;
   document.querySelectorAll('.bar-btn').forEach(b=>b.disabled=true);
   showTyping(text);
